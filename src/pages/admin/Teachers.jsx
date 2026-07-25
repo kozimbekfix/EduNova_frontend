@@ -37,11 +37,20 @@ export default function AdminTeachers() {
       error={error}
       columns={columns}
       searchFields={['name', 'subject', 'position']}
-      onAdd={async (_, form) => { await createTeacher(form); refetch(); }}
-      onEdit={async (id, form) => { await updateTeacher(id, form); refetch(); }}
-      onDelete={async (id) => { await deleteTeacher(id); refetch(); }}
       renderForm={(editing, onClose) => (
-        <CrudForm fields={fields} initialData={editing} onSubmit={editing ? updateTeacher : createTeacher} onClose={onClose} />
+        <CrudForm
+          fields={fields}
+          initialData={editing}
+          onSubmit={async (id, form) => {
+            if (editing) {
+              await updateTeacher(id, form);
+            } else {
+              await createTeacher(form);
+            }
+            refetch();
+          }}
+          onClose={onClose}
+        />
       )}
     />
   );

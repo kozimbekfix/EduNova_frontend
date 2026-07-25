@@ -33,11 +33,20 @@ export default function AdminCourses() {
       error={error}
       columns={columns}
       searchFields={['title', 'description']}
-      onAdd={async (_, form) => { await createCourse(form); refetch(); }}
-      onEdit={async (id, form) => { await updateCourse(id, form); refetch(); }}
-      onDelete={async (id) => { await deleteCourse(id); refetch(); }}
       renderForm={(editing, onClose) => (
-        <CrudForm fields={fields} initialData={editing} onSubmit={editing ? updateCourse : createCourse} onClose={onClose} />
+        <CrudForm
+          fields={fields}
+          initialData={editing}
+          onSubmit={async (id, form) => {
+            if (editing) {
+              await updateCourse(id, form);
+            } else {
+              await createCourse(form);
+            }
+            refetch();
+          }}
+          onClose={onClose}
+        />
       )}
     />
   );

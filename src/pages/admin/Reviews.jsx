@@ -43,11 +43,20 @@ export default function AdminReviews() {
       error={error}
       columns={columns}
       searchFields={['name', 'comment']}
-      onAdd={async (_, form) => { await createReview(form); refetch(); }}
-      onEdit={async (id, form) => { await updateReview(id, form); refetch(); }}
-      onDelete={async (id) => { await deleteReview(id); refetch(); }}
       renderForm={(editing, onClose) => (
-        <CrudForm fields={fields} initialData={editing} onSubmit={editing ? updateReview : createReview} onClose={onClose} />
+        <CrudForm
+          fields={fields}
+          initialData={editing}
+          onSubmit={async (id, form) => {
+            if (editing) {
+              await updateReview(id, form);
+            } else {
+              await createReview(form);
+            }
+            refetch();
+          }}
+          onClose={onClose}
+        />
       )}
     />
   );

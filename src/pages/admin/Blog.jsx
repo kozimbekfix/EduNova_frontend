@@ -34,11 +34,20 @@ export default function AdminBlog() {
       error={error}
       columns={columns}
       searchFields={['title', 'content']}
-      onAdd={async (_, form) => { await createBlogPost(form); refetch(); }}
-      onEdit={async (id, form) => { await updateBlogPost(id, form); refetch(); }}
-      onDelete={async (id) => { await deleteBlogPost(id); refetch(); }}
       renderForm={(editing, onClose) => (
-        <CrudForm fields={fields} initialData={editing} onSubmit={editing ? updateBlogPost : createBlogPost} onClose={onClose} />
+        <CrudForm
+          fields={fields}
+          initialData={editing}
+          onSubmit={async (id, form) => {
+            if (editing) {
+              await updateBlogPost(id, form);
+            } else {
+              await createBlogPost(form);
+            }
+            refetch();
+          }}
+          onClose={onClose}
+        />
       )}
     />
   );
