@@ -11,6 +11,11 @@ const translations = {
     'nav.light': 'Yorug\'',
     'nav.dark': 'Qorong\'i',
 
+    // Hero slider navigatsiyasi (ekran o'quvchilar uchun)
+    'home.hero.prev': 'Oldingi',
+    'home.hero.next': 'Keyingi',
+    'home.hero.slide': 'Slayd',
+
     // Footer
     'footer.services': 'Xizmatlar',
     'footer.company': 'Kompaniya',
@@ -49,6 +54,13 @@ const translations = {
     'home.about.check2': "Zamonaviy dasturlar",
     'home.about.check3': 'Qulay narxlar',
     'home.about.experience': 'Yillik tajriba',
+    'home.about.text1': "Bizning ta'lim markazimiz 2015-yildan beri faoliyat yuritib, minglab o'quvchilarga sifatli ta'lim berib kelmoqda.",
+    'home.about.text2': "Eng muhimi, biz har bir o'quvchiga individual yondashamiz va ularning muvaffaqiyati uchun barcha sharoitlarni yaratamiz.",
+
+    // Home - Quiz banner
+    'home.quiz.title': "O'zingizga mos sohani topishga qiynalyapsizmi?",
+    'home.quiz.desc': "Ushbu qisqa viktorina sizni qaysi kursni tanlashingizda taklif beradi. Shaxsiy tavsiya olish uchun bir nechta oddiy savollarga javob bering.",
+    'home.quiz.btn': '5 daqiqalik test',
 
     // Home - Courses section
     'home.courses.title': 'Bizning kurslar',
@@ -78,6 +90,14 @@ const translations = {
     // Home - FAQ
     'home.faq.title': "Ko'p beriladigan savollar",
     'home.faq.subtitle': "Eng ko'p so'raladigan savollarga javoblar",
+    'home.faq.q1': "Kurslarga qanday yozilish mumkin?",
+    'home.faq.a1': "Sahifamizdagi 'Ro'yxatdan o'tish' formasini to'ldiring yoki telefon orqali bog'laning.",
+    'home.faq.q2': "Darslar qanday formatda o'tadi?",
+    'home.faq.a2': "Darslar online va offline formatda mavjud. Sizga qulay variantni tanlashingiz mumkin.",
+    'home.faq.q3': "To'lov tizimi qanday?",
+    'home.faq.a3': "Har oy yoki to'liq kurs uchun to'lov qilishingiz mumkin. Birinchi dars bepul!",
+    'home.faq.q4': "Sertifikat beriladimi?",
+    'home.faq.a4': "Ha, kurs yakunida rasmiy sertifikat taqdim etiladi.",
 
     // Home - CTA
     'home.cta.title': "Hoziroq ro'yxatdan o'ting!",
@@ -173,6 +193,11 @@ const translations = {
     'nav.light': 'Светлая',
     'nav.dark': 'Тёмная',
 
+    // Hero slider navigatsiyasi (ekran o'quvchilar uchun)
+    'home.hero.prev': 'Предыдущий',
+    'home.hero.next': 'Следующий',
+    'home.hero.slide': 'Слайд',
+
     // Footer
     'footer.services': 'Услуги',
     'footer.company': 'Компания',
@@ -211,6 +236,13 @@ const translations = {
     'home.about.check2': 'Современные программы',
     'home.about.check3': 'Доступные цены',
     'home.about.experience': 'лет опыта',
+    'home.about.text1': 'Наш образовательный центр работает с 2015 года и предоставляет качественное образование тысячам учеников.',
+    'home.about.text2': 'Самое главное — мы применяем индивидуальный подход к каждому ученику и создаём все условия для его успеха.',
+
+    // Home - Quiz banner
+    'home.quiz.title': 'Испытываете трудности с выбором подходящего направления?',
+    'home.quiz.desc': 'Этот короткий тест поможет вам выбрать подходящий курс. Ответьте на несколько простых вопросов, чтобы получить персональную рекомендацию.',
+    'home.quiz.btn': '5-минутный тест',
 
     // Home - Courses section
     'home.courses.title': 'Наши курсы',
@@ -240,6 +272,14 @@ const translations = {
     // Home - FAQ
     'home.faq.title': 'Часто задаваемые вопросы',
     'home.faq.subtitle': 'Ответы на самые популярные вопросы',
+    'home.faq.q1': 'Как можно записаться на курсы?',
+    'home.faq.a1': 'Заполните форму «Записаться» на нашем сайте или свяжитесь с нами по телефону.',
+    'home.faq.q2': 'В каком формате проходят занятия?',
+    'home.faq.a2': 'Занятия проходят как онлайн, так и офлайн. Вы можете выбрать удобный для себя формат.',
+    'home.faq.q3': 'Как происходит оплата?',
+    'home.faq.a3': 'Вы можете оплачивать помесячно или за весь курс целиком. Первый урок — бесплатно!',
+    'home.faq.q4': 'Выдаётся ли сертификат?',
+    'home.faq.a4': 'Да, по завершении курса выдаётся официальный сертификат.',
 
     // Home - CTA
     'home.cta.title': 'Запишитесь сейчас!',

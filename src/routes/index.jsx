@@ -4,6 +4,7 @@ import AdminLayout from '../layouts/AdminLayout';
 import ProtectedRoute from './ProtectedRoute';
 
 // Public pages
+import Location from '../pages/Location';
 import Home from '../pages/Home';
 import About from '../pages/About';
 import Courses from '../pages/Courses';
@@ -45,6 +46,7 @@ export const router = createBrowserRouter([
       { path: 'blog', element: <Blog /> },
       { path: 'blog/:id', element: <BlogDetails /> },
       { path: 'gallery', element: <Gallery /> },
+      { path: 'location', element: <Location /> },
       { path: 'contact', element: <Contact /> },
       { path: 'faq', element: <FAQ /> },
       { path: 'registration', element: <Registration /> },

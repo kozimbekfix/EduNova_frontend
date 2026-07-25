@@ -1,57 +1,38 @@
-import { Star } from 'lucide-react';
 import DataTable from '../../components/ui/DataTable';
 import CrudForm from '../../components/ui/CrudForm';
 import { useFetch } from '../../hooks/useFetch';
-import { getReviews, createReview, updateReview, deleteReview } from '../../api/reviews';
+import { getBranches, createBranch, updateBranch, deleteBranch } from '../../api/branches';
 
 const columns = [
-  { key: 'name', label: 'Ism' },
-  {
-    key: 'rating',
-    label: 'Baho',
-    render: (item) => (
-      <div className="flex gap-0.5">
-        {[1, 2, 3, 4, 5].map((s) => (
-          <Star key={s} className={`h-4 w-4 ${s <= (item.rating || 5) ? 'fill-accent text-accent' : 'text-border'}`} />
-        ))}
-      </div>
-    ),
-  },
-  { key: 'position', label: 'Lavozim' },
-  {
-    key: 'comment',
-    label: 'Fikr',
-    render: (item) => <span className="line-clamp-1">{item.comment || item.text || ''}</span>,
-  },
+  { key: 'name', label: 'Nomi' },
+  { key: 'location', label: 'Lokatsiya' },
 ];
 
 const fields = [
-  { key: 'name', label: 'Ism', required: true },
-  { key: 'position', label: 'Lavozim' },
-  { key: 'rating', label: 'Baho (1-5)', type: 'number' },
-  { key: 'comment', label: 'Fikr', type: 'textarea', required: true },
+  { key: 'name', label: 'Filial nomi', required: true },
+  { key: 'location', label: 'Manzil (Google Maps uchun)', required: true, placeholder: 'Masalan: Toshkent, Chilonzor, Bunyodkor ko\'chasi 1' },
 ];
 
-export default function AdminReviews() {
-  const { data, loading, error, refetch } = useFetch(getReviews);
+export default function AdminBranches() {
+  const { data, loading, error, refetch } = useFetch(getBranches);
 
   return (
     <DataTable
-      title="Fikrlar"
+      title="Filiallar"
       data={data || []}
       loading={loading}
       error={error}
       columns={columns}
-      searchFields={['name', 'comment']}
+      searchFields={['name', 'location']}
       renderForm={(editing, onClose) => (
         <CrudForm
           fields={fields}
           initialData={editing}
           onSubmit={async (id, form) => {
             if (editing) {
-              await updateReview(id, form);
+              await updateBranch(id, form);
             } else {
-              await createReview(form);
+              await createBranch(form);
             }
             refetch();
           }}
