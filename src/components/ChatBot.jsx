@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import api from '../api/axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot, User, Sparkles, Bell, DoorOpen } from 'lucide-react';
 import useLocaleStore from '../store/localeStore';
@@ -28,9 +29,9 @@ export default function ChatBot() {
     if (!clientId) return;
 
     const fetchNotification = () => {
-      fetch(`/api/applications/my/${clientId}`)
-        .then((res) => res.json())
-        .then((data) => {
+      api.get(`/applications/my/${clientId}`)
+  .then((res) => res.data)
+  .then((data) => {
           if (data?.exists && data?.application) {
             const app = data.application;
             if (app.notificationMessage || app.room) {
@@ -86,17 +87,13 @@ export default function ChatBot() {
 
     try {
       const clientId = getClientId();
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text,
-          history: updatedMessages.slice(0, -1), // oldingi xabarlar (yangisisiz)
-          clientId,
-        }),
+      const res = await api.post('/chat', {
+        message: text,
+        history: updatedMessages.slice(0, -1), // oldingi xabarlar (yangisisiz)
+        clientId,
       });
 
-      const data = await res.json();
+      const data = res.data;
 
       if (data.reply) {
         setMessages((prev) => [...prev, { role: 'bot', text: data.reply }]);
