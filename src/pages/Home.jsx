@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight, BookOpen, Users, Star, Award, Clock, Shield, Zap,
-  CheckCircle, ChevronRight, GraduationCap, Phone, Languages, Code2, HelpCircle,
+  CheckCircle, ChevronRight, GraduationCap, Phone, Languages, Code2, HelpCircle, MapPin,
 } from 'lucide-react';
 import SectionTitle from '../components/SectionTitle';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -11,6 +11,7 @@ import { getCourses } from '../api/courses';
 import { getTeachers } from '../api/teachers';
 import { getReviews } from '../api/reviews';
 import { getSettings } from '../api/settings';
+import { getBranches } from '../api/branches';
 import useLocaleStore from '../store/localeStore';
 
 const galleryImages = [
@@ -201,6 +202,7 @@ export default function Home() {
   const [courses, setCourses] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [branches, setBranches] = useState([]);
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openFaq, setOpenFaq] = useState(null);
@@ -208,15 +210,17 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const [coursesData, teachersData, reviewsData, settingsData] = await Promise.all([
+        const [coursesData, teachersData, reviewsData, branchesData, settingsData] = await Promise.all([
           getCourses().catch(() => []),
           getTeachers().catch(() => []),
           getReviews().catch(() => []),
+          getBranches().catch(() => []),
           getSettings().catch(() => null),
         ]);
         setCourses(coursesData || []);
         setTeachers(teachersData || []);
         setReviews(reviewsData || []);
+        setBranches(branchesData || []);
         setSettings(settingsData);
       } catch (err) {
         console.error('Home fetch error:', err);
@@ -543,7 +547,47 @@ export default function Home() {
           </div>
         </section>
       )}
-
+{/* Filiallar */}
+{branches.length > 0 && (
+        <section className="section-padding bg-surface-alt">
+          <div className="container-custom">
+            <SectionTitle title="Filiallarimiz" subtitle="Bizga eng yaqin filialni tanlang" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {branches.slice(0, 2).map((branch, i) => (
+                <motion.div
+                  key={branch.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="card overflow-hidden"
+                >
+                  <div className="flex items-center gap-2 mb-4">
+                    <MapPin className="h-5 w-5 text-primary" />
+                    <h3 className="text-lg font-semibold text-secondary">{branch.name}</h3>
+                  </div>
+                  <p className="text-sm text-text-muted mb-4">{branch.location}</p>
+                  <div className="rounded-xl overflow-hidden h-64 border border-border">
+                    <iframe
+                      title={branch.name}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      src={`https://www.google.com/maps?q=${encodeURIComponent(branch.location)}&output=embed`}
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            {branches.length > 2 && (
+              <div className="text-center mt-10">
+                <Link to="/location" className="btn-primary">Barcha filiallar</Link>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
       {/* Gallery */}
       <section className="section-padding">
         <div className="container-custom">
