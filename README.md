@@ -1,104 +1,139 @@
-# Prezo AI — Telegram AI Presentation & Referat Bot
+# EduNova — Education Center Landing Page + Admin Panel
 
-Production-grade Telegram bot that generates professional PowerPoint presentations (`.pptx`) and academic essays/referats (`.docx`) from a single text prompt, powered by Google Gemini (with automatic OpenRouter fallback). Built for students and professionals who need polished documents in minutes instead of hours.
+A complete, production-ready website template for language/course centers: a polished public-facing landing site plus a full admin panel to manage everything behind it — courses, teachers, branches, blog, reviews, and student applications. Built with React on the frontend and a Node.js/Express API on the backend, with an AI-powered chat widget built in.
 
-## ✨ Features
+**Live demo:** https://edu-nova-frontend-inky.vercel.app/
 
-- **AI Presentation Generator** — turns any topic into a fully designed, 6-slide `.pptx` deck (Hero, Three Cards, Image + Text, Three Steps, Four Facts, Ending layouts), with theme-consistent typography, colors, and topic-relevant stock imagery.
-- **AI Referat/Essay Generator** — produces a structured academic essay as a formatted `.docx` file, with automatic page-count estimation.
-- **PDF Export** — every generated file can also be delivered as a PDF alongside the native format.
-- **Bilingual UX** — all bot messages (progress updates, errors, buttons) are available in Uzbek and Russian; the user picks their language on first use.
-- **Job Queue Architecture** — generation requests are processed asynchronously via BullMQ + Redis, so the bot stays responsive under load and users get live progress updates (`[2/4] Building slides...`).
-- **Resilient AI Layer** — supports multiple Gemini API keys with automatic round-robin rotation to maximize free-tier throughput, plus automatic fallback to an OpenRouter model if all Gemini keys are rate-limited.
-- **Monetization Built In** — daily free-generation limit per user, with paid top-ups via native **Telegram Stars** (no external payment gateway required).
-- **Admin Tools** — admin-only commands to list users, block/unblock, grant unlimited access, and issue bonus credits.
-- **Error Monitoring** — critical errors are automatically reported to a dedicated Telegram channel/chat, so issues are caught without watching server logs.
+## ✨ What's Included
+
+### Public Website
+- Home, About, Courses, Course Details, Teachers, Blog, Blog Details, Gallery, Reviews, FAQ, Contact, Location, and Registration pages
+- A student **Quiz** page (placement/level-test style flow)
+- An **AI chat widget** (`ChatBot.jsx`) that answers visitor questions using an LLM (Groq API)
+- Fully responsive, animated UI (Framer Motion), built with Tailwind CSS
+- SEO-ready: page metadata, Open Graph tags, and social preview images already configured
+
+### Admin Panel
+- Secure login (JWT-based authentication)
+- Manage courses, teachers, branches, blog posts, and reviews (full CRUD)
+- View and manage student applications submitted from the registration form
+- Site-wide settings management
+- New applications are pushed instantly to a **Telegram bot**, so the center owner gets notified on their phone the moment someone signs up
+
+### Backend API
+- REST API built with Express, protected with Helmet, CORS whitelisting, and rate limiting
+- JWT authentication with a generic CRUD factory used across resources (fast to extend with new content types)
+- Telegram Bot integration for real-time application notifications
+- AI chat endpoint (Groq API) for the frontend chatbot
 
 ## 🧱 Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Bot framework | [Telegraf](https://telegraf.js.org/) (Telegram Bot API) |
-| Server | Express |
-| AI | Google Gemini API (`@google/generative-ai`), OpenRouter fallback |
-| Queue / jobs | BullMQ + Redis (ioredis) |
-| PPTX generation | pptxgenjs |
-| DOCX generation | docx |
-| PDF conversion | LibreOffice (headless, via Docker) |
-| Image sourcing | Unsplash API (optional) |
-| Validation | Zod |
-| Runtime | Node.js ≥ 20.9 |
+| Frontend | React 19, React Router, Zustand (state), Tailwind CSS 4, Framer Motion, React Hook Form, Axios |
+| Backend | Node.js, Express, JWT, Helmet, express-rate-limit |
+| AI Chat | Groq API |
+| Notifications | Telegram Bot API |
+| Deployment (demo) | Frontend on Vercel, Backend on Render |
 
 ## 📂 Project Structure
 
+This template ships as two independent projects — a frontend and a backend — that work together over a REST API.
+
 ```
-src/
-├── index.js                 # Bot entrypoint, commands, queue wiring
-├── ai/
-│   ├── pipeline.js          # Planner → Content writer AI pipeline
-│   ├── geminiPool.js        # Multi-key rotation + OpenRouter fallback
-│   └── schemas.js           # Zod schemas enforcing strict AI output shape
-├── engine/
-│   ├── pptx/
-│   │   ├── index.js         # Slide deck assembly
-│   │   ├── core/            # Layout coordinates, theme mapping
-│   │   └── templates/       # Individual slide layout renderers
-│   ├── docx/
-│   │   └── referatEngine.js # Essay/referat document builder
-│   └── pdfEngine.js         # .pptx/.docx → PDF conversion + cleanup
-└── utils/
-    ├── userStore.js         # User state, credits, daily usage tracking
-    ├── messages.js          # All bot copy (uz/ru)
-    ├── imageEngine.js       # Unsplash image fetching
-    └── retry.js             # Retry/backoff helpers
+EduNova_frontend/
+├── src/
+│   ├── pages/          # All public + admin pages
+│   │   └── admin/      # Admin panel screens
+│   ├── components/     # Navbar, Footer, ChatBot, shared UI
+│   ├── api/            # Axios calls to the backend, grouped by resource
+│   ├── store/          # Zustand state
+│   ├── layouts/, routes/, hooks/, utils/
+│   └── App.jsx, main.jsx
+└── vite.config.js
+
+EduNova_backend_premium/
+├── server.js            # App entrypoint, middleware, route mounting
+├── routes/               # auth, applications, settings, chat
+├── middleware/           # auth guard, rate limiting
+├── services/telegramBot.js
+├── utils/                # db.js, crudFactory.js, telegram.js
+└── data/                 # local JSON data store
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+- Node.js 18+
+- A Telegram bot token (optional, for application notifications) — get one from [@BotFather](https://t.me/BotFather)
+- A free Groq API key (optional, for the AI chatbot) — from [console.groq.com](https://console.groq.com)
 
-- Node.js 20.9 or higher
-- A Redis instance (local, or free tier from [Upstash](https://upstash.com/))
-- A Telegram bot token from [@BotFather](https://t.me/BotFather)
-- A Gemini API key from [Google AI Studio](https://aistudio.google.com/) (free tier available)
-
-### Installation
+### 1. Backend setup
 
 ```bash
-git clone <this-repo>
-cd prezo-AI
+cd EduNova_backend_premium
 npm install
 cp .env.example .env
 ```
 
-Fill in `.env` with your own values (see comments inside the file for guidance on every variable — `TELEGRAM_BOT_TOKEN`, `GEMINI_API_KEY`, `REDIS_URL`, etc.).
+Fill in `.env`:
+```
+PORT=5000
+CLIENT_URL=http://localhost:5173
+JWT_SECRET=<generate a long random string>
+DEFAULT_ADMIN_USERNAME=admin
+DEFAULT_ADMIN_PASSWORD=<choose a strong password>
+TELEGRAM_BOT_TOKEN=<your bot token, optional>
+TELEGRAM_CHAT_ID=<your chat id, optional>
+TELEGRAM_BOT_USERNAME=<your bot username, optional>
+GROQ_API_KEY=<your Groq key, optional>
+```
 
-### Run locally
-
+Run it:
 ```bash
 npm run dev
 ```
+The API starts on `http://localhost:5000`. A default admin account is created automatically on first run using `DEFAULT_ADMIN_USERNAME` / `DEFAULT_ADMIN_PASSWORD` — **change this password immediately after first login.**
 
-### Run with Docker (recommended — includes LibreOffice for PDF export)
+### 2. Frontend setup
 
 ```bash
-docker build -t prezo-ai .
-docker run --env-file .env prezo-ai
+cd EduNova_frontend
+npm install
+cp .env.example .env
 ```
 
-## ⚙️ Configuration Highlights
+For local development, leave `VITE_API_URL` empty — Vite's dev server proxies API calls to `http://localhost:5000` automatically. For production, set it to your deployed backend URL:
+```
+VITE_API_URL=https://your-backend-domain.com
+```
 
-- `GEMINI_API_KEYS` — comma-separated list of keys from **separate** Google Cloud projects, rotated automatically to multiply your free-tier quota.
-- `DAILY_FREE_LIMIT` — number of free generations per user per day (default: 3).
-- `ADMIN_IDS` — comma-separated Telegram user IDs with access to admin commands.
-- `ERROR_LOG_CHAT_ID` — optional chat/channel where runtime errors are reported in real time.
+Run it:
+```bash
+npm run dev
+```
+This starts both the frontend and backend together (via `concurrently`) if run from the frontend folder, or use `npm run dev:fe` / `npm run dev:be` to run them separately.
 
-Full details and comments for every variable are in `.env.example`.
+Visit `http://localhost:5173` for the site, and `/admin` for the admin panel login.
 
-## 💳 Monetization
+### 3. Deploying
 
-The bot ships with a Telegram Stars payment flow already wired in — once a user hits their daily free limit, they're offered extra generations for Stars, with no third-party payment processor needed. Pricing and limits are fully configurable via environment variables.
+- **Frontend** → any static host (Vercel, Netlify). Set `VITE_API_URL` to your live backend URL as an environment variable.
+- **Backend** → any Node host (Render, Railway, etc). Set `CLIENT_URL` to your live frontend URL so CORS allows it (any `*.vercel.app` domain is allowed automatically).
+
+## ⚙️ Customization Notes
+
+- Branding, colors, and copy live in `src/pages` and `src/components` — no framework-level changes needed to reskin for a different center.
+- New content types (e.g. a "Testimonials" resource) can be added quickly on the backend using the existing `crudFactory.js` pattern, and wired to the admin panel following the pattern of existing resources.
+- The Telegram and Groq integrations are both optional — the site and admin panel work without them if those env variables are left blank.
+
+## 🔒 Security Checklist Before Going Live
+
+- [ ] Change `JWT_SECRET` to a long, random value
+- [ ] Change `DEFAULT_ADMIN_PASSWORD` immediately after first login
+- [ ] Set `CLIENT_URL` to your real frontend domain (avoid leaving CORS open)
+- [ ] Never commit a filled-in `.env` file — only `.env.example` with placeholder values
 
 ## 📄 License
 
-ISC — see `package.json`. Adjust as needed if distributing or reselling this codebase.
+Provided as-is for use in your own or client projects. Adjust licensing terms as needed if reselling.
