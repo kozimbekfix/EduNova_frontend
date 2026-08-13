@@ -362,6 +362,188 @@ const translations = {
     'chatbot.online': 'В сети',
     'chatbot.powered': 'Работает на',
   },
+
+  en: {
+    // Navbar
+    'nav.home': 'Home',
+    'nav.courses': 'Courses',
+    'nav.teachers': 'Teachers',
+    'nav.blog': 'Blog',
+    'nav.contact': 'Contact',
+    'nav.register': 'Sign Up',
+    'nav.admin': 'Admin',
+    'nav.light': 'Light',
+    'nav.dark': 'Dark',
+
+    // Hero slider navigation (for screen readers)
+    'home.hero.prev': 'Previous',
+    'home.hero.next': 'Next',
+    'home.hero.slide': 'Slide',
+
+    // Footer
+    'footer.services': 'Services',
+    'footer.company': 'Company',
+    'footer.support': 'Support',
+    'footer.about': 'About Us',
+    'footer.gallery': 'Gallery',
+    'footer.faq': 'FAQ',
+    'footer.privacy': 'Privacy Policy',
+    'footer.terms': 'Terms of Use',
+    'footer.rights': 'All rights reserved.',
+    'footer.desc': 'Learn with us, change your future. The best teachers and modern educational programs.',
+
+    // Home - Hero
+    'home.hero.title': 'Learn foreign languages and',
+    'home.hero.title.highlight': 'programming',
+    'home.hero.title.end': 'with us',
+    'home.hero.badge': 'EduNova Learning Center',
+    'home.hero.btn.free': 'Book a free lesson',
+    'home.hero.btn.courses': 'View courses',
+
+    // Home - Advantages
+    'home.advantages.title': 'Why choose us?',
+    'home.advantages.subtitle': '4 reasons to choose us',
+    'home.advantages.modern': 'Modern education',
+    'home.advantages.modern.desc': 'Education based on the latest methods',
+    'home.advantages.teachers': 'Experienced teachers',
+    'home.advantages.teachers.desc': 'Professional and certified teachers',
+    'home.advantages.schedule': 'Flexible schedule',
+    'home.advantages.schedule.desc': 'Attend classes at a time convenient for you',
+    'home.advantages.quality': 'Quality guarantee',
+    'home.advantages.quality.desc': 'Education with a 100% result guarantee',
+
+    // Home - About
+    'home.about.more': 'Learn more',
+    'home.about.check1': 'Professional teachers',
+    'home.about.check2': 'Modern programs',
+    'home.about.check3': 'Affordable prices',
+    'home.about.experience': 'years of experience',
+    'home.about.text1': 'Our learning center has been operating since 2015, providing quality education to thousands of students.',
+    'home.about.text2': "Most importantly, we take an individual approach to each student and create all the conditions for their success.",
+
+    // Home - Quiz banner
+    'home.quiz.title': 'Struggling to find the right field for you?',
+    'home.quiz.desc': 'This short quiz will help you choose the right course. Answer a few simple questions to get a personal recommendation.',
+    'home.quiz.btn': '5-minute quiz',
+
+    // Home - Courses section
+    'home.courses.title': 'Our courses',
+    'home.courses.subtitle': 'Programs built around the latest trends',
+    'home.courses.all': 'All courses',
+    'home.courses.details': 'Details',
+
+    // Home - Teachers
+    'home.teachers.title': 'Our team',
+    'home.teachers.subtitle': 'Experienced and professional teachers',
+
+    // Home - Statistics
+    'home.stats.students': 'Students',
+    'home.stats.courses': 'Courses',
+    'home.stats.experience': 'Experience',
+    'home.stats.awards': 'Awards',
+
+    // Home - Reviews
+    'home.reviews.title': 'Student reviews',
+    'home.reviews.subtitle': "Here's what they say about us",
+    'home.reviews.student': 'Student',
+
+    // Home - Gallery
+    'home.gallery.title': 'Gallery',
+    'home.gallery.subtitle': 'Moments from our center',
+
+    // Home - FAQ
+    'home.faq.title': 'Frequently asked questions',
+    'home.faq.subtitle': 'Answers to the most common questions',
+    'home.faq.q1': 'How can I sign up for courses?',
+    'home.faq.a1': "Fill out the 'Sign Up' form on our website or contact us by phone.",
+    'home.faq.q2': 'What format are the lessons taught in?',
+    'home.faq.a2': 'Lessons are available online and offline. You can choose the option that suits you best.',
+    'home.faq.q3': 'How does payment work?',
+    'home.faq.a3': 'You can pay monthly or for the full course. The first lesson is free!',
+    'home.faq.q4': 'Is a certificate issued?',
+    'home.faq.a4': 'Yes, an official certificate is issued upon completion of the course.',
+
+    // Home - CTA
+    'home.cta.title': 'Sign up now!',
+    'home.cta.subtitle': 'Attend the first lesson for free and find the course that suits you best.',
+    'home.cta.register': 'Sign up',
+    'home.cta.contact': 'Contact us',
+
+    // Achievements
+    'achievement.lang.students': 'Students',
+    'achievement.dev.students': 'Developers',
+    'achievement.lang.title': 'Foreign languages',
+    'achievement.dev.title': 'Programming',
+    'achievement.ielts': 'IELTS 7.0+',
+    'achievement.topik': 'TOPIK 2+',
+    'achievement.goethe': 'Goethe',
+    'achievement.cert': 'Certificate',
+    'achievement.job': 'Employed',
+    'achievement.portfolio': 'Portfolio',
+    'achievement.dev.cert': 'Certificate',
+    'achievement.projects': 'Projects',
+
+    // Courses Page
+    'courses.title': 'Our courses',
+    'courses.subtitle': 'Find the course that suits you best',
+    'courses.notfound': 'No courses found',
+
+    // Teachers Page
+    'teachers.title': 'Teachers',
+    'teachers.subtitle': 'A team of experienced and professional teachers',
+
+    // Blog Page
+    'blog.title': 'Blog',
+    'blog.subtitle': 'Latest news and articles',
+    'blog.readmore': 'Read',
+    'blog.notfound': 'No articles found',
+
+    // About Page
+    'about.title': 'About us',
+    'about.subtitle': 'A learning center with 10 years of experience',
+
+    // Contact Page
+    'contact.title': 'Contact',
+    'contact.subtitle': 'Get in touch with us',
+    'contact.name': 'Your name',
+    'contact.email': 'Email',
+    'contact.message': 'Your message',
+    'contact.send': 'Send',
+    'contact.phone': 'Phone',
+    'contact.address': 'Address',
+
+    // Registration
+    'register.title': 'Sign up',
+    'register.subtitle': 'Attend the first lesson for free',
+
+    // FAQ
+    'faq.title': 'Frequently asked questions',
+    'faq.subtitle': 'Answers to the most common questions',
+
+    // Gallery
+    'gallery.title': 'Gallery',
+    'gallery.subtitle': 'Moments from our center',
+
+    // Reviews Page
+    'reviews.title': 'Student reviews',
+    'reviews.subtitle': "Here's what they say about us",
+
+    // Loading
+    'loading.text': 'Loading...',
+
+    // Not Found
+    'notfound.title': 'Page not found',
+    'notfound.text': "The page you're looking for doesn't exist.",
+    'notfound.home': 'Back to home',
+
+    // ChatBot
+    'chatbot.welcome': "Hi! 👋 I'm the EduNova AI assistant. I can answer your questions about courses, prices, and sign-up. How can I help you?",
+    'chatbot.placeholder': 'Type your message...',
+    'chatbot.error': "Sorry, I can't respond right now. Please try again later.",
+    'chatbot.error2': 'Sorry, an error occurred. Please try again later.',
+    'chatbot.online': 'Online',
+    'chatbot.powered': 'Powered by',
+  },
 };
 
 export default translations;

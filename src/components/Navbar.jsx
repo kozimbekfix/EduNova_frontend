@@ -126,6 +126,12 @@ export default function Navbar() {
                     >
                       Русский
                     </button>
+                    <button
+                      onClick={() => { setLocale('en'); setLangOpen(false); }}
+                      className={`w-full px-4 py-2.5 text-sm text-left transition-colors ${locale === 'en' ? 'text-primary bg-primary/5 font-medium' : 'text-text-muted hover:text-text hover:bg-surface-alt'}`}
+                    >
+                      English
+                    </button>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -168,6 +174,12 @@ export default function Navbar() {
                       className={`w-full px-4 py-2.5 text-sm text-left transition-colors ${locale === 'ru' ? 'text-primary bg-primary/5 font-medium' : 'text-text-muted hover:text-text hover:bg-surface-alt'}`}
                     >
                       Русский
+                    </button>
+                    <button
+                      onClick={() => { setLocale('en'); setLangOpen(false); }}
+                      className={`w-full px-4 py-2.5 text-sm text-left transition-colors ${locale === 'en' ? 'text-primary bg-primary/5 font-medium' : 'text-text-muted hover:text-text hover:bg-surface-alt'}`}
+                    >
+                      English
                     </button>
                   </motion.div>
                 )}

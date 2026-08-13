@@ -2,17 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
-
-const images = [
-  'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80',
-  'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80',
-  'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80',
-  'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80',
-  'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80',
-  'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=80',
-  'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=80',
-  'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=600&q=80',
-];
+import { galleryImages as images } from '../data/galleryImages';
 
 export default function Gallery() {
   const [selected, setSelected] = useState(null);

@@ -12,6 +12,16 @@ const settingsRoutes = require("./routes/settings");
 const chatRoutes = require("./routes/chat");
 const telegramBot = require("./services/telegramBot");
 
+// JWT_SECRET bo'lmasa tokenlar imzosiz/yaroqsiz bo'lib qoladi — buni hech qachon
+// o'tkazib yubormaymiz, chunki bu butun admin panelning xavfsizligini buzadi.
+if (!process.env.JWT_SECRET) {
+  console.error(
+    "\n🚨 XATOLIK: JWT_SECRET .env faylida ko'rsatilmagan. Server to'xtatildi.\n" +
+    "Iltimos .env.example faylidan nusxa olib, JWT_SECRET uchun uzun, tasodifiy qiymat qo'ying.\n"
+  );
+  process.exit(1);
+}
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 

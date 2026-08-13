@@ -50,6 +50,16 @@ function writeDb(data) {
 function ensureDefaultAdmin() {
   const db = readDb();
   if (db.admins.length === 0) {
+    const isProd = process.env.NODE_ENV === "production";
+
+    if (isProd && (!process.env.DEFAULT_ADMIN_USERNAME || !process.env.DEFAULT_ADMIN_PASSWORD)) {
+      console.error(
+        "\n🚨 XATOLIK: production rejimida DEFAULT_ADMIN_USERNAME va DEFAULT_ADMIN_PASSWORD .env faylida ko'rsatilishi shart.\n" +
+        "Standart admin/admin123 bilan production'da ishga tushirish taqiqlanadi.\n"
+      );
+      process.exit(1);
+    }
+
     const username = process.env.DEFAULT_ADMIN_USERNAME || "admin";
     const password = process.env.DEFAULT_ADMIN_PASSWORD || "admin123";
     const hashed = bcrypt.hashSync(password, 10);

@@ -13,15 +13,9 @@ import { getReviews } from '../api/reviews';
 import { getSettings } from '../api/settings';
 import { getBranches } from '../api/branches';
 import useLocaleStore from '../store/localeStore';
-
-const galleryImages = [
-  'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80',
-  'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80',
-  'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80',
-  'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80',
-  'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80',
-  'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=80',
-];
+import { homeGalleryImages as galleryImages } from '../data/galleryImages';
+import { languagesImg, programmingImg } from '../data/achievementImages';
+import aboutImg from '../assets/gallery/gallery-1.jpg';
 
 function AchievementsSwiper() {
   const { t } = useLocaleStore();
@@ -42,7 +36,7 @@ function AchievementsSwiper() {
         { label: t('achievement.cert', 'Sertifikat'), value: '180' },
       ],
       desc: t('home.achievements.lang.desc', "4 xil chet tilida 850+ o'quvchi xalqaro sertifikatlarga ega bo'ldi. Ingliz, Koreys, Nemis va Rus tillari."),
-      bg: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1200&q=80',
+      bg: languagesImg,
     },
     {
       icon: Code2,
@@ -57,7 +51,7 @@ function AchievementsSwiper() {
         { label: t('achievement.projects', 'Loyihalar'), value: '300+' },
       ],
       desc: t('home.achievements.dev.desc', "200+ o'quvchi dasturlashni o'rganib, IT sohasida faoliyat yuritmoqda. Python va Frontend yo'nalishlari."),
-      bg: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&q=80',
+      bg: programmingImg,
     },
   ];
 
@@ -394,7 +388,7 @@ export default function Home() {
             >
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80"
+                  src={aboutImg}
                   alt="About"
                   className="w-full h-full object-cover"
                 />

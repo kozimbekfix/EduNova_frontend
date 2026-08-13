@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "server": "node server/server.js",
     "server:dev": "npm run dev --prefix server",
-    "install:all": "npm install && npm install --prefix server"
+    "install:all": "npm install && npm install --prefix server",
+    "images:download": "node scripts/download-images.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
