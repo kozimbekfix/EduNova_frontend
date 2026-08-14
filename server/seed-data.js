@@ -1,8 +1,8 @@
-// Namuna ma'lumotlar bilan bazani to'ldirish uchun bir martalik skript.
-// Ishga tushirish: node seed-data.js
-// Bu mavjud arizalar/admin ma'lumotlarini o'chirmaydi - faqat
-// courses, teachers, blogPosts bo'sh bo'lsa, ularni to'ldiradi va
-// settings maydonlarini (agar bo'sh bo'lsa) to'ldiradi.
+// One-off script to seed the database with sample data.
+// Run with: node seed-data.js
+// This does not delete existing applications/admin data - it only
+// fills in courses, teachers, blogPosts if they're empty, and
+// fills in settings fields (only if they're empty).
 
 const { readDb, writeDb } = require("./utils/db");
 const { nanoid } = require("nanoid");
@@ -12,80 +12,80 @@ const db = readDb();
 const courses = [
   {
     id: nanoid(10),
-    title: "Ingliz tili (Umumiy kurs)",
+    title: "English (General Course)",
     description:
-      "Boshlang'ich darajadan Intermediate darajagacha ingliz tilini og'zaki va yozma nutqni rivojlantirish orqali o'rgatuvchi kurs. Grammatika, so'z boyligi va real muloqot amaliyoti.",
-    duration: "6 oy",
-    price: "450 000 so'm/oy",
+      "A course that develops spoken and written English from beginner to intermediate level. Covers grammar, vocabulary, and real-life communication practice.",
+    duration: "6 months",
+    price: "450,000 UZS/month",
     benefits: [
-      "Native talaffuz bo'yicha amaliyot",
-      "Har hafta speaking club",
-      "IELTS asoslari bilan tanishtirish",
-      "Kichik guruhlar (8-10 kishi)",
+      "Native pronunciation practice",
+      "Weekly speaking club",
+      "Introduction to IELTS basics",
+      "Small groups (8-10 people)",
     ],
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
-    title: "IELTS tayyorlov kursi",
+    title: "IELTS Preparation Course",
     description:
-      "IELTS imtihonining barcha 4 ta bo'limi (Listening, Reading, Writing, Speaking) bo'yicha intensiv tayyorgarlik. Mock testlar va individual feedback.",
-    duration: "3 oy",
-    price: "600 000 so'm/oy",
+      "Intensive preparation covering all 4 sections of the IELTS exam (Listening, Reading, Writing, Speaking). Includes mock tests and individual feedback.",
+    duration: "3 months",
+    price: "600,000 UZS/month",
     benefits: [
-      "Har oy mock imtihon",
-      "Writing uchun individual tuzatish",
-      "Kafolatlangan ball oshishi",
+      "Monthly mock exams",
+      "Individual writing corrections",
+      "Guaranteed score improvement",
     ],
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
-    title: "Frontend dasturlash (HTML, CSS, JavaScript, React)",
+    title: "Frontend Development (HTML, CSS, JavaScript, React)",
     description:
-      "Noldan boshlab zamonaviy veb-saytlar va React ilovalarini yaratishni o'rganing. Amaliy loyihalar orqali portfolio yig'asiz.",
-    duration: "8 oy",
-    price: "550 000 so'm/oy",
+      "Learn to build modern websites and React applications from scratch. Build a portfolio through hands-on projects.",
+    duration: "8 months",
+    price: "550,000 UZS/month",
     benefits: [
-      "3 ta real loyiha portfolio uchun",
-      "Git/GitHub bilan ishlash",
-      "Kurs oxirida ish topishga yordam",
+      "3 real projects for your portfolio",
+      "Working with Git/GitHub",
+      "Job placement assistance after the course",
     ],
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
-    title: "Grafik dizayn (Figma, Photoshop)",
+    title: "Graphic Design (Figma, Photoshop)",
     description:
-      "Zamonaviy dizayn dasturlarida logotip, banner, ijtimoiy tarmoq posti va UI/UX dizayn asoslarini o'rganing.",
-    duration: "4 oy",
-    price: "400 000 so'm/oy",
-    benefits: ["Amaliy topshiriqlar", "Portfolio yaratish", "Freelance uchun tayyorgarlik"],
+      "Learn the fundamentals of logo, banner, and social media post design as well as UI/UX in modern design software.",
+    duration: "4 months",
+    price: "400,000 UZS/month",
+    benefits: ["Hands-on assignments", "Building a portfolio", "Preparation for freelancing"],
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
-    title: "SMM va Raqamli marketing",
+    title: "SMM and Digital Marketing",
     description:
-      "Instagram, Telegram va Facebook orqali biznesni targ'ib qilish, target reklama sozlash va kontent-plan tuzishni o'rganasiz.",
-    duration: "3 oy",
-    price: "400 000 so'm/oy",
-    benefits: ["Real loyihalarda amaliyot", "Reklama byudjetini boshqarish", "Analitika asoslari"],
+      "Learn to promote a business through Instagram, Telegram, and Facebook, set up targeted ads, and build a content plan.",
+    duration: "3 months",
+    price: "400,000 UZS/month",
+    benefits: ["Practice on real projects", "Managing an ad budget", "Analytics fundamentals"],
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
-    title: "Matematika (Abituriyentlar uchun)",
+    title: "Mathematics (For University Applicants)",
     description:
-      "OTM (oliy ta'lim muassasalari)ga kirish imtihonlariga tayyorgarlik. Test topshirish strategiyalari va chuqurlashtirilgan mavzular.",
-    duration: "10 oy",
-    price: "350 000 so'm/oy",
-    benefits: ["Har hafta nazorat test", "Individual yondashuv", "Kuchli natija kafolati"],
+      "Preparation for university entrance exams. Test-taking strategies and in-depth topics.",
+    duration: "10 months",
+    price: "350,000 UZS/month",
+    benefits: ["Weekly practice tests", "Individual approach", "Strong result guarantee"],
     image: "",
     createdAt: new Date().toISOString(),
   },
@@ -95,36 +95,36 @@ const teachers = [
   {
     id: nanoid(10),
     name: "Madina Yusupova",
-    position: "Ingliz tili o'qituvchisi",
-    subject: "Ingliz tili / IELTS",
-    bio: "8 yillik tajribaga ega, IELTS 8.0 band egasi. 500 dan ortiq talaba tayyorlagan.",
+    position: "English Teacher",
+    subject: "English / IELTS",
+    bio: "8 years of experience, holds an IELTS band score of 8.0. Has prepared over 500 students.",
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
     name: "Jasur Rahimov",
-    position: "Frontend dasturlash o'qituvchisi",
+    position: "Frontend Development Teacher",
     subject: "JavaScript / React",
-    bio: "5 yillik professional dasturchi, IT kompaniyalarida frontend yo'nalishida ishlagan tajribaga ega.",
+    bio: "5 years of professional development experience, has worked in frontend roles at IT companies.",
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
     name: "Nilufar Karimova",
-    position: "Grafik dizayn o'qituvchisi",
+    position: "Graphic Design Teacher",
     subject: "Figma / Photoshop / UI-UX",
-    bio: "6 yillik dizayner, xalqaro brendlar bilan ishlagan, o'nlab muvaffaqiyatli loyihalar muallifi.",
+    bio: "6 years as a designer, has worked with international brands, author of dozens of successful projects.",
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
     name: "Sardor Aliyev",
-    position: "Matematika o'qituvchisi",
-    subject: "Matematika / Abituriyentlar tayyorlash",
-    bio: "10 yillik pedagogik tajriba, o'quvchilarining 90%dan ortig'i OTMga kirgan.",
+    position: "Mathematics Teacher",
+    subject: "Mathematics / University Prep",
+    bio: "10 years of teaching experience, over 90% of his students have been admitted to universities.",
     image: "",
     createdAt: new Date().toISOString(),
   },
@@ -133,39 +133,39 @@ const teachers = [
 const blogPosts = [
   {
     id: nanoid(10),
-    title: "IELTS imtihoniga qanday tayyorlanish kerak: 7 ta amaliy maslahat",
+    title: "How to Prepare for the IELTS Exam: 7 Practical Tips",
     excerpt:
-      "IELTS imtihonida yuqori ball olish uchun eng samarali strategiyalar va ko'p uchraydigan xatolar haqida.",
+      "The most effective strategies for scoring high on the IELTS exam, and common mistakes to avoid.",
     content:
-      "IELTS imtihoniga tayyorgarlik ko'rishda eng muhimi - muntazamlik. Har kuni kamida 1 soat inglizcha material bilan shug'ullaning: podcast tinglang, kitob o'qing, yozish mashqlarini bajaring. Speaking bo'limi uchun oyna oldida gapirish mashqini qiling yoki til sherigi toping. Writing bo'limida vaqtni nazorat qilishni unutmang - Task 1 uchun 20 daqiqa, Task 2 uchun 40 daqiqa ajrating. Eng muhimi, doimiy mock testlar orqali o'z darajangizni kuzatib boring.",
+      "The most important thing when preparing for the IELTS exam is consistency. Spend at least 1 hour every day with English material: listen to podcasts, read books, and do writing exercises. For the Speaking section, practice speaking in front of a mirror or find a language partner. Don't forget to manage your time in the Writing section - allow 20 minutes for Task 1 and 40 minutes for Task 2. Most importantly, keep track of your level through regular mock tests.",
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
-    title: "Frontend dasturchi bo'lish uchun nimalarni bilish kerak?",
+    title: "What Do You Need to Know to Become a Frontend Developer?",
     excerpt:
-      "IT sohasida frontend yo'nalishini tanlagan boshlang'ichlar uchun to'liq yo'l xaritasi.",
+      "A complete roadmap for beginners who have chosen the frontend path in IT.",
     content:
-      "Frontend dasturlashni o'rganishni HTML va CSS'dan boshlang - bu veb-saytning skeleti va tashqi ko'rinishi. Keyin JavaScript'ni chuqur o'rganing, chunki u saytga interaktivlik qo'shadi. Undan keyin React kabi zamonaviy freymvorklarni o'rganish tavsiya etiladi. Portfolio yig'ish juda muhim - kamida 3-4 ta real loyiha qiling va GitHub'da joylashtiring. Bozorda o'z o'rningizni topish uchun doimiy amaliyot va yangiliklarni kuzatib borish kalit hisoblanadi.",
+      "Start learning frontend development with HTML and CSS - these form the skeleton and appearance of a website. Then dive deep into JavaScript, since it adds interactivity to the site. After that, it's recommended to learn a modern framework like React. Building a portfolio is very important - complete at least 3-4 real projects and put them on GitHub. Consistent practice and keeping up with the latest developments is the key to finding your place in the market.",
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
-    title: "Nima uchun bolangizni yosh vaqtidan tilga o'rgatish kerak?",
-    excerpt: "Erta yoshdan chet tili o'rganishning miya rivojlanishiga ta'siri haqida.",
+    title: "Why Should You Start Teaching Your Child a Language at a Young Age?",
+    excerpt: "How learning a foreign language early affects brain development.",
     content:
-      "Tadqiqotlar shuni ko'rsatadiki, bolalar 5-12 yosh oralig'ida yangi tilni ancha tez va tabiiy o'zlashtiradilar. Bu davrda miya moslashuvchanligi yuqori bo'lib, talaffuz va grammatikani deyarli aksentsiz o'rganish imkoniyati mavjud. Bundan tashqari, erta yoshda til o'rganish bolaning umumiy kognitiv qobiliyatlarini, jumladan xotira va diqqatni jamlashni ham yaxshilaydi.",
+      "Research shows that children acquire a new language much faster and more naturally between the ages of 5-12. During this period, the brain's plasticity is high, making it possible to learn pronunciation and grammar with almost no accent. In addition, learning a language early improves a child's overall cognitive abilities, including memory and concentration.",
     image: "",
     createdAt: new Date().toISOString(),
   },
   {
     id: nanoid(10),
-    title: "2026-yilda eng talab qilinadigan IT kasblar",
-    excerpt: "Kelgusi yillarda qaysi IT yo'nalishlari ko'proq daromad va ish o'rni beradi?",
+    title: "The Most In-Demand IT Careers in 2026",
+    excerpt: "Which IT fields will offer the most income and job opportunities in the coming years?",
     content:
-      "Frontend va Backend dasturlash hamon eng ommabop yo'nalishlardan biri bo'lib qolmoqda. Bundan tashqari, sun'iy intellekt va ma'lumotlar tahlili (Data Analysis) sohalari ham tez sur'atlar bilan rivojlanmoqda. UI/UX dizayn mutaxassislariga bo'lgan talab ham ortib bormoqda, chunki har qanday mahsulot uchun qulay va chiroyli interfeys zarur. Kasb tanlashda o'z qiziqishingiz va bozor talabini muvozanatlashtirish muhim.",
+      "Frontend and Backend development remain among the most popular career paths. In addition, artificial intelligence and Data Analysis fields are also developing rapidly. Demand for UI/UX design specialists is also growing, since every product needs a convenient and attractive interface. When choosing a career, it's important to balance your own interests with market demand.",
     image: "",
     createdAt: new Date().toISOString(),
   },
@@ -176,38 +176,38 @@ let changed = false;
 if (!db.courses || db.courses.length === 0) {
   db.courses = courses;
   changed = true;
-  console.log(`✅ ${courses.length} ta kurs qo'shildi`);
+  console.log(`✅ ${courses.length} courses added`);
 } else {
-  console.log("ℹ️  Kurslar allaqachon mavjud, o'tkazib yuborildi");
+  console.log("ℹ️  Courses already exist, skipped");
 }
 
 if (!db.teachers || db.teachers.length === 0) {
   db.teachers = teachers;
   changed = true;
-  console.log(`✅ ${teachers.length} ta o'qituvchi qo'shildi`);
+  console.log(`✅ ${teachers.length} teachers added`);
 } else {
-  console.log("ℹ️  O'qituvchilar allaqachon mavjud, o'tkazib yuborildi");
+  console.log("ℹ️  Teachers already exist, skipped");
 }
 
 if (!db.blogPosts || db.blogPosts.length === 0) {
   db.blogPosts = blogPosts;
   changed = true;
-  console.log(`✅ ${blogPosts.length} ta blog post qo'shildi`);
+  console.log(`✅ ${blogPosts.length} blog posts added`);
 } else {
-  console.log("ℹ️  Blog postlar allaqachon mavjud, o'tkazib yuborildi");
+  console.log("ℹ️  Blog posts already exist, skipped");
 }
 
-// Settings - faqat bo'sh maydonlarni to'ldiramiz, mavjudlarini bosib o'tmaymiz
+// Settings - only fill in empty fields, don't overwrite existing ones
 db.settings = db.settings || {};
 const defaultSettings = {
   siteName: "EduNova",
   phone: "+998 90 123 45 67",
   telegram: "@edunova_uz",
   email: "info@edunova.uz",
-  address: "Toshkent sh., Chilonzor tumani, Bunyodkor ko'chasi 1-uy",
+  address: "Tashkent, Chilanzar district, Bunyodkor street, building 1",
   googleMapsUrl: "",
   instagram: "@edunova.uz",
-  workHours: "Dushanba-Shanba: 09:00 - 20:00",
+  workHours: "Monday-Saturday: 09:00 - 20:00",
 };
 for (const key in defaultSettings) {
   if (!db.settings[key]) {
@@ -218,7 +218,7 @@ for (const key in defaultSettings) {
 
 if (changed) {
   writeDb(db);
-  console.log("\n💾 Baza muvaffaqiyatli yangilandi (data/db.json)");
+  console.log("\n💾 Database updated successfully (data/db.json)");
 } else {
-  console.log("\nℹ️  Hech narsa o'zgarmadi - barcha ma'lumotlar allaqachon mavjud edi.");
+  console.log("\nℹ️  Nothing changed - all data already existed.");
 }

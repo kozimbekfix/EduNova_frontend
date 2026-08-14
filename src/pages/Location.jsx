@@ -12,10 +12,10 @@ export default function Location() {
     <div>
       <section className="bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-primary/20 py-20 md:py-28">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <Breadcrumb items={[{ label: 'Filiallar' }]} />
+          <Breadcrumb items={[{ label: 'Locations' }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Filiallarimiz</h1>
-            <p className="text-lg text-gray-300">Bizga eng yaqin filialni tanlang</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Our Locations</h1>
+            <p className="text-lg text-gray-300">Choose the branch closest to you</p>
           </motion.div>
         </div>
       </section>
@@ -31,7 +31,7 @@ export default function Location() {
           ) : !branches?.length ? (
             <div className="text-center py-12">
               <MapPin className="h-12 w-12 mx-auto text-text-muted mb-4" />
-              <p className="text-text-muted">Hozircha filiallar qo'shilmagan</p>
+              <p className="text-text-muted">No branches added yet</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

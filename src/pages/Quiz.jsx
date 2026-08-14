@@ -7,115 +7,115 @@ import {
 } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
 
-// Har bir savol turli "fan"lardan (tillar, mantiq, texnologiya, qiziqish)
-// va har bir javob ma'lum yo'nalishlarga ball qo'shadi.
-// Savollar tartibi bosqichma-bosqich murakkablashadi.
+// Each question comes from a different "subject" (languages, logic, technology, interests)
+// and each answer adds points toward certain directions.
+// The questions gradually increase in complexity.
 const questions = [
   {
     id: 'q1',
-    subject: 'Qiziqish',
+    subject: 'Interests',
     icon: Sparkles,
-    question: "Bo'sh vaqtingizda ko'proq nima bilan shug'ullanishni yoqtirasiz?",
+    question: "What do you enjoy doing most in your free time?",
     options: [
-      { label: 'Chet el filmlari/seriallarini asl tilida tomosha qilish', points: { ingliz: 2, koreys: 1 } },
-      { label: 'Koreys drama va K-pop bilan qiziqish', points: { koreys: 3 } },
-      { label: 'Kompyuter o\'yinlari yoki ilovalar bilan ishlash', points: { python: 2, frontend: 2 } },
-      { label: 'Yangi narsalar yasash, chizish, dizayn qilish', points: { frontend: 3 } },
+      { label: 'Watching foreign movies/series in their original language', points: { ingliz: 2, koreys: 1 } },
+      { label: 'Following Korean dramas and K-pop', points: { koreys: 3 } },
+      { label: 'Working with computer games or apps', points: { python: 2, frontend: 2 } },
+      { label: 'Creating, drawing, or designing new things', points: { frontend: 3 } },
     ],
   },
   {
     id: 'q2',
-    subject: 'Til',
+    subject: 'Language',
     icon: Languages,
-    question: 'Quyidagi tillardan qaysi biri sizga tabiiy yaqinroq tuyuladi?',
+    question: 'Which of the following languages feels most natural to you?',
     options: [
-      { label: 'Ingliz tili — deyarli hamma joyda kerak bo\'ladi', points: { ingliz: 3 } },
-      { label: 'Nemis tili — aniqlik va tartibni yoqtiraman', points: { nemis: 3 } },
-      { label: 'Rus tili — allaqachon biroz tushunaman', points: { rus: 3 } },
-      { label: 'Hali aniq tanlamadim', points: { ingliz: 1, rus: 1 } },
+      { label: 'English — it\'s useful almost everywhere', points: { ingliz: 3 } },
+      { label: 'German — I like precision and order', points: { nemis: 3 } },
+      { label: 'Russian — I already understand a bit', points: { rus: 3 } },
+      { label: "I haven't decided yet", points: { ingliz: 1, rus: 1 } },
     ],
   },
   {
     id: 'q3',
-    subject: 'Mantiq',
+    subject: 'Logic',
     icon: Brain,
-    question: 'Muammoni yechayotganda o\'zingizni qanday his qilasiz?',
+    question: 'How do you feel when solving a problem?',
     options: [
-      { label: 'Bosqichma-bosqich, mantiqiy tartibda yechishni yoqtiraman', points: { python: 3, frontend: 1 } },
-      { label: 'Chizib, vizual ko\'rib, keyin qaror qabul qilaman', points: { frontend: 3 } },
-      { label: 'Odamlar bilan gaplashib, fikr almashib yechaman', points: { ingliz: 1, koreys: 1, rus: 1 } },
-      { label: 'Qat\'iy qoidalarga amal qilib, tizimli harakat qilaman', points: { nemis: 2, python: 1 } },
+      { label: 'I like solving it step by step, in a logical order', points: { python: 3, frontend: 1 } },
+      { label: 'I sketch it out, look at it visually, then decide', points: { frontend: 3 } },
+      { label: 'I talk it through with others and exchange ideas', points: { ingliz: 1, koreys: 1, rus: 1 } },
+      { label: 'I follow strict rules and act systematically', points: { nemis: 2, python: 1 } },
     ],
   },
   {
     id: 'q4',
-    subject: 'Matematika',
+    subject: 'Math',
     icon: Calculator,
-    question: 'Sonlar va formulalar bilan ishlash sizga qanday?',
+    question: 'How do you feel about working with numbers and formulas?',
     options: [
-      { label: 'Yoqadi, mantiqiy masalalarni yechishni xohlayman', points: { python: 3 } },
-      { label: 'O\'rtacha, lekin qiynalmayman', points: { frontend: 1, nemis: 1 } },
-      { label: 'Unchalik emas, so\'z va tillar menga yaqinroq', points: { ingliz: 2, koreys: 1, rus: 1 } },
-      { label: 'Aniq bilmayman, hali sinab ko\'rmaganman', points: {} },
+      { label: 'I like it, I enjoy solving logical problems', points: { python: 3 } },
+      { label: "Average, but I don't struggle with it", points: { frontend: 1, nemis: 1 } },
+      { label: "Not really, words and languages come more naturally to me", points: { ingliz: 2, koreys: 1, rus: 1 } },
+      { label: "Not sure, I haven't really tried yet", points: {} },
     ],
   },
   {
     id: 'q5',
-    subject: 'Maqsad',
+    subject: 'Goal',
     icon: Globe2,
-    question: 'Kelajakda o\'zingizni qayerda ko\'rasiz?',
+    question: 'Where do you see yourself in the future?',
     options: [
-      { label: 'Xorijda o\'qish yoki ishlash (Yevropa/Amerika)', points: { ingliz: 2, nemis: 2 } },
-      { label: 'Janubiy Koreyada o\'qish yoki ishlash', points: { koreys: 3 } },
-      { label: 'IT sohasida dasturchi yoki mutaxassis bo\'lish', points: { python: 2, frontend: 2 } },
-      { label: 'MDH davlatlari bilan ishlash/muloqot qilish', points: { rus: 3 } },
+      { label: 'Studying or working abroad (Europe/USA)', points: { ingliz: 2, nemis: 2 } },
+      { label: 'Studying or working in South Korea', points: { koreys: 3 } },
+      { label: 'Working as a developer or IT specialist', points: { python: 2, frontend: 2 } },
+      { label: 'Working/communicating with CIS countries', points: { rus: 3 } },
     ],
   },
   {
     id: 'q6',
-    subject: 'Qiyin savol',
+    subject: 'A tough question',
     icon: Rocket,
     question:
-      'Agar sizga bir vaqtning o\'zida ham qiyin, ham qiziqarli loyiha berilsa — masalan, yangi tilni chuqur o\'rganish YOKI to\'liq ishlaydigan veb-sahifa yaratish kerak bo\'lsa, qaysi birini tanlar edingiz?',
+      'If you were given a project that is both difficult and interesting at the same time — for example, deeply learning a new language OR building a fully working website — which would you choose?',
     options: [
-      { label: 'Tilni chuqur o\'rganib, muloqot qila olishni afzal ko\'raman', points: { ingliz: 2, koreys: 1, nemis: 1, rus: 1 } },
-      { label: 'Veb-sahifa/ilova yarataman — ko\'rinadigan natija muhim', points: { frontend: 3 } },
-      { label: 'Backend/mantiqiy qismini yozib, tizimni ishlataman', points: { python: 3 } },
-      { label: 'Ikkalasi ham qiziq, lekin til bilan boshlagan bo\'lardim', points: { ingliz: 1, nemis: 1 } },
+      { label: "I'd rather deeply learn a language and be able to communicate", points: { ingliz: 2, koreys: 1, nemis: 1, rus: 1 } },
+      { label: "I'd build a website/app — a visible result matters to me", points: { frontend: 3 } },
+      { label: "I'd write the backend/logic and get the system running", points: { python: 3 } },
+      { label: "Both are interesting, but I'd start with the language", points: { ingliz: 1, nemis: 1 } },
     ],
   },
 ];
 
 const resultInfo = {
   ingliz: {
-    title: '🇬🇧 Ingliz tili',
-    desc: 'Sizda tillarga va xalqaro muloqotga qiziqish yuqori. Ingliz tili sizga ta\'lim, karyera va sayohatda katta eshiklar ochadi.',
+    title: '🇬🇧 English',
+    desc: 'You have a strong interest in languages and international communication. English will open big doors for you in education, career, and travel.',
   },
   koreys: {
-    title: '🇰🇷 Koreys tili',
-    desc: 'Koreys madaniyati va tiliga bo\'lgan qiziqishingiz sezilarli. Bu yo\'nalish sizga yangi imkoniyatlar va tajriba beradi.',
+    title: '🇰🇷 Korean',
+    desc: 'Your interest in Korean culture and language really stands out. This path will bring you new opportunities and experiences.',
   },
   nemis: {
-    title: '🇩🇪 Nemis tili',
-    desc: 'Siz aniqlik va tizimlilikni yoqtirasiz — bu aynan nemis tili va nemis madaniyatiga mos xususiyat.',
+    title: '🇩🇪 German',
+    desc: 'You like precision and structure — a trait that fits well with the German language and culture.',
   },
   rus: {
-    title: '🇷🇺 Rus tili',
-    desc: 'Rus tili sizga mintaqaviy aloqalar va ish imkoniyatlarida katta yordam beradi.',
+    title: '🇷🇺 Russian',
+    desc: 'Russian will help you a lot with regional connections and job opportunities.',
   },
   python: {
-    title: '🐍 Python dasturlash',
-    desc: 'Mantiqiy fikrlash va tizimli yondashuv sizning kuchli tomoningiz — bu aynan dasturlash uchun zarur bo\'lgan fazilat.',
+    title: '🐍 Python Programming',
+    desc: 'Logical thinking and a systematic approach are your strengths — exactly what programming requires.',
   },
   frontend: {
-    title: '💻 Frontend dasturlash',
-    desc: 'Vizual fikrlash va ijodkorlik sizda yaxshi rivojlangan — foydalanuvchi ko\'radigan chiroyli va qulay interfeyslar yaratish sizga mos.',
+    title: '💻 Frontend Development',
+    desc: 'You have strong visual thinking and creativity — building beautiful, user-friendly interfaces suits you well.',
   },
 };
 
 export default function Quiz() {
   const navigate = useNavigate();
-  const [step, setStep] = useState(0); // 0..questions.length-1, questions.length = natija
+  const [step, setStep] = useState(0); // 0..questions.length-1, questions.length = result
   const [answers, setAnswers] = useState({});
   const [finished, setFinished] = useState(false);
 
@@ -141,7 +141,7 @@ export default function Quiz() {
     setFinished(false);
   };
 
-  // Natijani hisoblash: barcha javoblardagi ballarni yig'ib, eng ko'p ball olgan yo'nalishni topamiz
+  // Compute the result: sum up points from all answers and find the direction with the highest score
   const computeResult = () => {
     const totals = {};
     Object.values(answers).forEach((opt) => {
@@ -169,13 +169,13 @@ export default function Quiz() {
     <div>
       <section className="bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-primary/20 py-20 md:py-28">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <Breadcrumb items={[{ label: 'Kasb tanlash testi' }]} />
+          <Breadcrumb items={[{ label: 'Career quiz' }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              O'zingizga mos yo'nalishni toping
+              Find the right direction for you
             </h1>
             <p className="text-white/70 max-w-xl">
-              Bir necha oddiy savolga javob bering — sizga eng mos kursni tavsiya qilamiz.
+              Answer a few simple questions — we'll recommend the course that suits you best.
             </p>
           </motion.div>
         </div>
@@ -188,7 +188,7 @@ export default function Quiz() {
               {/* Progress bar */}
               <div className="mb-8">
                 <div className="flex items-center justify-between text-sm text-text-muted mb-2">
-                  <span>Savol {step + 1} / {questions.length}</span>
+                  <span>Question {step + 1} / {questions.length}</span>
                   <span>{progress}%</span>
                 </div>
                 <div className="h-2 rounded-full bg-surface-alt overflow-hidden">
@@ -237,7 +237,7 @@ export default function Quiz() {
                       onClick={handleBack}
                       className="mt-6 inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text transition-colors"
                     >
-                      <ArrowLeft className="h-4 w-4" /> Oldingi savol
+                      <ArrowLeft className="h-4 w-4" /> Previous question
                     </button>
                   )}
                 </motion.div>
@@ -253,7 +253,7 @@ export default function Quiz() {
               <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center mx-auto mb-6">
                 <Sparkles className="h-8 w-8 text-white" />
               </div>
-              <p className="text-sm text-text-muted mb-2">Sizga eng mos yo'nalish:</p>
+              <p className="text-sm text-text-muted mb-2">The best fit for you is:</p>
               <h2 className="text-2xl md:text-3xl font-bold text-secondary mb-4">
                 {resultInfo[computeResult()].title}
               </h2>
@@ -266,13 +266,13 @@ export default function Quiz() {
                   onClick={handleGoToRegistration}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
                 >
-                  Biz bilan birga testlarni oson yeching! <ArrowRight className="h-4 w-4" />
+                  Sign up and get started with us! <ArrowRight className="h-4 w-4" />
                 </button>
                 <button
                   onClick={handleRestart}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border-2 border-border text-text-muted hover:text-text hover:border-text-muted/40 font-medium px-6 py-3.5 rounded-xl transition-all"
                 >
-                  <RotateCcw className="h-4 w-4" /> Qayta topshirish
+                  <RotateCcw className="h-4 w-4" /> Retake the quiz
                 </button>
               </div>
             </motion.div>

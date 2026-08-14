@@ -1,5 +1,5 @@
-// "Admin panel (ma'lumotlarni o'zgartirish)" funksiyasining bir qismi -
-// sayt nomi, telefon, manzil kabi umumiy ma'lumotlarni tahrirlash uchun.
+// Part of the "Admin panel (edit data)" feature -
+// for editing general information like site name, phone, and address.
 
 const express = require("express");
 const { readDb, writeDb } = require("../utils/db");
@@ -7,10 +7,10 @@ const { requireAuth } = require("../middleware/auth");
 
 const router = express.Router();
 
-// PUBLIC: frontend saytning umumiy sozlamalarini shundan oladi
+// PUBLIC: the frontend gets the site's general settings from here
 router.get("/", (req, res) => {
   const db = readDb();
-  // .env dan bot ma'lumotlarini qo'shamiz
+  // Add bot info from .env
   const settings = {
     ...db.settings,
     botUsername: process.env.TELEGRAM_BOT_USERNAME || "edunova_bot",
@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
   res.json(settings);
 });
 
-// FAQAT ADMIN: sozlamalarni yangilash
+// ADMIN ONLY: update settings
 router.put("/", requireAuth, (req, res) => {
   const db = readDb();
   db.settings = { ...db.settings, ...req.body };

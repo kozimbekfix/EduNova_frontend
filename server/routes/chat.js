@@ -1,5 +1,5 @@
-// AI Chatbot - Groq API orqali ishlaydi
-// OpenAI mos keluvchi API (baseURL: https://api.groq.com/openai/v1)
+// AI Chatbot - powered by the Groq API
+// OpenAI-compatible API (baseURL: https://api.groq.com/openai/v1)
 
 const express = require("express");
 const OpenAI = require("openai");
@@ -10,15 +10,15 @@ const { sendTelegramNotification } = require("../utils/telegram");
 
 const router = express.Router();
 
-// Modelni .env orqali osongina almashtirish mumkin (GROQ_MODEL).
-// Sozlanmagan bo'lsa, sifat/tezlik balansi yaxshi bo'lgan gpt-oss-120b ishlatiladi.
+// The model can easily be swapped via .env (GROQ_MODEL).
+// If not set, gpt-oss-120b is used for a good quality/speed balance.
 const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 
-// Groq client - "lazy" yaratiladi (faqat kerak bo'lganda).
-// MUHIM: agar buni modul yuklanganda darhol yaratsak va GROQ_API_KEY
-// bo'sh bo'lsa, OpenAI kutubxonasi xato tashlab BUTUN SERVERNI
-// ishga tushishdan to'xtatib qo'yadi. Shuning uchun klientni faqat
-// so'rov kelganda, va faqat kalit mavjud bo'lsagina yaratamiz.
+// Groq client - created "lazily" (only when needed).
+// IMPORTANT: if we created this immediately on module load and
+// GROQ_API_KEY is empty, the OpenAI library would throw and stop
+// THE ENTIRE SERVER from starting. So we only create the client
+// when a request comes in, and only if the key exists.
 let client = null;
 function getClient() {
   if (!process.env.GROQ_API_KEY) return null;
@@ -32,11 +32,11 @@ function getClient() {
 }
 
 // ----------------------------------------------------------------------
-// 1) HAQIQIY MA'LUMOTLAR BILAN BOG'LASH
-// Har bir so'rovda bazadan (courses, teachers, settings) eng so'nggi
-// ma'lumotni o'qib, system promptni SHU asosda quramiz. Shunday qilib
-// bot hech qachon eskirgan/noto'g'ri narx yoki kurs haqida gapirmaydi -
-// admin panelda biror narsa o'zgartirilsa, bot DARHOL bilib oladi.
+// 1) GROUNDING IN REAL DATA
+// On every request we read the latest data from the database (courses,
+// teachers, settings) and build the system prompt from it. This way the
+// bot never talks about outdated or wrong prices or courses - if
+// anything changes in the admin panel, the bot picks it up IMMEDIATELY.
 // ----------------------------------------------------------------------
 function buildSystemPrompt() {
   const db = readDb();
@@ -44,46 +44,46 @@ function buildSystemPrompt() {
 
   const coursesText = (db.courses || [])
     .map((c) => `- ${c.name}${c.price ? ` — ${c.price}` : ""}${c.duration ? ` (${c.duration})` : ""}`)
-    .join("\n") || "Hozircha kurslar ro'yxati admin tomonidan to'ldirilmagan.";
+    .join("\n") || "The course list hasn't been filled in by the admin yet.";
 
   const teachersText = (db.teachers || [])
     .map((t) => `- ${t.name}${t.subject ? ` — ${t.subject}` : ""}`)
     .join("\n") || "";
 
   const blogText = (db.blogPosts || [])
-    .slice(0, 8) // token tejash uchun eng so'nggi 8 ta maqola
+    .slice(0, 8) // limit to the 8 most recent posts to save tokens
     .map((b) => `- ${b.title}${b.excerpt ? `: ${b.excerpt}` : ""}`)
     .join("\n") || "";
 
-  return `Sen "${s.siteName || "EduNova"}" o'quv markazining rasmiy AI yordamchisisan.
+  return `You are the official AI assistant of the "${s.siteName || "EduNova"}" learning center.
 
-MARKAZ HAQIDA (BAZADAN OLINGAN, ENG SO'NGGI MA'LUMOT):
-- Nomi: ${s.siteName || "EduNova"}
-- Manzil: ${s.address || "ko'rsatilmagan"}
-- Telefon: ${s.phone || "ko'rsatilmagan"}
-- Telegram: ${s.telegram || "ko'rsatilmagan"}
-- Email: ${s.email || "ko'rsatilmagan"}
-- Ish vaqti: ${s.workHours || "ko'rsatilmagan"}
+ABOUT THE CENTER (LATEST DATA FROM THE DATABASE):
+- Name: ${s.siteName || "EduNova"}
+- Address: ${s.address || "not specified"}
+- Phone: ${s.phone || "not specified"}
+- Telegram: ${s.telegram || "not specified"}
+- Email: ${s.email || "not specified"}
+- Working hours: ${s.workHours || "not specified"}
 
-KURSLAR (bazadagi haqiqiy ro'yxat):
+COURSES (actual list from the database):
 ${coursesText}
 
-${teachersText ? `O'QITUVCHILAR:\n${teachersText}\n` : ""}
-${blogText ? `SO'NGGI BLOG MAQOLALARI (agar foydalanuvchi maqola/yangilik haqida so'rasa, shulardan foydalan):\n${blogText}\n` : ""}
-QO'LLANMA:
-1. O'zbek tilida, samimiy va professional gaplash
-2. FAQAT yuqoridagi haqiqiy ma'lumotlardan (kurslar, o'qituvchilar, blog) foydalan — narx, kurs yoki maqola haqida hech narsa o'zingdan o'ylab topma
-3. Agar kerakli ma'lumot yuqorida yo'q bo'lsa, to'g'ridan-to'g'ri ayt: "Bu haqda aniq ma'lumotim yo'q, ${s.phone || "administratorimiz"}ga murojaat qiling"
-4. Javoblar qisqa va tushunarli bo'lsin (3-5 jumla)
-5. Agar suhbat davomida foydalanuvchi ism va telefon raqamini aytsa (ro'yxatdan o'tmoqchi bo'lsa), create_application vositasidan foydalanib ariza yarat
-6. Ariza yaratishdan oldin ism va telefon raqamini albatta tasdiqlab ol`;
+${teachersText ? `TEACHERS:\n${teachersText}\n` : ""}
+${blogText ? `LATEST BLOG POSTS (use these if the user asks about articles/news):\n${blogText}\n` : ""}
+GUIDELINES:
+1. Speak in English, warmly and professionally
+2. ONLY use the real data above (courses, teachers, blog) — never make up a price, course, or article
+3. If the requested information isn't available above, say so directly: "I don't have exact information on that, please contact ${s.phone || "our administrator"}"
+4. Keep answers short and clear (3-5 sentences)
+5. If the user shares their name and phone number during the conversation (wanting to sign up), use the create_application tool to create an application
+6. Always confirm the name and phone number before creating an application`;
 }
 
 // ----------------------------------------------------------------------
-// 3) BOTGA "HARAKAT QILISH" IMKONIYATI — Function/Tool calling.
-// Model suhbat davomida foydalanuvchi ism+telefon aytsa, shu vositani
-// chaqiradi va biz haqiqiy arizani bazaga yozamiz (xuddi saytdagi
-// ro'yxatdan o'tish formasi orqali kelgandek).
+// 3) GIVING THE BOT THE ABILITY TO "TAKE ACTION" — Function/Tool calling.
+// When the user gives their name+phone during the conversation, the
+// model calls this tool and we write a real application to the database
+// (just as if it came through the site's sign-up form).
 // ----------------------------------------------------------------------
 const tools = [
   {
@@ -91,13 +91,13 @@ const tools = [
     function: {
       name: "create_application",
       description:
-        "Foydalanuvchi ism va telefon raqamini aytib, kursga yozilmoqchi bo'lganda ariza yaratadi.",
+        "Creates an application when the user gives their name and phone number and wants to sign up for a course.",
       parameters: {
         type: "object",
         properties: {
-          fullName: { type: "string", description: "Foydalanuvchining to'liq ismi" },
-          phone: { type: "string", description: "Telefon raqami, masalan +998901234567" },
-          courseName: { type: "string", description: "Qiziqqan kursi nomi (agar aytilgan bo'lsa)" },
+          fullName: { type: "string", description: "The user's full name" },
+          phone: { type: "string", description: "Phone number, e.g. +998901234567" },
+          courseName: { type: "string", description: "The course they're interested in (if mentioned)" },
         },
         required: ["fullName", "phone"],
       },
@@ -108,7 +108,7 @@ const tools = [
 function executeCreateApplication(args, clientId) {
   const { fullName, phone, courseName } = args;
   if (!fullName || !phone) {
-    return { success: false, message: "Ism va telefon raqam kerak." };
+    return { success: false, message: "Name and phone number are required." };
   }
 
   const db = readDb();
@@ -123,20 +123,20 @@ function executeCreateApplication(args, clientId) {
     existing.clientId = clientId || existing.clientId;
     existing.updatedAt = new Date().toISOString();
     writeDb(db);
-    return { success: true, updated: true, message: "Ariza yangilandi." };
+    return { success: true, updated: true, message: "Application updated." };
   }
 
   const application = {
     id: nanoid(10),
     fullName,
     phone,
-    courseName: courseName || "Chatbot orqali",
+    courseName: courseName || "Via chatbot",
     direction: "",
     preferredTime: "",
-    message: "AI chatbot orqali yaratilgan ariza",
+    message: "Application created via AI chatbot",
     telegramUsername: "",
     clientId: clientId || "",
-    status: "yangi",
+    status: "new",
     isRead: false,
     notificationMessage: "",
     room: "",
@@ -145,31 +145,31 @@ function executeCreateApplication(args, clientId) {
   db.applications.push(application);
   writeDb(db);
 
-  // Admin darhol Telegramdan xabar oladi (xuddi oddiy forma kabi)
+  // The admin gets notified on Telegram immediately (same as a regular form)
   sendTelegramNotification(
-    `🤖 <b>AI chatbot orqali yangi ariza!</b>\n\n👤 Ism: ${fullName}\n📞 Tel: ${phone}\n📚 Kurs: ${application.courseName}`
+    `🤖 <b>New application via AI chatbot!</b>\n\n👤 Name: ${fullName}\n📞 Phone: ${phone}\n📚 Course: ${application.courseName}`
   ).catch(() => {});
 
-  return { success: true, updated: false, message: "Ariza muvaffaqiyatli yaratildi." };
+  return { success: true, updated: false, message: "Application created successfully." };
 }
 
-// POST /api/chat - AI bilan suhbat
-// chatLimiter: cheksiz so'rov yuborib API balansini tugatishning oldini oladi
+// POST /api/chat - conversation with the AI
+// chatLimiter: prevents unlimited requests from draining the API balance
 router.post("/", chatLimiter, async (req, res) => {
   const { message, history, clientId } = req.body;
 
   if (!message) {
-    return res.status(400).json({ message: "Xabar matnini kiriting." });
+    return res.status(400).json({ message: "Please enter a message." });
   }
 
   if (message.length > 2000) {
-    return res.status(400).json({ message: "Xabar juda uzun (maksimal 2000 belgi)." });
+    return res.status(400).json({ message: "Message is too long (2000 characters max)." });
   }
 
   const aiClient = getClient();
   if (!aiClient) {
     return res.status(503).json({
-      message: "AI Chatbot hali sozlanmagan. Administrator GROQ_API_KEY ni .env fayliga qo'shishi kerak.",
+      message: "The AI Chatbot is not configured yet. The administrator needs to add GROQ_API_KEY to the .env file.",
     });
   }
 
@@ -181,7 +181,7 @@ router.post("/", chatLimiter, async (req, res) => {
         }))
       : [];
 
-    // Oxirgi 10 xabarni saqlaymiz (kontekst + token tejash uchun)
+    // Keep the last 10 messages (for context and to save tokens)
     const recentHistory = conversationHistory.slice(-10);
 
     const messages = [
@@ -203,19 +203,19 @@ router.post("/", chatLimiter, async (req, res) => {
     let choice = completion.choices[0];
     const toolCalls = choice?.message?.tool_calls;
 
-    // Agar model "create_application" vositasini chaqirsa - bajaramiz
-    // va natijani modelga qaytarib, foydalanuvchiga tabiiy javob yozdiramiz.
+    // If the model calls the "create_application" tool - execute it
+    // and pass the result back to the model so it writes a natural reply.
     if (toolCalls && toolCalls.length > 0) {
       messages.push(choice.message);
 
       for (const call of toolCalls) {
-        let result = { success: false, message: "Noma'lum vosita." };
+        let result = { success: false, message: "Unknown tool." };
         if (call.function?.name === "create_application") {
           try {
             const args = JSON.parse(call.function.arguments || "{}");
             result = executeCreateApplication(args, clientId);
           } catch {
-            result = { success: false, message: "Ma'lumotlarni o'qishda xatolik." };
+            result = { success: false, message: "Error reading the data." };
           }
         }
         messages.push({
@@ -237,17 +237,17 @@ router.post("/", chatLimiter, async (req, res) => {
     const response = choice?.message?.content || "";
     res.json({ reply: response });
   } catch (error) {
-    console.error("AI Chat xatolik:", error.message);
+    console.error("AI Chat error:", error.message);
 
     if (error.status === 401 || error.message?.includes("API")) {
-      return res.status(500).json({ message: "AI sozlanmagan. Iltimos, keyinroq urinib ko'ring." });
+      return res.status(500).json({ message: "The AI is not configured. Please try again later." });
     }
 
     if (error.status === 429) {
-      return res.status(500).json({ message: "AI band. Iltimos, birozdan keyin urinib ko'ring." });
+      return res.status(500).json({ message: "The AI is busy. Please try again shortly." });
     }
 
-    res.status(500).json({ message: "Xatolik yuz berdi. Iltimos, keyinroq urinib ko'ring." });
+    res.status(500).json({ message: "An error occurred. Please try again later." });
   }
 });
 

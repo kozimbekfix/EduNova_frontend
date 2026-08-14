@@ -14,7 +14,7 @@ export default function CourseDetails() {
   if (error) return (
     <div className="pt-20 section-padding text-center">
       <p className="text-error mb-4">{error}</p>
-      <Link to="/courses" className="btn-primary">Kurslarga qaytish</Link>
+      <Link to="/courses" className="btn-primary">Back to courses</Link>
     </div>
   );
   if (!course) return null;
@@ -24,7 +24,7 @@ export default function CourseDetails() {
       {/* Header */}
       <section className="bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-primary/20 py-20 md:py-28">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <Breadcrumb items={[{ label: 'Kurslar', path: '/courses' }, { label: course.title }]} />
+          <Breadcrumb items={[{ label: 'Courses', path: '/courses' }, { label: course.title }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">{course.title}</h1>
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-300">
@@ -52,7 +52,7 @@ export default function CourseDetails() {
               </div>
               {course.benefits?.length > 0 && (
                 <div className="mt-8">
-                  <h3 className="text-lg font-semibold text-secondary mb-4">Nimani o'rganasiz?</h3>
+                  <h3 className="text-lg font-semibold text-secondary mb-4">What you'll learn</h3>
                   <ul className="space-y-2">
                     {course.benefits.map((b, i) => (
                       <li key={i} className="flex items-center gap-2 text-sm text-text-muted">
@@ -67,16 +67,16 @@ export default function CourseDetails() {
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="card sticky top-24">
-                <h3 className="font-semibold text-secondary mb-4">Kurs haqida</h3>
+                <h3 className="font-semibold text-secondary mb-4">About the course</h3>
                 <div className="space-y-3 text-sm">
                   {course.duration && (
-                    <div className="flex justify-between"><span className="text-text-muted">Davomiylik</span><span className="font-medium">{course.duration}</span></div>
+                    <div className="flex justify-between"><span className="text-text-muted">Duration</span><span className="font-medium">{course.duration}</span></div>
                   )}
                   {course.price && (
-                    <div className="flex justify-between"><span className="text-text-muted">Narxi</span><span className="font-bold text-primary">{course.price}</span></div>
+                    <div className="flex justify-between"><span className="text-text-muted">Price</span><span className="font-bold text-primary">{course.price}</span></div>
                   )}
                 </div>
-                <Link to="/registration" className="btn-primary w-full justify-center mt-6">Ro'yxatdan o'tish</Link>
+                <Link to="/registration" className="btn-primary w-full justify-center mt-6">Sign Up</Link>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
-// Oddiy fayl-asosidagi "database". Loyihani kattalashtirganda
-// bu faylni MongoDB (mongoose) yoki PostgreSQL bilan almashtirish mumkin -
-// routes/ ichidagi kodlar deyarli o'zgarmaydi, faqat shu funksiyalar
-// haqiqiy DB so'rovlariga almashtiriladi.
+// A simple file-based "database". As the project grows, this file
+// can be replaced with MongoDB (mongoose) or PostgreSQL - the code
+// inside routes/ will barely change, only these functions get
+// swapped out for real DB queries.
 
 const fs = require("fs");
 const path = require("path");
@@ -15,14 +15,14 @@ const DEFAULT_DATA = {
   teachers: [],
   branches: [],
   blogPosts: [],
-  applications: [], // ro'yxatdan o'tish / ariza so'rovlari
+  applications: [], // sign-up / application requests
   reviews: [],
   settings: {
-    siteName: "O'quv Markaz",
+    siteName: "Learning Center",
     phone: "",
     telegram: "",
     address: "",
-    googleMapsUrl: "", // Google Maps'dagi joylashuv havolasi (Kontakt sahifasida ko'rsatiladi)
+    googleMapsUrl: "", // Google Maps location link (shown on the Contact page)
   },
 };
 
@@ -46,7 +46,7 @@ function writeDb(data) {
   fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
 }
 
-// Server ishga tushganda default admin foydalanuvchi yo'q bo'lsa yaratadi
+// Creates a default admin user on server startup if none exists
 function ensureDefaultAdmin() {
   const db = readDb();
   if (db.admins.length === 0) {
@@ -54,8 +54,8 @@ function ensureDefaultAdmin() {
 
     if (isProd && (!process.env.DEFAULT_ADMIN_USERNAME || !process.env.DEFAULT_ADMIN_PASSWORD)) {
       console.error(
-        "\n🚨 XATOLIK: production rejimida DEFAULT_ADMIN_USERNAME va DEFAULT_ADMIN_PASSWORD .env faylida ko'rsatilishi shart.\n" +
-        "Standart admin/admin123 bilan production'da ishga tushirish taqiqlanadi.\n"
+        "\n🚨 ERROR: in production mode, DEFAULT_ADMIN_USERNAME and DEFAULT_ADMIN_PASSWORD must be set in the .env file.\n" +
+        "Starting production with the default admin/admin123 credentials is not allowed.\n"
       );
       process.exit(1);
     }
@@ -70,17 +70,17 @@ function ensureDefaultAdmin() {
       createdAt: new Date().toISOString(),
     });
     writeDb(db);
-    console.log(`✅ Default admin yaratildi -> login: ${username} | parol: ${password}`);
+    console.log(`✅ Default admin created -> login: ${username} | password: ${password}`);
 
     if (username === "admin" && password === "admin123") {
-      console.log("\n🚨🚨🚨 XAVFSIZLIK OGOHLANTIRISHI 🚨🚨🚨");
-      console.log("Siz hali standart login/parol (admin / admin123) bilan ishlayapsiz!");
-      console.log("Bu eng birinchi urinib ko'riladigan kombinatsiya — hoziroq .env faylida");
-      console.log("DEFAULT_ADMIN_USERNAME va DEFAULT_ADMIN_PASSWORD ni almashtiring,");
-      console.log("so'ng data/db.json faylidagi \"admins\" ro'yxatini tozalab, serverni qayta ishga tushiring.");
+      console.log("\n🚨🚨🚨 SECURITY WARNING 🚨🚨🚨");
+      console.log("You're still using the default login/password (admin / admin123)!");
+      console.log("This is the first combination anyone would try — right now, in the .env file,");
+      console.log("change DEFAULT_ADMIN_USERNAME and DEFAULT_ADMIN_PASSWORD,");
+      console.log("then clear the \"admins\" list in data/db.json and restart the server.");
       console.log("🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨\n");
     } else {
-      console.log("⚠️  Production'da bu parolni albatta xavfsiz saqlang!");
+      console.log("⚠️  Be sure to keep this password secure in production!");
     }
   }
 }

@@ -51,7 +51,7 @@ export default function AdminSettings() {
 
   const sections = [
     { title: 'Basic information', keys: ['siteName', 'description'] },
-    { title: 'Aloqa ma\'lumotlari', keys: ['phone', 'email', 'telegram', 'instagram', 'address', 'googleMapsUrl', 'workHours'] },
+    { title: 'Contact information', keys: ['phone', 'email', 'telegram', 'instagram', 'address', 'googleMapsUrl', 'workHours'] },
   ];
 
   const fieldLabels = {

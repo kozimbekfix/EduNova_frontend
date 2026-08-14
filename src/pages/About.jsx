@@ -5,17 +5,17 @@ import Breadcrumb from '../components/Breadcrumb';
 import useSettingsStore from '../store/settingsStore';
 
 const values = [
-  { icon: Target, title: 'Missiyamiz', desc: "Har bir o'quvchiga sifatli va zamonaviy ta'lim berish orqali ularning kelajakdagi muvaffaqiyatiga hissa qo'shish." },
-  { icon: Eye, title: "Ko'rishimiz", desc: "O'zbekistonda eng ilg'or va innovatsion ta'lim markaziga aylanish." },
-  { icon: Heart, title: 'Qadriyatlarimiz', desc: "Sifat, halollik, hurmat va doimiy rivojlanish - bizning asosiy tamoyillarimiz." },
+  { icon: Target, title: 'Our Mission', desc: "To contribute to every student's future success by providing quality, modern education." },
+  { icon: Eye, title: "Our Vision", desc: "To become the most advanced and innovative learning center in Uzbekistan." },
+  { icon: Heart, title: 'Our Values', desc: "Quality, integrity, respect, and continuous growth are our core principles." },
 ];
 
 const milestones = [
-  { year: '2015', event: "Ta'lim markaziga asos solindi" },
-  { year: '2017', event: '1000-talabchi tamomladi' },
-  { year: '2020', event: 'Online ta\'lim platformasi ishga tushdi' },
-  { year: '2023', event: "O'zbekiston bo'ylab 5 ta filial" },
-  { year: '2025', event: 'Xalqaro hamkorlik yo\'lga qo\'yildi' },
+  { year: '2015', event: "The learning center was founded" },
+  { year: '2017', event: 'Our 1000th student graduated' },
+  { year: '2020', event: 'Launched our online learning platform' },
+  { year: '2023', event: "5 branches across Uzbekistan" },
+  { year: '2025', event: 'Established international partnerships' },
 ];
 
 export default function About() {
@@ -26,14 +26,14 @@ export default function About() {
       {/* Header */}
       <section className="bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-primary/20 py-20 md:py-28">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <Breadcrumb items={[{ label: 'Biz haqimizda' }]} />
+          <Breadcrumb items={[{ label: 'About Us' }]} />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-3xl"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Biz haqimizda</h1>
-            <p className="text-lg text-gray-300">{settings?.aboutDescription || "O'quv markazimiz tarixi, missiyasi va qadriyatlari bilan tanishing."}</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">About Us</h1>
+            <p className="text-lg text-gray-300">{settings?.aboutDescription || "Learn about our learning center's history, mission, and values."}</p>
           </motion.div>
         </div>
       </section>
@@ -65,7 +65,7 @@ export default function About() {
       {/* Timeline */}
       <section className="section-padding bg-surface-alt">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <SectionTitle title="Rivojlanish yo'limiz" subtitle="Muhim bosqichlar" />
+          <SectionTitle title="Our journey" subtitle="Key milestones" />
           <div className="max-w-3xl mx-auto">
             {milestones.map((item, i) => (
               <motion.div
@@ -95,17 +95,17 @@ export default function About() {
       {/* Why us */}
       <section className="section-padding">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <SectionTitle title="Nega aynan biz?" subtitle="Bizni tanlaganingizda" />
+          <SectionTitle title="Why choose us?" subtitle="When you choose us" />
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {[
-              '10 yillik tajriba',
-              'Malakali o\'qituvchilar',
-              'Zamonaviy o\'quv dasturlari',
-              'Individual yondashuv',
-              'Qulay narxlar va to\'lov tizimi',
-              'Online va offline ta\'lim',
-              'Rasmiy sertifikat',
-              'Amaliyot va stajirovka',
+              '10 years of experience',
+              'Qualified teachers',
+              'Modern curricula',
+              'Individual approach',
+              'Affordable prices and payment options',
+              'Online and offline learning',
+              'Official certificate',
+              'Practice and internships',
             ].map((item, i) => (
               <motion.div
                 key={item}

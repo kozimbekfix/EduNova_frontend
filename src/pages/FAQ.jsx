@@ -4,14 +4,14 @@ import { ChevronDown, HelpCircle } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
 
 const faqs = [
-  { q: "Kurslarga qanday yozilish mumkin?", a: "Sahifamizdagi 'Ro'yxatdan o'tish' formasini to'ldiring yoki telefon orqali bog'laning. Biz siz bilan bog'lanib, barcha ma'lumotlarni taqdim etamiz." },
-  { q: "Darslar qanday formatda o'tadi?", a: "Darslar online va offline formatda mavjud. Sizga qulay variantni tanlashingiz mumkin. Online darslar Zoom orqali, offline darslar esa markazimizda o'tkaziladi." },
-  { q: "To'lov tizimi qanday?", a: "Har oy yoki to'liq kurs uchun to'lov qilishingiz mumkin. Birinchi dars bepul! Naqd va plastik karta orqali to'lov qabul qilinadi." },
-  { q: "Sertifikat beriladimi?", a: "Ha, kurs yakunida rasmiy sertifikat taqdim etiladi. Sertifikat davlat tomonidan tan olingan va xalqaro standartlarga javob beradi." },
-  { q: "Guruhlar necha kishidan iborat?", a: "Guruhlar 8-12 kishidan iborat. Bu har bir o'quvchiga individual yondashish imkonini beradi." },
-  { q: "Dars jadvalini o'zgartirish mumkinmi?", a: "Ha, sizga qulay vaqtni tanlashingiz mumkin. Mavjud guruhlar jadvali bilan tanishib, o'zingizga mosini toping." },
-  { q: "Qanday fanlar bo'yicha darslar bor?", a: "Matematika, Ingliz tili, Fizika, Kimyo, Biologiya, Tarix, Dasturlash va boshqa fanlar bo'yicha darslar mavjud." },
-  { q: "Chegirma yoki aksiyalar bormi?", a: "Ha, mavsumiy aksiyalar va maxsus chegirmalar mavjud. Doimiy mijozlarimiz uchun maxsus bonus dasturi ishlab chiqilgan." },
+  { q: "How can I sign up for courses?", a: "Fill out the 'Sign Up' form on our website or contact us by phone. We'll get in touch with you and provide all the details." },
+  { q: "What format are the lessons taught in?", a: "Lessons are available online and offline. You can choose whichever option suits you. Online lessons are held via Zoom, and offline lessons take place at our center." },
+  { q: "How does payment work?", a: "You can pay monthly or for the full course. The first lesson is free! We accept both cash and card payments." },
+  { q: "Is a certificate issued?", a: "Yes, an official certificate is issued upon completion of the course. The certificate is officially recognized and meets international standards." },
+  { q: "How many students are in each group?", a: "Groups consist of 8-12 students. This allows for an individual approach to each student." },
+  { q: "Can I change my class schedule?", a: "Yes, you can choose a time that's convenient for you. Check the schedule of available groups and find the one that fits you best." },
+  { q: "What subjects are offered?", a: "We offer classes in Mathematics, English, Physics, Chemistry, Biology, History, Programming, and other subjects." },
+  { q: "Are there any discounts or promotions?", a: "Yes, we run seasonal promotions and special discounts. We also have a special bonus program for our regular students." },
 ];
 
 export default function FAQ() {
@@ -23,8 +23,8 @@ export default function FAQ() {
         <div className="container-custom px-4 sm:px-6 lg:px-8">
           <Breadcrumb items={[{ label: 'FAQ' }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Ko'p beriladigan savollar</h1>
-            <p className="text-lg text-gray-300">Eng ko'p so'raladigan savollarga javoblar</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Frequently Asked Questions</h1>
+            <p className="text-lg text-gray-300">Answers to the most common questions</p>
           </motion.div>
         </div>
       </section>

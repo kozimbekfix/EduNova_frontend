@@ -1,9 +1,9 @@
-// Bir xil turdagi CRUD (Create-Read-Update-Delete) operatsiyalarini
-// har bir bo'lim (kurslar, o'qituvchilar, filiallar, blog, reviews) uchun
-// alohida-alohida yozmaslik uchun universal generator.
+// A universal generator for the standard CRUD (Create-Read-Update-Delete)
+// operations, so we don't have to write the same logic separately for
+// each collection (courses, teachers, branches, blog, reviews).
 //
-// Ommaga ochiq (public) GET so'rovlar - hamma ko'ra oladi (sayt ziyoratchilari).
-// POST/PUT/DELETE - faqat requireAuth orqali, ya'ni faqat admin panel.
+// Public GET requests - anyone can view (site visitors).
+// POST/PUT/DELETE - only via requireAuth, i.e. admin panel only.
 
 const express = require("express");
 const { nanoid } = require("nanoid");
@@ -13,21 +13,21 @@ const { requireAuth } = require("../middleware/auth");
 function createCrudRouter(collectionName) {
   const router = express.Router();
 
-  // Hammaga ochiq: ro'yxatni olish (masalan saytdagi "Kurslar" bo'limi shundan foydalanadi)
+  // Public: get the full list (e.g. the site's "Courses" section uses this)
   router.get("/", (req, res) => {
     const db = readDb();
     res.json(db[collectionName] || []);
   });
 
-  // Hammaga ochiq: bitta elementni olish
+  // Public: get a single item
   router.get("/:id", (req, res) => {
     const db = readDb();
     const item = (db[collectionName] || []).find((i) => i.id === req.params.id);
-    if (!item) return res.status(404).json({ message: "Topilmadi." });
+    if (!item) return res.status(404).json({ message: "Not found." });
     res.json(item);
   });
 
-  // FAQAT ADMIN: yangi element qo'shish
+  // ADMIN ONLY: add a new item
   router.post("/", requireAuth, (req, res) => {
     const db = readDb();
     const newItem = {
@@ -40,31 +40,31 @@ function createCrudRouter(collectionName) {
     res.status(201).json(newItem);
   });
 
-  // FAQAT ADMIN: elementni tahrirlash
+  // ADMIN ONLY: edit an item
   router.put("/:id", requireAuth, (req, res) => {
     const db = readDb();
     const index = (db[collectionName] || []).findIndex((i) => i.id === req.params.id);
-    if (index === -1) return res.status(404).json({ message: "Topilmadi." });
+    if (index === -1) return res.status(404).json({ message: "Not found." });
 
     db[collectionName][index] = {
       ...db[collectionName][index],
       ...req.body,
-      id: req.params.id, // id o'zgarmasin
+      id: req.params.id, // keep the id unchanged
       updatedAt: new Date().toISOString(),
     };
     writeDb(db);
     res.json(db[collectionName][index]);
   });
 
-  // FAQAT ADMIN: elementni o'chirish
+  // ADMIN ONLY: delete an item
   router.delete("/:id", requireAuth, (req, res) => {
     const db = readDb();
     const exists = (db[collectionName] || []).some((i) => i.id === req.params.id);
-    if (!exists) return res.status(404).json({ message: "Topilmadi." });
+    if (!exists) return res.status(404).json({ message: "Not found." });
 
     db[collectionName] = db[collectionName].filter((i) => i.id !== req.params.id);
     writeDb(db);
-    res.json({ message: "O'chirildi." });
+    res.json({ message: "Deleted." });
   });
 
   return router;

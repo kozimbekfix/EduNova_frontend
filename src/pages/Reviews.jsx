@@ -12,10 +12,10 @@ export default function Reviews() {
     <div>
       <section className="bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-primary/20 py-20 md:py-28">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <Breadcrumb items={[{ label: "Fikrlar" }]} />
+          <Breadcrumb items={[{ label: "Reviews" }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">O'quvchilar fikrlari</h1>
-            <p className="text-lg text-gray-300">Ular biz haqimizda shunday deyishadi</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Student Reviews</h1>
+            <p className="text-lg text-gray-300">Here's what they say about us</p>
           </motion.div>
         </div>
       </section>
@@ -27,7 +27,7 @@ export default function Reviews() {
           ) : error ? (
             <div className="text-center py-12"><p className="text-error">{error}</p></div>
           ) : reviews?.length === 0 ? (
-            <div className="text-center py-12"><p className="text-text-muted">Hozircha fikrlar mavjud emas</p></div>
+            <div className="text-center py-12"><p className="text-text-muted">No reviews yet</p></div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {(reviews || []).map((review, i) => (
@@ -51,7 +51,7 @@ export default function Reviews() {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-secondary">{review.name}</p>
-                      <p className="text-xs text-text-muted">{review.position || "O'quvchi"}</p>
+                      <p className="text-xs text-text-muted">{review.position || "Student"}</p>
                     </div>
                   </div>
                 </motion.div>

@@ -43,24 +43,24 @@ const particles = Array.from({ length: 6 }, (_, i) => ({
   delay: Math.random() * 2,
 }));
 
-// Vaqt variantlari
+// Time slot options
 const timeSlots = [
-  { value: 'ertalab', label: '☀️ Ertalab (9:00 - 12:00)' },
-  { value: 'kunduzi', label: '🌤️ Kunduzi (14:00 - 17:00)' },
-  { value: 'kechqurun', label: '🌆 Kechqurun (18:00 - 21:00)' },
+  { value: 'ertalab', label: '☀️ Morning (9:00 - 12:00)' },
+  { value: 'kunduzi', label: '🌤️ Afternoon (14:00 - 17:00)' },
+  { value: 'kechqurun', label: '🌆 Evening (18:00 - 21:00)' },
 ];
 
-// Yo'nalish variantlari
+// Direction options
 const directions = [
-  { value: 'ingliz', label: '🇬🇧 Ingliz tili' },
-  { value: 'koreys', label: '🇰🇷 Koreys tili' },
-  { value: 'nemis', label: '🇩🇪 Nemis tili' },
-  { value: 'rus', label: '🇷🇺 Rus tili' },
-  { value: 'python', label: '🐍 Python dasturlash' },
-  { value: 'frontend', label: '💻 Frontend dasturlash' },
+  { value: 'ingliz', label: '🇬🇧 English' },
+  { value: 'koreys', label: '🇰🇷 Korean' },
+  { value: 'nemis', label: '🇩🇪 German' },
+  { value: 'rus', label: '🇷🇺 Russian' },
+  { value: 'python', label: '🐍 Python Programming' },
+  { value: 'frontend', label: '💻 Frontend Development' },
 ];
 
-// Client ID ni olish/yaratish
+// Get/create client ID
 function getClientId() {
   let id = localStorage.getItem('edunova_client_id');
   if (!id) {
@@ -88,7 +88,7 @@ export default function Registration() {
 
   const clientId = getClientId();
 
-  // Mavjud arizani tekshirish
+  // Check for an existing application
   useEffect(() => {
     async function checkExisting() {
       try {
@@ -122,10 +122,10 @@ export default function Registration() {
     getCourses().then(setCourses).catch(() => {});
   }, []);
 
-  // Test orqali kelgan bo'lsa, tavsiya haqida bildirishnoma
+  // If they came from the quiz, notify them about the recommendation
   useEffect(() => {
     if (suggestedDirection) {
-      toast.success("Test natijasiga ko'ra yo'nalish tanlab qo'yildi \u2014 xohlasangiz o'zgartirishingiz mumkin.");
+      toast.success("A direction was pre-selected based on your quiz result \u2014 feel free to change it.");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -133,7 +133,7 @@ export default function Registration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.fullName || !form.phone) {
-      toast.error("Ism va telefon raqam majburiy");
+      toast.error("Name and phone number are required");
       return;
     }
     setLoading(true);
@@ -141,11 +141,11 @@ export default function Registration() {
       const payload = { ...form, clientId };
       const result = await submitApplication(payload);
       setExistingApp(result.application);
-      toast.success(result.updated ? "Arizangiz yangilandi!" : "Arizangiz qabul qilindi!");
+      toast.success(result.updated ? "Your application has been updated!" : "Your application has been submitted!");
       setSuccess(true);
       setEditMode(false);
     } catch (err) {
-      toast.error(err.response?.data?.message || "Xatolik yuz berdi");
+      toast.error(err.response?.data?.message || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -167,7 +167,7 @@ export default function Registration() {
 
   const handleNextStep = () => {
     if (step === 1 && (!form.fullName || !form.phone)) {
-      toast.error("Iltimos, ism va telefon raqamingizni kiriting");
+      toast.error("Please enter your name and phone number");
       return;
     }
     setStep((prev) => Math.min(prev + 1, 2));
@@ -175,19 +175,19 @@ export default function Registration() {
 
   const handlePrevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
-  // Yuklanayotgan bo'lsa
+  // While checking
   if (checkingExisting) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-emerald-900/40">
         <div className="flex flex-col items-center gap-4">
           <RefreshCw className="h-8 w-8 text-emerald-400 animate-spin" />
-          <p className="text-gray-400 text-sm">Tekshirilmoqda...</p>
+          <p className="text-gray-400 text-sm">Checking...</p>
         </div>
       </div>
     );
   }
 
-  // Success screen (mavjud ariza topilgan va notification bor)
+  // Success screen (an existing application was found and has a notification)
   if (success && !editMode) {
     const hasNotification = existingApp?.notificationMessage || existingApp?.room;
     
@@ -233,13 +233,13 @@ export default function Registration() {
             >
               <div className="flex items-center gap-2 mb-2">
                 <Bell className="h-5 w-5 text-emerald-400" />
-                <span className="text-emerald-300 text-sm font-semibold">Xabarnoma</span>
+                <span className="text-emerald-300 text-sm font-semibold">Notification</span>
               </div>
               {existingApp?.notificationMessage && (
                 <p className="text-white font-medium text-lg">{existingApp.notificationMessage}</p>
               )}
               {existingApp?.room && (
-                <p className="text-emerald-300 text-sm mt-1">🚪 Xona: {existingApp.room}</p>
+                <p className="text-emerald-300 text-sm mt-1">🚪 Room: {existingApp.room}</p>
               )}
             </motion.div>
           )}
@@ -267,7 +267,7 @@ export default function Registration() {
             transition={{ delay: 0.3 }}
             className="text-3xl md:text-4xl font-bold text-white mb-4"
           >
-            Arizangiz qabul qilindi! 🎉
+            Your application has been submitted! 🎉
           </motion.h2>
 
           {!hasNotification && (
@@ -277,11 +277,11 @@ export default function Registration() {
               transition={{ delay: 0.5 }}
               className="text-lg text-gray-300 mb-8"
             >
-              Tez orada siz bilan bog'lanamiz
+              We'll get in touch with you soon
             </motion.p>
           )}
 
-          {/* Telegram bot xabari */}
+          {/* Telegram bot message */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -290,11 +290,11 @@ export default function Registration() {
           >
             <div className="flex items-center gap-2 mb-2">
               <MessageCircle className="h-5 w-5 text-[#2AABEE]" />
-              <span className="text-[#2AABEE] text-sm font-semibold">Telegram xabarnoma</span>
+              <span className="text-[#2AABEE] text-sm font-semibold">Telegram notifications</span>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Admin xabarlarini <span className="text-[#2AABEE] font-medium">Telegram</span> orqali olish uchun
-              {' '}botimizga ulaning! 👇
+              To receive admin messages via <span className="text-[#2AABEE] font-medium">Telegram</span>,
+              {' '}connect to our bot! 👇
             </p>
             <a
               href={botLink}
@@ -303,7 +303,7 @@ export default function Registration() {
               className="mt-3 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#2AABEE]/20 border border-[#2AABEE]/30 text-[#2AABEE] text-sm font-medium hover:bg-[#2AABEE]/30 transition-all"
             >
               <MessageCircle className="h-4 w-4" />
-              @{botUsername} ga o'tish
+              Go to @{botUsername}
             </a>
           </motion.div>
 
@@ -350,7 +350,7 @@ export default function Registration() {
               className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm font-medium hover:bg-white/10 transition-all"
             >
               <Edit3 className="h-4 w-4" />
-              Arizani o'zgartirish
+              Edit application
             </button>
           </motion.div>
         </motion.div>
@@ -407,7 +407,7 @@ export default function Registration() {
         </div>
 
         <div className="relative z-10 w-full container-custom px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <Breadcrumb items={[{ label: "Ro'yxatdan o'tish" }]} />
+          <Breadcrumb items={[{ label: "Sign Up" }]} />
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -420,18 +420,18 @@ export default function Registration() {
               transition={{ delay: 0.2 }}
             >
               <Sparkles className="h-3.5 w-3.5" />
-              <span>{editMode ? "Arizani o'zgartirish" : "Bepul darsga yoziling"}</span>
+              <span>{editMode ? "Edit application" : "Sign up for a free lesson"}</span>
             </motion.div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 leading-tight">
-              {editMode ? "Arizani" : "Ro'yxatdan"}
+              {editMode ? "Edit" : "Sign"}
               <br />
               <span className="bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text text-transparent">
-                {editMode ? "o'zgartirish" : "o'tish"}
+                {editMode ? "application" : "Up"}
               </span>
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-xl leading-relaxed">
-              {editMode ? "Ma'lumotlaringizni yangilang" : "Birinchi darsga bepul qatnashing va o'zingiz uchun eng mos kursni toping"}
+              {editMode ? "Update your information" : "Attend the first lesson for free and find the course that suits you best"}
             </p>
           </motion.div>
         </div>
@@ -474,7 +474,7 @@ export default function Registration() {
                     )}
                   </div>
                   <span className={`text-sm font-medium ${s <= step ? 'text-secondary' : 'text-text-muted'}`}>
-                    {s === 1 ? "Shaxsiy ma'lumotlar" : "Kurs va vaqt"}
+                    {s === 1 ? "Personal information" : "Course & time"}
                   </span>
                   {s === 1 && <ArrowRight className="h-4 w-4 text-text-muted hidden sm:block" />}
                 </div>
@@ -505,17 +505,17 @@ export default function Registration() {
                     >
                       <motion.div variants={itemVariants}>
                         <h3 className="text-xl font-bold text-secondary mb-1">
-                          Shaxsiy ma'lumotlar
+                          Personal information
                         </h3>
                         <p className="text-sm text-text-muted">
-                          Iltimos, ism va telefon raqamingizni kiriting
+                          Please enter your name and phone number
                         </p>
                       </motion.div>
 
                       {/* Full Name */}
                       <motion.div variants={itemVariants}>
                         <label className="block text-sm font-medium text-secondary mb-2">
-                          To'liq ismingiz <span className="text-error">*</span>
+                          Full name <span className="text-error">*</span>
                         </label>
                         <div className={`relative group transition-all duration-300 ${focusedField === 'fullName' ? 'scale-[1.01]' : ''}`}>
                           <div className={`absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-500/10 to-emerald-500/5 transition-opacity duration-300 ${focusedField === 'fullName' ? 'opacity-100' : 'opacity-0'}`} />
@@ -526,7 +526,7 @@ export default function Registration() {
                             onFocus={() => setFocusedField('fullName')}
                             onBlur={() => setFocusedField(null)}
                             className="relative w-full rounded-xl border-2 border-border bg-surface pl-11 pr-4 py-3.5 text-sm text-text placeholder:text-text-muted/50 transition-all duration-300 outline-none focus:border-emerald-400 focus:ring-4 focus:ring-emerald-400/10"
-                            placeholder="Ism Familiya"
+                            placeholder="First Last"
                             required
                           />
                           <User className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] transition-all duration-300 ${focusedField === 'fullName' ? 'text-emerald-500' : 'text-text-muted'}`} />
@@ -537,7 +537,7 @@ export default function Registration() {
                       {/* Phone */}
                       <motion.div variants={itemVariants}>
                         <label className="block text-sm font-medium text-secondary mb-2">
-                          Telefon raqam <span className="text-error">*</span>
+                          Phone number <span className="text-error">*</span>
                         </label>
                         <div className={`relative group transition-all duration-300 ${focusedField === 'phone' ? 'scale-[1.01]' : ''}`}>
                           <div className={`absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-500/10 to-emerald-500/5 transition-opacity duration-300 ${focusedField === 'phone' ? 'opacity-100' : 'opacity-0'}`} />
@@ -559,7 +559,7 @@ export default function Registration() {
                       {/* Telegram username */}
                       <motion.div variants={itemVariants}>
                         <label className="block text-sm font-medium text-secondary mb-2">
-                          Telegram username <span className="text-text-muted font-normal">(ixtiyoriy)</span>
+                          Telegram username <span className="text-text-muted font-normal">(optional)</span>
                         </label>
                         <div className={`relative group transition-all duration-300 ${focusedField === 'telegramUsername' ? 'scale-[1.01]' : ''}`}>
                           <div className={`absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-500/10 to-emerald-500/5 transition-opacity duration-300 ${focusedField === 'telegramUsername' ? 'opacity-100' : 'opacity-0'}`} />
@@ -575,7 +575,7 @@ export default function Registration() {
                           <Send className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] transition-all duration-300 ${focusedField === 'telegramUsername' ? 'text-emerald-500' : 'text-text-muted'}`} />
                         </div>
                         <p className="mt-1.5 text-xs text-text-muted">
-                          Admin siz bilan tezroq bog'lanishi uchun (botga ulanmagan bo'lsangiz ham)
+                          So our admin can reach you faster (even if you haven't connected to the bot)
                         </p>
                       </motion.div>
 
@@ -586,7 +586,7 @@ export default function Registration() {
                           onClick={handleNextStep}
                           className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
                         >
-                          <span>Davom etish</span>
+                          <span>Continue</span>
                           <ArrowRight className="h-4 w-4" />
                         </button>
                       </motion.div>
@@ -602,17 +602,17 @@ export default function Registration() {
                     >
                       <motion.div variants={itemVariants}>
                         <h3 className="text-xl font-bold text-secondary mb-1">
-                          Kurs va vaqt
+                          Course & time
                         </h3>
                         <p className="text-sm text-text-muted">
-                          O'zingizga mos yo'nalish va vaqtni tanlang
+                          Choose the direction and time that suit you
                         </p>
                       </motion.div>
 
                       {/* Direction Selection */}
                       <motion.div variants={itemVariants}>
                         <label className="block text-sm font-medium text-secondary mb-3">
-                          Yo'nalishni tanlang <span className="text-error">*</span>
+                          Choose a direction <span className="text-error">*</span>
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {directions.map((dir) => (
@@ -639,7 +639,7 @@ export default function Registration() {
                       {/* Course Selection */}
                       <motion.div variants={itemVariants}>
                         <label className="block text-sm font-medium text-secondary mb-3">
-                          Kursni tanlang (ixtiyoriy)
+                          Choose a course (optional)
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {(courses || []).map((course) => (
@@ -666,7 +666,7 @@ export default function Registration() {
                       {/* Preferred Time */}
                       <motion.div variants={itemVariants}>
                         <label className="block text-sm font-medium text-secondary mb-3">
-                          Qulay vaqtni tanlang <span className="text-error">*</span>
+                          Choose a convenient time <span className="text-error">*</span>
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                           {timeSlots.map((slot) => (
@@ -693,7 +693,7 @@ export default function Registration() {
                       {/* Message */}
                       <motion.div variants={itemVariants}>
                         <label className="block text-sm font-medium text-secondary mb-2">
-                          Xabar <span className="text-text-muted/60">(ixtiyoriy)</span>
+                          Message <span className="text-text-muted/60">(optional)</span>
                         </label>
                         <div className={`relative transition-all duration-300 ${focusedField === 'message' ? 'scale-[1.01]' : ''}`}>
                           <textarea
@@ -702,7 +702,7 @@ export default function Registration() {
                             onFocus={() => setFocusedField('message')}
                             onBlur={() => setFocusedField(null)}
                             className="w-full rounded-xl border-2 border-border bg-surface pl-11 pr-4 py-3.5 text-sm text-text placeholder:text-text-muted/50 transition-all duration-300 outline-none focus:border-emerald-400 focus:ring-4 focus:ring-emerald-400/10 min-h-[80px] resize-none"
-                            placeholder="Qo'shimcha ma'lumot..."
+                            placeholder="Additional information..."
                           />
                           <MessageSquare className={`absolute left-3.5 top-4 h-[18px] w-[18px] transition-all duration-300 ${focusedField === 'message' ? 'text-emerald-500' : 'text-text-muted'}`} />
                         </div>
@@ -716,7 +716,7 @@ export default function Registration() {
                             onClick={handleCancelEdit}
                             className="flex-1 flex items-center justify-center gap-2 bg-surface-alt text-text font-medium py-3.5 px-6 rounded-xl border-2 border-border hover:border-text-muted/30 transition-all duration-300"
                           >
-                            Bekor qilish
+                            Cancel
                           </button>
                         ) : (
                           <button
@@ -724,7 +724,7 @@ export default function Registration() {
                             onClick={handlePrevStep}
                             className="flex-1 flex items-center justify-center gap-2 bg-surface-alt text-text font-medium py-3.5 px-6 rounded-xl border-2 border-border hover:border-text-muted/30 transition-all duration-300"
                           >
-                            Ortga
+                            Back
                           </button>
                         )}
                         <button
@@ -739,12 +739,12 @@ export default function Registration() {
                                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                                 className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full"
                               />
-                              <span>Yuborilmoqda...</span>
+                              <span>Sending...</span>
                             </>
                           ) : (
                             <>
                               <Send className="h-4 w-4" />
-                              <span>{editMode ? "Saqlash" : "Arizani yuborish"}</span>
+                              <span>{editMode ? "Save" : "Submit application"}</span>
                             </>
                           )}
                         </button>
@@ -756,7 +756,7 @@ export default function Registration() {
                 {/* Footer note */}
                 <div className="mt-6 pt-4 border-t border-border/50">
                   <p className="text-xs text-text-muted/60 text-center">
-                    {editMode ? "Ma'lumotlaringiz saqlanadi" : "Arizangiz qabul qilingandan so'ng, siz bilan tez orada bog'lanamiz"}
+                    {editMode ? "Your information will be saved" : "Once your application is received, we will contact you shortly"}
                   </p>
                 </div>
               </form>

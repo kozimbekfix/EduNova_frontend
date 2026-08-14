@@ -11,7 +11,7 @@ const navPaths = [
   { path: '/', key: 'nav.home' },
   { path: '/courses', key: 'nav.courses' },
   { path: '/teachers', key: 'nav.teachers' },
-  {path: '/location', key: '<nav className=""></nav>location'},
+  { path: '/location', key: 'nav.location' },
   { path: '/blog', key: 'nav.blog' },
   { path: '/contact', key: 'nav.contact' },
 ];
@@ -138,7 +138,7 @@ export default function Navbar() {
             </div>
 
             <Link to="/registration" className="btn-primary ml-2 text-sm">
-              {t('nav.register', "Ro'yxatdan o'tish")}
+              {t('nav.register', "Sign Up")}
             </Link>
           </div>
 
@@ -227,7 +227,7 @@ export default function Navbar() {
                 <span>{t('nav.admin', 'Admin')}</span>
               </Link>
               <Link to="/registration" className="btn-primary w-full mt-2 text-center">
-                {t('nav.register', "Ro'yxatdan o'tish")}
+                {t('nav.register', "Sign Up")}
               </Link>
             </div>
           </motion.div>

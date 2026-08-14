@@ -14,16 +14,16 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.fullName || !form.phone) {
-      toast.error("Ism va telefon raqam majburiy");
+      toast.error("Name and phone number are required");
       return;
     }
     setLoading(true);
     try {
       await submitApplication(form);
-      toast.success("Xabaringiz yuborildi!");
+      toast.success("Your message has been sent!");
       setForm({ fullName: '', phone: '', message: '' });
     } catch (err) {
-      toast.error(err.response?.data?.message || "Xatolik yuz berdi");
+      toast.error(err.response?.data?.message || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -33,10 +33,10 @@ export default function Contact() {
     <div>
       <section className="bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-primary/20 py-20 md:py-28">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <Breadcrumb items={[{ label: 'Aloqa' }]} />
+          <Breadcrumb items={[{ label: 'Contact' }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Aloqa</h1>
-            <p className="text-lg text-gray-300">Biz bilan bog'laning</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Contact</h1>
+            <p className="text-lg text-gray-300">Get in touch with us</p>
           </motion.div>
         </div>
       </section>
@@ -46,7 +46,7 @@ export default function Contact() {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact info */}
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <h2 className="text-2xl font-bold text-secondary mb-6">Bog'lanish ma'lumotlari</h2>
+              <h2 className="text-2xl font-bold text-secondary mb-6">Contact information</h2>
               <div className="space-y-6">
                 {settings?.phone && (
                   <div className="flex items-start gap-4">
@@ -54,7 +54,7 @@ export default function Contact() {
                       <Phone className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-secondary">Telefon</p>
+                      <p className="text-sm font-medium text-secondary">Phone</p>
                       <a href={`tel:${settings.phone}`} className="text-sm text-text-muted hover:text-primary transition-colors">{settings.phone}</a>
                     </div>
                   </div>
@@ -76,7 +76,7 @@ export default function Contact() {
                       <MapPin className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-secondary">Manzil</p>
+                      <p className="text-sm font-medium text-secondary">Address</p>
                       <p className="text-sm text-text-muted">{settings.address}</p>
                     </div>
                   </div>
@@ -86,22 +86,22 @@ export default function Contact() {
 
             {/* Contact form */}
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <h2 className="text-2xl font-bold text-secondary mb-6">Xabar yuborish</h2>
+              <h2 className="text-2xl font-bold text-secondary mb-6">Send a message</h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-1">Ismingiz *</label>
-                  <input type="text" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="input-field" placeholder="Ismingiz" required />
+                  <label className="block text-sm font-medium text-secondary mb-1">Your name *</label>
+                  <input type="text" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="input-field" placeholder="Your name" required />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-1">Telefon *</label>
+                  <label className="block text-sm font-medium text-secondary mb-1">Phone *</label>
                   <input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input-field" placeholder="+998 XX XXX XX XX" required />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-1">Xabar</label>
-                  <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="input-field min-h-[120px]" placeholder="Xabaringiz..." />
+                  <label className="block text-sm font-medium text-secondary mb-1">Message</label>
+                  <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="input-field min-h-[120px]" placeholder="Your message..." />
                 </div>
                 <button type="submit" disabled={loading} className="btn-primary w-full justify-center">
-                  {loading ? 'Yuborilmoqda...' : <><Send className="h-4 w-4" /> Xabar yuborish</>}
+                  {loading ? 'Sending...' : <><Send className="h-4 w-4" /> Send message</>}
                 </button>
               </form>
             </motion.div>
@@ -122,7 +122,7 @@ export default function Contact() {
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Google Maps - manzil"
+                title="Google Maps - address"
               />
             </motion.div>
           )}

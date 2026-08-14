@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-// MUHIM: .env fayli .gitignore da bo'lgani uchun GitHub'ga push bo'lmaydi.
-// Bu degani, Vercel/Netlify kabi platformalarda VITE_API_URL ni QO'LDA
-// (Dashboard -> Settings -> Environment Variables) sozlash SHART, aks holda
-// Vite build vaqtida bu qiymatni "undefined" deb biladi.
+// IMPORTANT: the .env file is in .gitignore, so it is not pushed to GitHub.
+// This means that on platforms like Vercel/Netlify, VITE_API_URL MUST be set
+// MANUALLY (Dashboard -> Settings -> Environment Variables), otherwise Vite
+// will treat this value as "undefined" at build time.
 //
-// Shu sababli bu yerda ishonchli zaxira (fallback) qo'shildi: agar
-// VITE_API_URL platforma tomonidan sozlanmagan bo'lsa ham, sayt
-// production backend bilan ishlashda davom etadi (404 bo'lib qolmaydi).
-// Faqat lokal "npm run dev" ishlatilganda vite.config.js dagi proksi
-// orqali localhost:5000 ga yo'naltirish uchun nisbiy '/api' ishlatiladi.
+// For this reason a reliable fallback is included here: even if
+// VITE_API_URL isn't configured by the platform, the site will keep
+// working against the production backend (instead of failing with 404).
+// Only when running locally with "npm run dev" is the relative '/api'
+// path used, routed to localhost:5000 via the proxy in vite.config.js.
 
 const PRODUCTION_BACKEND_URL = 'https://edunova-backend-premium.onrender.com';
 
@@ -19,13 +19,13 @@ function resolveBaseURL() {
     return `${envUrl.replace(/\/$/, '')}/api`;
   }
   if (import.meta.env.DEV) {
-    return '/api'; // vite.config.js proksisi orqali localhost:5000 ga boradi
+    return '/api'; // routed to localhost:5000 via the vite.config.js proxy
   }
-  // Production build, lekin VITE_API_URL sozlanmagan -> zaxira manzil
+  // Production build, but VITE_API_URL is not set -> use the fallback URL
   console.warn(
-    '⚠️ VITE_API_URL environment variable sozlanmagan. Zaxira manzil ishlatilmoqda: ' +
+    '⚠️ VITE_API_URL environment variable is not set. Using fallback URL: ' +
       PRODUCTION_BACKEND_URL +
-      '. Buni Vercel/Netlify Dashboard -> Environment Variables bo\'limida sozlashni tavsiya qilamiz.'
+      '. We recommend setting this in the Vercel/Netlify Dashboard -> Environment Variables.'
   );
   return `${PRODUCTION_BACKEND_URL}/api`;
 }
@@ -37,7 +37,7 @@ const api = axios.create({
   },
 });
 
-// Request interceptor - avtomatik JWT token qo'shish
+// Request interceptor - automatically attach JWT token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('admin_token');
@@ -49,7 +49,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor - xatoliklarni markazlashtirilgan holda ushlash
+// Response interceptor - centralized error handling
 api.interceptors.response.use(
   (response) => response,
   (error) => {

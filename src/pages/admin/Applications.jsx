@@ -10,17 +10,17 @@ import { useFetch } from '../../hooks/useFetch';
 import { getApplications, updateApplicationStatus, deleteApplication, notifyApplication } from '../../api/applications';
 
 const statusColors = {
-  'yangi': 'badge-primary',
-  "o'qildi": 'badge-warning',
-  'qabul qilindi': 'badge-success',
-  "rad etildi": 'badge-error',
+  'new': 'badge-primary',
+  'read': 'badge-warning',
+  'accepted': 'badge-success',
+  'rejected': 'badge-error',
 };
 
 const statusLabels = {
-  'yangi': '🆕 New',
-  "o'qildi": '👁️ Read',
-  'qabul qilindi': '✅ Accepted',
-  "rad etildi": '❌ Rejected',
+  'new': '🆕 New',
+  'read': '👁️ Read',
+  'accepted': '✅ Accepted',
+  'rejected': '❌ Rejected',
 };
 
 export default function AdminApplications() {
@@ -93,8 +93,8 @@ export default function AdminApplications() {
   // Automatically switch to "read" status when the view button is clicked
   const handleView = (app) => {
     setViewing(viewing?.id === app.id ? null : app);
-    if (app.status === 'yangi') {
-      handleStatus(app.id, "o'qildi");
+    if (app.status === 'new') {
+      handleStatus(app.id, 'read');
     }
   };
 
@@ -119,7 +119,7 @@ export default function AdminApplications() {
             Total: {(data || []).length}
             {' | '}
             <span className="text-primary font-medium">
-              {(data || []).filter((a) => a.status === 'yangi').length} new
+              {(data || []).filter((a) => a.status === 'new').length} new
             </span>
           </p>
         </div>
@@ -160,13 +160,13 @@ export default function AdminApplications() {
                   <tr
                     key={app.id}
                     className={`hover:bg-surface-alt/50 transition-colors ${
-                      app.status === 'yangi' ? 'bg-primary/5' : ''
+                      app.status === 'new' ? 'bg-primary/5' : ''
                     }`}
                   >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <p className="text-sm font-medium">{app.fullName}</p>
-                        {app.status === 'yangi' && (
+                        {app.status === 'new' && (
                           <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                         )}
                       </div>
@@ -210,13 +210,13 @@ export default function AdminApplications() {
                         <button
                           onClick={() => handleView(app)}
                           className={`p-2 rounded-lg transition-all ${
-                            app.status === 'yangi'
+                            app.status === 'new'
                               ? 'text-primary bg-primary/10 hover:bg-primary/20'
                               : 'text-text-muted hover:text-primary hover:bg-primary/5'
                           }`}
-                          title={app.status === 'yangi' ? "Mark as read" : "View"}
+                          title={app.status === 'new' ? "Mark as read" : "View"}
                         >
-                          {app.status === 'yangi' ? (
+                          {app.status === 'new' ? (
                             <CheckCheck className="h-4 w-4" />
                           ) : (
                             <Eye className="h-4 w-4" />
@@ -224,7 +224,7 @@ export default function AdminApplications() {
                         </button>
 
                         {/* Send message (only if read or accepted) */}
-                        {['yangi', "o'qildi", "ko'rib chiqildi"].includes(app.status) && (
+                        {['new', 'read', 'reviewed'].includes(app.status) && (
                           <button
                             onClick={() => openNotify(app)}
                             className="p-2 rounded-lg text-text-muted hover:text-emerald-500 hover:bg-emerald-500/5 transition-all"
@@ -235,9 +235,9 @@ export default function AdminApplications() {
                         )}
 
                         {/* Mark as read - directly via notify */}
-                        {['yangi'].includes(app.status) && (
+                        {['new'].includes(app.status) && (
                           <button
-                            onClick={() => handleStatus(app.id, "o'qildi")}
+                            onClick={() => handleStatus(app.id, 'read')}
                             className="p-2 rounded-lg text-text-muted hover:text-warning hover:bg-warning/5 transition-all"
                             title="Mark as read"
                           >
@@ -246,9 +246,9 @@ export default function AdminApplications() {
                         )}
 
                         {/* Reject */}
-                        {['yangi', "o'qildi"].includes(app.status) && (
+                        {['new', 'read'].includes(app.status) && (
                           <button
-                            onClick={() => handleStatus(app.id, "rad etildi")}
+                            onClick={() => handleStatus(app.id, 'rejected')}
                             className="p-2 rounded-lg text-text-muted hover:text-error hover:bg-error/5 transition-all"
                             title="Reject"
                           >
@@ -380,16 +380,16 @@ export default function AdminApplications() {
 
               {/* Quick actions in modal */}
               <div className="mt-5 flex items-center gap-2 pt-4 border-t border-border">
-                {viewing.status === 'yangi' && (
+                {viewing.status === 'new' && (
                   <button
-                    onClick={() => { handleStatus(viewing.id, "o'qildi"); setViewing(null); }}
+                    onClick={() => { handleStatus(viewing.id, 'read'); setViewing(null); }}
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-warning/10 text-warning text-sm font-medium hover:bg-warning/20 transition-all"
                   >
                     <CheckCheck className="h-4 w-4" />
                     Mark as read
                   </button>
                 )}
-                {['yangi', "o'qildi"].includes(viewing.status) && (
+                {['new', 'read'].includes(viewing.status) && (
                   <button
                     onClick={() => { setViewing(null); openNotify(viewing); }}
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-all"
@@ -398,9 +398,9 @@ export default function AdminApplications() {
                     Send message
                   </button>
                 )}
-                {['yangi', "o'qildi"].includes(viewing.status) && (
+                {['new', 'read'].includes(viewing.status) && (
                   <button
-                    onClick={() => { handleStatus(viewing.id, "rad etildi"); setViewing(null); }}
+                    onClick={() => { handleStatus(viewing.id, 'rejected'); setViewing(null); }}
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-error/10 text-error text-sm font-medium hover:bg-error/20 transition-all"
                   >
                     <XCircle className="h-4 w-4" />

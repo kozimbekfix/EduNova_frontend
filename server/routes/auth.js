@@ -7,25 +7,25 @@ const { loginLimiter } = require("../middleware/rateLimit");
 const router = express.Router();
 
 // POST /api/auth/login
-// Admin panelga kirish
-// loginLimiter: parolni "urib ko'rish" (brute-force) hujumlarini to'xtatadi
+// Admin panel login
+// loginLimiter: stops brute-force password-guessing attacks
 router.post("/login", loginLimiter, (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ message: "Login va parolni kiriting." });
+    return res.status(400).json({ message: "Please enter your username and password." });
   }
 
   const db = readDb();
   const admin = db.admins.find((a) => a.username === username);
 
   if (!admin) {
-    return res.status(401).json({ message: "Login yoki parol noto'g'ri." });
+    return res.status(401).json({ message: "Incorrect username or password." });
   }
 
   const isValid = bcrypt.compareSync(password, admin.password);
   if (!isValid) {
-    return res.status(401).json({ message: "Login yoki parol noto'g'ri." });
+    return res.status(401).json({ message: "Incorrect username or password." });
   }
 
   const token = jwt.sign(
@@ -35,13 +35,13 @@ router.post("/login", loginLimiter, (req, res) => {
   );
 
   res.json({
-    message: "Muvaffaqiyatli kirildi.",
+    message: "Logged in successfully.",
     token,
     admin: { id: admin.id, username: admin.username },
   });
 });
 
-// GET /api/auth/me - joriy admin ma'lumotini tekshirish (frontend uchun qulay)
+// GET /api/auth/me - check the current admin's info (convenient for the frontend)
 const { requireAuth } = require("../middleware/auth");
 router.get("/me", requireAuth, (req, res) => {
   res.json({ admin: req.admin });

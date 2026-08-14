@@ -21,10 +21,10 @@ export default function Courses() {
       {/* Header */}
       <section className="bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-primary/20 py-20 md:py-28">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <Breadcrumb items={[{ label: 'Kurslar' }]} />
+          <Breadcrumb items={[{ label: 'Courses' }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Kurslar</h1>
-            <p className="text-lg text-gray-300">Eng so'nggi trendlar asosida tuzilgan kurslar</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Courses</h1>
+            <p className="text-lg text-gray-300">Courses built around the latest trends</p>
           </motion.div>
         </div>
       </section>
@@ -36,7 +36,7 @@ export default function Courses() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
             <input
               type="text"
-              placeholder="Kurslarni qidirish..."
+              placeholder="Search courses..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="input-field pl-10"
@@ -53,12 +53,12 @@ export default function Courses() {
           ) : error ? (
             <div className="text-center py-12">
               <p className="text-error mb-4">{error}</p>
-              <p className="text-text-muted">Backend server ishlayotganiga ishonch hosil qiling</p>
+              <p className="text-text-muted">Please make sure the backend server is running</p>
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-12">
               <BookOpen className="h-12 w-12 mx-auto text-text-muted mb-4" />
-              <p className="text-text-muted">Kurslar topilmadi</p>
+              <p className="text-text-muted">No courses found</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -88,7 +88,7 @@ export default function Courses() {
                       )}
                     </div>
                     <Link to={`/courses/${course.id}`} className="text-sm font-medium text-primary hover:text-primary-dark transition-colors flex items-center gap-1">
-                      Batafsil <ArrowRight className="h-4 w-4" />
+                      Details <ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>
                 </motion.div>

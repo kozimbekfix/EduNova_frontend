@@ -1,7 +1,7 @@
-// Telegram Bot polling xizmati
-// Foydalanuvchilar botga /start yozganda ularning chat_id sini
-// telefon raqamiga bog'lab saqlaydi. Admin xabar yuborganda
-// shu chat_id orqali foydalanuvchiga to'g'ridan-to'g'ri xabar boradi.
+// Telegram Bot polling service
+// When a user sends /start to the bot, their chat_id is stored linked
+// to their phone number. When the admin sends a message, it goes
+// directly to the user via that chat_id.
 
 const fetch = require("node-fetch");
 const { readDb, writeDb } = require("../utils/db");
@@ -18,7 +18,7 @@ function getBotUsername() {
   return process.env.TELEGRAM_BOT_USERNAME || "edunova_bot";
 }
 
-// Bot ishlayotganligini tekshirish
+// Check whether the bot is running
 async function isBotRunning() {
   const token = getBotToken();
   if (!token) return false;
@@ -32,7 +32,7 @@ async function isBotRunning() {
   }
 }
 
-// Webhookni o'chirib, polling rejimiga o'tish
+// Remove the webhook and switch to polling mode
 async function deleteWebhook() {
   const token = getBotToken();
   if (!token) return;
@@ -41,11 +41,11 @@ async function deleteWebhook() {
   } catch {}
 }
 
-// Foydalanuvchining chat_id sini telefon raqami bo'yicha saqlash
+// Save a user's chat_id keyed by their phone number
 function saveTelegramUser(phone, chatId, firstName) {
   const db = readDb();
   if (!db.telegramUsers) db.telegramUsers = [];
-  
+
   const existing = db.telegramUsers.find((u) => u.phone === phone);
   if (existing) {
     existing.chatId = chatId;
@@ -64,11 +64,11 @@ function saveTelegramUser(phone, chatId, firstName) {
   return true;
 }
 
-// Telefon raqam bo'yicha foydalanuvchi ma'lumotini olish
+// Get a user's info by phone number
 function getTelegramUserByPhone(phone) {
   const db = readDb();
   if (!db.telegramUsers) return null;
-  // Telefon raqamni normalize qilish
+  // Normalize the phone number
   const normalized = phone.replace(/[\s\-()]/g, "");
   return db.telegramUsers.find((u) => {
     const uPhone = (u.phone || "").replace(/[\s\-()]/g, "");
@@ -76,16 +76,16 @@ function getTelegramUserByPhone(phone) {
   }) || null;
 }
 
-// Barcha telegram foydalanuvchilarni olish
+// Get all Telegram users
 function getAllTelegramUsers() {
   const db = readDb();
   return db.telegramUsers || [];
 }
 
-// Foydalanuvchiga xabar yuborish (chatId orqali)
+// Send a message to a user (via chatId)
 async function sendMessageToUser(chatId, text, options = {}) {
   const token = getBotToken();
-  if (!token) return { skipped: true, reason: "Bot token yo'q" };
+  if (!token) return { skipped: true, reason: "No bot token" };
 
   try {
     const url = `https://api.telegram.org/bot${token}/sendMessage`;
@@ -102,7 +102,7 @@ async function sendMessageToUser(chatId, text, options = {}) {
     });
     const data = await res.json();
     if (!data.ok) {
-      console.error("Telegram sendMessage xatolik:", data.description);
+      console.error("Telegram sendMessage error:", data.description);
     }
     return data;
   } catch (err) {
@@ -111,22 +111,22 @@ async function sendMessageToUser(chatId, text, options = {}) {
   }
 }
 
-// Telefon raqam bo'yicha foydalanuvchiga xabar yuborish
+// Send a message to a user by phone number
 async function sendToUserByPhone(phone, text, options = {}) {
   const user = getTelegramUserByPhone(phone);
   if (!user) {
-    return { skipped: true, reason: "Foydalanuvchi botga ulamagan" };
+    return { skipped: true, reason: "User has not connected to the bot" };
   }
   return await sendMessageToUser(user.chatId, text, options);
 }
 
-// Keyboard markup - telefon raqamni so'rash uchun
+// Keyboard markup - to request the phone number
 function requestPhoneKeyboard() {
   return {
     reply_markup: {
       keyboard: [
         [{
-          text: "📱 Telefon raqamni yuborish",
+          text: "📱 Send phone number",
           request_contact: true,
         }],
       ],
@@ -142,71 +142,71 @@ function removeKeyboard() {
   };
 }
 
-// /start komandasini boshqarish
+// Handle the /start command
 async function handleStartCommand(chatId, text, msg) {
-  const firstName = msg.from?.first_name || "Foydalanuvchi";
+  const firstName = msg.from?.first_name || "there";
 
-  // Botga xush kelibsiz xabari
+  // Welcome message
   const welcomeMsg =
-    `👋 <b>Assalomu alaykum, ${firstName}!</b>\n\n` +
-    `EduNova o'quv markazining rasmiy botiga xush kelibsiz! 🎓\n\n` +
-    `📌 Bu bot orqali siz:\n` +
-    `✅ Arizangiz holatini bilib olasiz\n` +
-    `✅ Admin xabarlarini olasiz\n` +
-    `✅ Xona va vaqt haqida ma'lumot olasiz\n\n` +
-    `📱 <b>Iltimos, telefon raqamingizni yuboring</b> (quyidagi tugma orqali)\n` +
-    `Shunda sizning arizangizga oid barcha xabarlar shu bot orqali keladi!`;
+    `👋 <b>Hello, ${firstName}!</b>\n\n` +
+    `Welcome to the official EduNova Learning Center bot! 🎓\n\n` +
+    `📌 Through this bot you can:\n` +
+    `✅ Check the status of your application\n` +
+    `✅ Receive messages from the admin\n` +
+    `✅ Get information about your room and schedule\n\n` +
+    `📱 <b>Please share your phone number</b> (using the button below)\n` +
+    `This way, all messages about your application will come through this bot!`;
 
   await sendMessageToUser(chatId, welcomeMsg, requestPhoneKeyboard());
 }
 
-// Telefon raqamni qabul qilish
+// Handle receiving a phone number
 async function handleContact(chatId, contact, msg) {
   const phone = contact.phone_number;
-  const firstName = msg.from?.first_name || "Foydalanuvchi";
+  const firstName = msg.from?.first_name || "there";
 
-  // Telefon raqamni + bilan normalize qilish
+  // Normalize the phone number with a leading +
   const normalizedPhone = phone.startsWith("+") ? phone : "+" + phone;
 
-  // Saqlash
+  // Save it
   saveTelegramUser(normalizedPhone, chatId, firstName);
 
-  // Muvaffaqiyatli ulanganligi haqida xabar
+  // Confirmation message
   const successMsg =
-    `✅ <b>Telefon raqamingiz tasdiqlandi!</b>\n\n` +
+    `✅ <b>Your phone number has been confirmed!</b>\n\n` +
     `📞 ${normalizedPhone}\n\n` +
-    `🎉 Endi sizning arizangizga oid barcha xabarlar shu bot orqali keladi.\n\n` +
-    `Agar siz saytimizda ro'yxatdan o'tgan bo'lsangiz, admin tez orada siz bilan bog'lanadi.\n\n` +
-    `@${getBotUsername()} - EduNova AI yordamchisi 🤖`;
+    `🎉 All messages about your application will now come through this bot.\n\n` +
+    `If you've registered on our website, an admin will contact you shortly.\n\n` +
+    `@${getBotUsername()} - EduNova AI assistant 🤖`;
 
   await sendMessageToUser(chatId, successMsg, removeKeyboard());
-  console.log(`✅ Telegram foydalanuvchi ulandi: ${firstName} (${normalizedPhone})`);
+  console.log(`✅ Telegram user connected: ${firstName} (${normalizedPhone})`);
 }
 
-// Boshqa xabarlarni boshqarish
+// Handle other messages
 async function handleOtherMessage(chatId, text, msg) {
-  const firstName = msg.from?.first_name || "Foydalanuvchi";
+  const firstName = msg.from?.first_name || "there";
 
-  // Foydalanuvchi allaqachon ulanganmi?
+  // Is the user already connected?
   const users = getAllTelegramUsers();
   const existing = users.find((u) => u.chatId === chatId);
 
   if (existing) {
     const replyMsg =
-      `👋 <b>${firstName}</b>, siz allaqachon botga ulangansiz!\n\n` +
-      `📞 Telefon: ${existing.phone}\n\n` +
-      `Agar arizangiz bo'yicha savol bo'lsa, saytimizdagi ChatBot orqali yoki ${process.env.CLIENT_URL || "saytimiz"} orqali murojaat qiling.`;
+      `👋 <b>${firstName}</b>, you're already connected to the bot!\n\n` +
+      `📞 Phone: ${existing.phone}\n\n` +
+      `If you have a question about your application, please use the ChatBot on our website or reach us via ${process.env.CLIENT_URL || "our website"}.`;
     await sendMessageToUser(chatId, replyMsg);
   } else {
-    // Hali ulanmagan bo'lsa, telefon raqamni so'rash
+    // Not connected yet, ask for phone number
     const replyMsg =
-      `❓ <b>${firstName}</b>, iltimos telefon raqamingizni yuboring.\n\n` +
-      `Telefon raqamingizni yuborish uchun quyidagi tugmani bosing 👇`;
+      `❓ <b>${firstName}</b>, please share your phone number.\n\n` +
+      `Tap the button below to send your phone number 👇`;
     await sendMessageToUser(chatId, replyMsg, requestPhoneKeyboard());
   }
 }
 
-// Yangi xabarlarni olish
+// Get new messages
 async function getUpdates(offset) {
   const token = getBotToken();
   if (!token) return [];
@@ -225,7 +225,7 @@ async function getUpdates(offset) {
   }
 }
 
-// Xabarlarni qayta ishlash
+// Process incoming messages
 async function processUpdate(update) {
   const msg = update.message;
   if (!msg) return;
@@ -234,38 +234,38 @@ async function processUpdate(update) {
   const text = (msg.text || "").trim();
 
   try {
-    // /start komandasi
+    // /start command
     if (text.startsWith("/start")) {
       await handleStartCommand(chatId, text, msg);
       return;
     }
 
-    // Telefon raqam yuborilgan
+    // Phone number sent
     if (msg.contact && msg.contact.phone_number) {
       await handleContact(chatId, msg.contact, msg);
       return;
     }
 
-    // Boshqa xabarlar
+    // Other messages
     await handleOtherMessage(chatId, text, msg);
   } catch (err) {
     console.error("Telegram process update error:", err.message);
   }
 }
 
-// Polling siklini boshlash
+// Start the polling loop
 async function startPolling() {
   const token = getBotToken();
   if (!token) {
-    console.log("ℹ️  Telegram bot sozlanmagan (.env da TELEGRAM_BOT_TOKEN yo'q). Bot ishga tushirilmadi.");
+    console.log("ℹ️  Telegram bot not configured (TELEGRAM_BOT_TOKEN missing in .env). Bot was not started.");
     return;
   }
 
-  // Webhook ni o'chirish (polling rejimi uchun)
+  // Remove the webhook (needed for polling mode)
   await deleteWebhook();
 
   let offset = 0;
-  console.log("🤖 Telegram bot polling boshlandi...");
+  console.log("🤖 Telegram bot polling started...");
 
   const poll = async () => {
     try {
@@ -279,34 +279,34 @@ async function startPolling() {
     }
   };
 
-  // Rekursiv setTimeout orqali polling (setInterval emas!)
-  // Bu long polling vaqtida concurrent so'rovlar kelishini oldini oladi
+  // Poll via recursive setTimeout (not setInterval!)
+  // This prevents concurrent requests from piling up during long polling
   const scheduleNext = () => {
     pollingTimeout = setTimeout(() => {
       poll().finally(scheduleNext);
     }, POLL_INTERVAL);
   };
 
-  // Birinchi poll
+  // First poll
   poll().finally(scheduleNext);
 }
 
-// Pollingni to'xtatish
+// Stop polling
 function stopPolling() {
   if (pollingTimeout) {
     clearTimeout(pollingTimeout);
     pollingTimeout = null;
-    console.log("🤖 Telegram polling to'xtatildi.");
+    console.log("🤖 Telegram polling stopped.");
   }
 }
 
-// Foydalanuvchi botga ulanganligini tekshirish
+// Check whether a user is connected to the bot
 function isUserConnected(phone) {
   const user = getTelegramUserByPhone(phone);
   return !!user;
 }
 
-// Foydalanuvchining bot username ni olish
+// Get the bot's link
 function getBotLink() {
   const username = getBotUsername();
   return `https://t.me/${username}`;

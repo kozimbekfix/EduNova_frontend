@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
 
-// Admin panelning himoyalangan endpointlarini tekshiradi.
-// Frontend har bir so'rovga "Authorization: Bearer <token>" headerini qo'shishi kerak.
+// Verifies protected admin panel endpoints.
+// The frontend must add an "Authorization: Bearer <token>" header to every request.
 function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Avtorizatsiyadan o'tilmagan. Iltimos, tizimga kiring." });
+    return res.status(401).json({ message: "Not authorized. Please log in." });
   }
 
   const token = authHeader.split(" ")[1];
@@ -16,7 +16,7 @@ function requireAuth(req, res, next) {
     req.admin = decoded; // { id, username }
     next();
   } catch {
-    return res.status(401).json({ message: "Token yaroqsiz yoki muddati tugagan." });
+    return res.status(401).json({ message: "Invalid or expired token." });
   }
 }
 

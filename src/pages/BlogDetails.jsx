@@ -14,7 +14,7 @@ export default function BlogDetails() {
   if (error) return (
     <div className="pt-20 section-padding text-center">
       <p className="text-error mb-4">{error}</p>
-      <Link to="/blog" className="btn-primary">Blogga qaytish</Link>
+      <Link to="/blog" className="btn-primary">Back to blog</Link>
     </div>
   );
   if (!post) return null;
@@ -44,7 +44,7 @@ export default function BlogDetails() {
           </div>
           <div className="mt-12 pt-8 border-t border-border">
             <Link to="/blog" className="btn-secondary">
-              <ArrowLeft className="h-4 w-4" /> Blogga qaytish
+              <ArrowLeft className="h-4 w-4" /> Back to blog
             </Link>
           </div>
         </div>

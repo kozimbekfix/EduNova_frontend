@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot, User, Sparkles, Bell, DoorOpen } from 'lucide-react';
 import useLocaleStore from '../store/localeStore';
 
-// Registration.jsx bilan bir xil clientId — shu orqali chat va ariza bog'lanadi
+// Same clientId as in Registration.jsx — links chat and application together
 function getClientId() {
   let id = localStorage.getItem('edunova_client_id');
   if (!id) {
@@ -55,7 +55,7 @@ export default function ChatBot() {
 
   // Reset welcome message when locale changes
   useEffect(() => {
-    setMessages([{ role: 'bot', text: t('chatbot.welcome', "Salom! 👋 Men EduNova AI yordamchisiman.") }]);
+    setMessages([{ role: 'bot', text: t('chatbot.welcome', "Hi! 👋 I'm the EduNova AI assistant.") }]);
   }, [locale, t]);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -89,7 +89,7 @@ export default function ChatBot() {
       const clientId = getClientId();
       const res = await api.post('/chat', {
         message: text,
-        history: updatedMessages.slice(0, -1), // oldingi xabarlar (yangisisiz)
+        history: updatedMessages.slice(0, -1), // previous messages (without the new one)
         clientId,
       });
 
@@ -100,13 +100,13 @@ export default function ChatBot() {
       } else {
         setMessages((prev) => [
           ...prev,
-          { role: 'bot', text: t('chatbot.error', "Kechirasiz, hozir javob bera olmayman. Keyinroq urinib ko'ring.") },
+          { role: 'bot', text: t('chatbot.error', "Sorry, I can't respond right now. Please try again later.") },
         ]);
       }
     } catch {
       setMessages((prev) => [
         ...prev,
-        { role: 'bot', text: t('chatbot.error2', "Uzr, xatolik yuz berdi. Iltimos keyinroq urinib ko'ring.") },
+        { role: 'bot', text: t('chatbot.error2', "Sorry, an error occurred. Please try again later.") },
       ]);
     } finally {
       setLoading(false);
@@ -131,7 +131,7 @@ export default function ChatBot() {
         style={{
           background: 'linear-gradient(135deg, #059669, #047857)',
         }}
-        aria-label="AI yordamchi"
+        aria-label="AI assistant"
       >
         <motion.div
           animate={{ rotate: [0, 15, -15, 0] }}
@@ -199,7 +199,7 @@ export default function ChatBot() {
                       {notification.room && (
                         <p className="text-xs text-emerald-400/80 mt-0.5 flex items-center gap-1">
                           <DoorOpen className="h-3 w-3" />
-                          Xona: {notification.room}
+                          Room: {notification.room}
                         </p>
                       )}
                     </div>
@@ -274,7 +274,7 @@ export default function ChatBot() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={t('chatbot.placeholder', "Xabaringizni yozing...")}
+                  placeholder={t('chatbot.placeholder', "Type your message...")}
                   className="flex-1 bg-transparent text-sm text-white placeholder-gray-500 outline-none"
                   disabled={loading}
                 />

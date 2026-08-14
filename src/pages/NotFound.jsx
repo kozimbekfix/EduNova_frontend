@@ -11,14 +11,14 @@ export default function NotFound() {
         className="text-center max-w-md"
       >
         <p className="text-8xl font-bold text-primary/20 mb-4">404</p>
-        <h1 className="text-2xl font-bold text-secondary mb-2">Sahifa topilmadi</h1>
-        <p className="text-text-muted mb-8">Qidirgan sahifangiz mavjud emas yoki olib tashlangan.</p>
+        <h1 className="text-2xl font-bold text-secondary mb-2">Page not found</h1>
+        <p className="text-text-muted mb-8">The page you're looking for doesn't exist or has been removed.</p>
         <div className="flex flex-wrap justify-center gap-4">
           <Link to="/" className="btn-primary">
-            <Home className="h-4 w-4" /> Bosh sahifa
+            <Home className="h-4 w-4" /> Home
           </Link>
           <button onClick={() => window.history.back()} className="btn-secondary">
-            <ArrowLeft className="h-4 w-4" /> Orqaga
+            <ArrowLeft className="h-4 w-4" /> Back
           </button>
         </div>
       </motion.div>

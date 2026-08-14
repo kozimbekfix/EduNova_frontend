@@ -26,31 +26,31 @@ function AchievementsSwiper() {
     {
       icon: Languages,
       stat: '850+',
-      label: t('achievement.lang.students', "O'quvchi"),
-      title: t('achievement.lang.title', 'Chet tillari'),
+      label: t('achievement.lang.students', "Students"),
+      title: t('achievement.lang.title', 'Foreign languages'),
       sub: 'Ingliz · Koreys · Nemis · Rus',
       items: [
         { label: t('achievement.ielts', 'IELTS 7.0+'), value: '320' },
         { label: t('achievement.topik', 'TOPIK 2+'), value: '200' },
         { label: t('achievement.goethe', 'Goethe'), value: '150' },
-        { label: t('achievement.cert', 'Sertifikat'), value: '180' },
+        { label: t('achievement.cert', 'Certificate'), value: '180' },
       ],
-      desc: t('home.achievements.lang.desc', "4 xil chet tilida 850+ o'quvchi xalqaro sertifikatlarga ega bo'ldi. Ingliz, Koreys, Nemis va Rus tillari."),
+      desc: t('home.achievements.lang.desc', "850+ students earned international certificates in 4 languages: English, Korean, German, and Russian."),
       bg: languagesImg,
     },
     {
       icon: Code2,
       stat: '200+',
-      label: t('achievement.dev.students', 'Dasturchi'),
-      title: t('achievement.dev.title', 'Dasturlash'),
+      label: t('achievement.dev.students', 'Developers'),
+      title: t('achievement.dev.title', 'Programming'),
       sub: 'Python · Frontend · Web',
       items: [
-        { label: t('achievement.job', "Ishga joylashgan"), value: '120' },
+        { label: t('achievement.job', "Employed"), value: '120' },
         { label: t('achievement.portfolio', 'Portfolio'), value: '180' },
-        { label: t('achievement.dev.cert', 'Sertifikat'), value: '200' },
-        { label: t('achievement.projects', 'Loyihalar'), value: '300+' },
+        { label: t('achievement.dev.cert', 'Certificate'), value: '200' },
+        { label: t('achievement.projects', 'Projects'), value: '300+' },
       ],
-      desc: t('home.achievements.dev.desc', "200+ o'quvchi dasturlashni o'rganib, IT sohasida faoliyat yuritmoqda. Python va Frontend yo'nalishlari."),
+      desc: t('home.achievements.dev.desc', "200+ students learned programming and now work in IT, in Python and Frontend development."),
       bg: programmingImg,
     },
   ];
@@ -100,7 +100,7 @@ function AchievementsSwiper() {
           <button
             onClick={prev}
             className="hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 transition-all mr-6 shrink-0 backdrop-blur-sm"
-            aria-label={t('home.hero.prev', 'Oldingi')}
+            aria-label={t('home.hero.prev', 'Previous')}
           >
             <ChevronRight className="h-5 w-5 rotate-180" />
           </button>
@@ -120,14 +120,14 @@ function AchievementsSwiper() {
                 {/* Badge */}
                 <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1 text-xs font-medium text-primary border border-primary/20 mb-4">
                   <Zap className="h-3.5 w-3.5 mr-1.5" />
-                  {t('home.hero.badge', "EduNova o'quv markazi")}
+                  {t('home.hero.badge', "EduNova Learning Center")}
                 </span>
 
                 {/* Main title */}
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight max-w-4xl mx-auto mt-2">
-                  {t('home.hero.title', 'Chet tillari va')}{' '}
-                  <span className="text-primary">{t('home.hero.title.highlight', 'dasturlashni')}</span>{' '}
-                  {t('home.hero.title.end', "o'rganing")}
+                  {t('home.hero.title', 'Learn foreign languages and')}{' '}
+                  <span className="text-primary">{t('home.hero.title.highlight', 'programming')}</span>{' '}
+                  {t('home.hero.title.end', "with us")}
                 </h1>
                 <p className="mt-2 text-sm md:text-base text-gray-300 max-w-2xl mx-auto">
                   {slide.title} — {slide.sub}. {slide.desc}
@@ -136,10 +136,10 @@ function AchievementsSwiper() {
                 {/* Buttons */}
                 <div className="mt-3 flex flex-wrap justify-center gap-3">
                   <Link to="/registration" className="btn-primary text-sm px-6 py-2.5 shadow-lg shadow-primary/25">
-                    {t('home.hero.btn.free', 'Bepul darsga yozilish')} <ArrowRight className="h-5 w-5" />
+                    {t('home.hero.btn.free', 'Book a free lesson')} <ArrowRight className="h-5 w-5" />
                   </Link>
                   <Link to="/courses" className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white/30 bg-transparent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 hover:border-white/50">
-                    {t('home.hero.btn.courses', "Kurslarni ko'rish")}
+                    {t('home.hero.btn.courses', "View courses")}
                   </Link>
                 </div>
 
@@ -166,7 +166,7 @@ function AchievementsSwiper() {
           <button
             onClick={next}
             className="hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10 transition-all ml-6 shrink-0 backdrop-blur-sm"
-            aria-label={t('home.hero.next', 'Keyingi')}
+            aria-label={t('home.hero.next', 'Next')}
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -182,7 +182,7 @@ function AchievementsSwiper() {
                   ? 'w-10 h-2.5 bg-primary shadow-lg shadow-primary/30'
                   : 'w-2.5 h-2.5 bg-white/20 hover:bg-white/40'
               }`}
-              aria-label={`${t('home.hero.slide', 'Slayd')} ${i + 1}`}
+              aria-label={`${t('home.hero.slide', 'Slide')} ${i + 1}`}
             />
           ))}
         </div>
@@ -226,34 +226,34 @@ export default function Home() {
   }, []);
 
   const stats = [
-    { label: t('home.stats.students', "O'quvchilar"), value: '500+', icon: Users },
-    { label: t('home.stats.courses', 'Kurslar'), value: '20+', icon: BookOpen },
-    { label: t('home.stats.experience', 'Tajriba'), value: '10 yil', icon: Clock },
-    { label: t('home.stats.awards', 'Mukofotlar'), value: '15+', icon: Award },
+    { label: t('home.stats.students', "Students"), value: '500+', icon: Users },
+    { label: t('home.stats.courses', 'Courses'), value: '20+', icon: BookOpen },
+    { label: t('home.stats.experience', 'Experience'), value: '10 years', icon: Clock },
+    { label: t('home.stats.awards', 'Awards'), value: '15+', icon: Award },
   ];
 
   const advantages = [
-    { title: t('home.advantages.modern', "Zamonaviy ta'lim"), desc: t('home.advantages.modern.desc', "Eng so'nggi metodikalar asosida ta'lim"), icon: Zap },
-    { title: t('home.advantages.teachers', 'Tajribali ustozlar'), desc: t('home.advantages.teachers.desc', 'Professional va sertifikatlangan o\'qituvchilar'), icon: Star },
-    { title: t('home.advantages.schedule', 'Moslashuvchan jadval'), desc: t('home.advantages.schedule.desc', "Sizga qulay vaqtda darslarda qatnashing"), icon: Clock },
-    { title: t('home.advantages.quality', 'Sifat kafolati'), desc: t('home.advantages.quality.desc', '100% natija kafolati bilan ta\'lim'), icon: Shield },
+    { title: t('home.advantages.modern', "Modern education"), desc: t('home.advantages.modern.desc', "Education based on the latest methods"), icon: Zap },
+    { title: t('home.advantages.teachers', 'Experienced teachers'), desc: t('home.advantages.teachers.desc', 'Professional and certified teachers'), icon: Star },
+    { title: t('home.advantages.schedule', 'Flexible schedule'), desc: t('home.advantages.schedule.desc', "Attend classes at a time convenient for you"), icon: Clock },
+    { title: t('home.advantages.quality', 'Quality guarantee'), desc: t('home.advantages.quality.desc', 'Education with a 100% result guarantee'), icon: Shield },
   ];
 
   const faqData = [
-    { q: t('home.faq.q1', "Kurslarga qanday yozilish mumkin?"), a: t('home.faq.a1', "Sahifamizdagi 'Ro'yxatdan o'tish' formasini to'ldiring yoki telefon orqali bog'laning.") },
-    { q: t('home.faq.q2', "Darslar qanday formatda o'tadi?"), a: t('home.faq.a2', "Darslar online va offline formatda mavjud. Sizga qulay variantni tanlashingiz mumkin.") },
-    { q: t('home.faq.q3', "To'lov tizimi qanday?"), a: t('home.faq.a3', "Har oy yoki to'liq kurs uchun to'lov qilishingiz mumkin. Birinchi dars bepul!") },
-    { q: t('home.faq.q4', "Sertifikat beriladimi?"), a: t('home.faq.a4', "Ha, kurs yakunida rasmiy sertifikat taqdim etiladi.") },
+    { q: t('home.faq.q1', "How can I sign up for courses?"), a: t('home.faq.a1', "Fill out the 'Sign Up' form on our website or contact us by phone.") },
+    { q: t('home.faq.q2', "What format are the lessons taught in?"), a: t('home.faq.a2', "Lessons are available online and offline. You can choose the option that suits you best.") },
+    { q: t('home.faq.q3', "How does payment work?"), a: t('home.faq.a3', "You can pay monthly or for the full course. The first lesson is free!") },
+    { q: t('home.faq.q4', "Is a certificate issued?"), a: t('home.faq.a4', "Yes, an official certificate is issued upon completion of the course.") },
   ];
 
-  if (loading) return <LoadingSpinner size="lg" text={t('loading.text', 'Yuklanmoqda...')} />;
+  if (loading) return <LoadingSpinner size="lg" text={t('loading.text', 'Loading...')} />;
 
   return (
     <div>
       {/* Hero + Achievements Wrapper */}
       <AchievementsSwiper />
 
-      {/* Ro'yxatdan o'tish CTA — diqqatni tortishi uchun eng tepaga ko'chirildi */}
+      {/* Sign-up CTA — moved to the top to grab attention */}
       <section className="section-padding bg-gradient-to-r from-primary to-primary-dark text-white">
         <div className="container-custom text-center">
           <motion.div
@@ -263,17 +263,17 @@ export default function Home() {
           >
             <GraduationCap className="h-12 w-12 mx-auto mb-4 text-white/80" />
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {t('home.cta.title', "Hoziroq ro'yxatdan o'ting!")}
+              {t('home.cta.title', "Sign up now!")}
             </h2>
             <p className="text-lg text-primary-100 mb-8 max-w-xl mx-auto">
-              {t('home.cta.subtitle', "Birinchi darsga bepul qatnashing va o'zingiz uchun eng mos kursni toping.")}
+              {t('home.cta.subtitle', "Attend the first lesson for free and find the course that suits you best.")}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link to="/registration" className="btn-secondary bg-surface text-secondary border-0 hover:bg-gray-100 text-base px-8 py-3.5">
-                {t('home.cta.register', "Ro'yxatdan o'tish")}
+                {t('home.cta.register', "Sign up")}
               </Link>
               <Link to="/contact" className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-3.5 rounded-lg text-base font-semibold transition-all">
-                {t('home.cta.contact', "Bog'lanish")}
+                {t('home.cta.contact', "Contact us")}
               </Link>
             </div>
             {settings?.phone && (
@@ -288,7 +288,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Kasb/kurs tanlash viktorinasi banneri */}
+      {/* Course/career selection quiz banner */}
       <section className="section-padding">
         <div className="container-custom">
           <motion.div
@@ -300,16 +300,16 @@ export default function Home() {
             <div className="absolute -right-10 -bottom-10 h-56 w-56 rounded-full bg-white/10 blur-2xl" />
             <div className="relative max-w-xl">
               <h2 className="text-2xl md:text-3xl font-bold mb-3">
-                {t('home.quiz.title', "O'zingizga mos sohani topishga qiynalyapsizmi?")}
+                {t('home.quiz.title', "Struggling to find the right field for you?")}
               </h2>
               <p className="text-sky-50/90 text-base leading-relaxed">
-                {t('home.quiz.desc', "Ushbu qisqa viktorina sizni qaysi kursni tanlashingizda taklif beradi. Shaxsiy tavsiya olish uchun bir nechta oddiy savollarga javob bering.")}
+                {t('home.quiz.desc', "This short quiz will help you choose the right course. Answer a few simple questions to get a personal recommendation.")}
               </p>
               <Link
                 to="/quiz"
                 className="mt-6 inline-flex items-center gap-2 bg-white text-sky-600 font-semibold px-6 py-3 rounded-xl hover:bg-sky-50 transition-colors shadow-lg"
               >
-                {t('home.quiz.btn', '5 daqiqalik test')} <ArrowRight className="h-4 w-4" />
+                {t('home.quiz.btn', '5-minute quiz')} <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
             <div className="relative shrink-0 h-32 w-32 md:h-40 md:w-40 rounded-3xl bg-white/15 backdrop-blur flex items-center justify-center rotate-6">
@@ -322,7 +322,7 @@ export default function Home() {
       {/* Advantages */}
       <section className="section-padding bg-surface-alt">
         <div className="container-custom">
-          <SectionTitle title={t('home.advantages.title', 'Nega aynan biz?')} subtitle={t('home.advantages.subtitle', "Bizni tanlashning 4 sababi")} />
+          <SectionTitle title={t('home.advantages.title', 'Why choose us?')} subtitle={t('home.advantages.subtitle', "4 reasons to choose us")} />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {advantages.map((item, i) => (
               <motion.div
@@ -354,30 +354,30 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <SectionTitle
-                title={settings?.aboutTitle || t('about.title', "Biz haqimizda")}
-                subtitle={settings?.aboutDescription || t('about.subtitle', "10 yillik tajribaga ega ta'lim markazi")}
+                title={settings?.aboutTitle || t('about.title', "About us")}
+                subtitle={settings?.aboutDescription || t('about.subtitle', "A learning center with 10 years of experience")}
                 center={false}
               />
               <div className="space-y-4 text-text-muted leading-relaxed">
-                <p>{settings?.aboutText1 || t('home.about.text1', "Bizning ta'lim markazimiz 2015-yildan beri faoliyat yuritib, minglab o'quvchilarga sifatli ta'lim berib kelmoqda.")}</p>
-                <p>{settings?.aboutText2 || t('home.about.text2', "Eng muhimi, biz har bir o'quvchiga individual yondashamiz va ularning muvaffaqiyati uchun barcha sharoitlarni yaratamiz.")}</p>
+                <p>{settings?.aboutText1 || t('home.about.text1', "Our learning center has been operating since 2015, providing quality education to thousands of students.")}</p>
+                <p>{settings?.aboutText2 || t('home.about.text2', "Most importantly, we take an individual approach to each student and create all the conditions for their success.")}</p>
               </div>
               <div className="mt-8 flex flex-wrap gap-4">
                 <div className="flex items-center gap-2 text-sm">
                   <CheckCircle className="h-5 w-5 text-success" />
-                  <span className="text-text-muted">{t('home.about.check1', 'Professional ustozlar')}</span>
+                  <span className="text-text-muted">{t('home.about.check1', 'Professional teachers')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <CheckCircle className="h-5 w-5 text-success" />
-                  <span className="text-text-muted">{t('home.about.check2', "Zamonaviy dasturlar")}</span>
+                  <span className="text-text-muted">{t('home.about.check2', "Modern programs")}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <CheckCircle className="h-5 w-5 text-success" />
-                  <span className="text-text-muted">{t('home.about.check3', 'Qulay narxlar')}</span>
+                  <span className="text-text-muted">{t('home.about.check3', 'Affordable prices')}</span>
                 </div>
               </div>
               <Link to="/about" className="btn-primary mt-8">
-                {t('home.about.more', 'Batafsil')} <ChevronRight className="h-4 w-4" />
+                {t('home.about.more', 'Learn more')} <ChevronRight className="h-4 w-4" />
               </Link>
             </motion.div>
             <motion.div
@@ -395,7 +395,7 @@ export default function Home() {
               </div>
               <div className="absolute -bottom-6 -left-6 bg-primary text-white p-6 rounded-2xl shadow-lg hidden md:block">
                 <p className="text-3xl font-bold">10+</p>
-                <p className="text-sm text-primary-100">{t('home.about.experience', 'Yillik tajriba')}</p>
+                <p className="text-sm text-primary-100">{t('home.about.experience', 'years of experience')}</p>
               </div>
             </motion.div>
           </div>
@@ -406,7 +406,7 @@ export default function Home() {
       {courses.length > 0 && (
         <section className="section-padding bg-surface-alt">
           <div className="container-custom">
-            <SectionTitle title={t('home.courses.title', 'Bizning kurslar')} subtitle={t('home.courses.subtitle', "Eng so'nggi trendlar asosida tuzilgan dasturlar")} />
+            <SectionTitle title={t('home.courses.title', 'Our courses')} subtitle={t('home.courses.subtitle', "Programs built around the latest trends")} />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {courses.slice(0, 6).map((course, i) => (
                 <motion.div
@@ -433,7 +433,7 @@ export default function Home() {
                       <span className="text-lg font-bold text-primary">{course.price}</span>
                     )}
                     <Link to={`/courses/${course.id}`} className="text-sm font-medium text-primary hover:text-primary-dark transition-colors flex items-center gap-1">
-                      {t('home.courses.details', 'Batafsil')} <ArrowRight className="h-4 w-4" />
+                      {t('home.courses.details', 'Details')} <ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>
                 </motion.div>
@@ -441,7 +441,7 @@ export default function Home() {
             </div>
             {courses.length > 6 && (
               <div className="text-center mt-10">
-                <Link to="/courses" className="btn-primary">{t('home.courses.all', 'Barcha kurslar')}</Link>
+                <Link to="/courses" className="btn-primary">{t('home.courses.all', 'All courses')}</Link>
               </div>
             )}
           </div>
@@ -452,7 +452,7 @@ export default function Home() {
       {teachers.length > 0 && (
         <section className="section-padding">
           <div className="container-custom">
-            <SectionTitle title={t('home.teachers.title', 'Bizning jamoa')} subtitle={t('home.teachers.subtitle', "Tajribali va professional o'qituvchilar")} />
+            <SectionTitle title={t('home.teachers.title', 'Our team')} subtitle={t('home.teachers.subtitle', "Experienced and professional teachers")} />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {teachers.slice(0, 4).map((teacher, i) => (
                 <motion.div
@@ -509,7 +509,7 @@ export default function Home() {
       {reviews.length > 0 && (
         <section className="section-padding bg-surface-alt">
           <div className="container-custom">
-            <SectionTitle title={t('home.reviews.title', "O'quvchilar fikrlari")} subtitle={t('home.reviews.subtitle', 'Ular biz haqimizda shunday deyishadi')} />
+            <SectionTitle title={t('home.reviews.title', "Student reviews")} subtitle={t('home.reviews.subtitle', "Here's what they say about us")} />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {reviews.slice(0, 3).map((review, i) => (
                 <motion.div
@@ -532,7 +532,7 @@ export default function Home() {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-secondary">{review.name}</p>
-                      <p className="text-xs text-text-muted">{review.position || t('home.reviews.student', "O'quvchi")}</p>
+                      <p className="text-xs text-text-muted">{review.position || t('home.reviews.student', "Student")}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -541,11 +541,11 @@ export default function Home() {
           </div>
         </section>
       )}
-{/* Filiallar */}
+{/* Branches */}
 {branches.length > 0 && (
         <section className="section-padding bg-surface-alt">
           <div className="container-custom">
-            <SectionTitle title="Filiallarimiz" subtitle="Bizga eng yaqin filialni tanlang" />
+            <SectionTitle title="Our Locations" subtitle="Choose the branch closest to you" />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {branches.slice(0, 2).map((branch, i) => (
                 <motion.div
@@ -576,7 +576,7 @@ export default function Home() {
             </div>
             {branches.length > 2 && (
               <div className="text-center mt-10">
-                <Link to="/location" className="btn-primary">Barcha filiallar</Link>
+                <Link to="/location" className="btn-primary">All locations</Link>
               </div>
             )}
           </div>
@@ -585,7 +585,7 @@ export default function Home() {
       {/* Gallery */}
       <section className="section-padding">
         <div className="container-custom">
-          <SectionTitle title={t('home.gallery.title', 'Galeriya')} subtitle={t('home.gallery.subtitle', 'Markazimizdan lavhalar')} />
+          <SectionTitle title={t('home.gallery.title', 'Gallery')} subtitle={t('home.gallery.subtitle', 'Moments from our center')} />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {galleryImages.map((img, i) => (
               <motion.div
@@ -607,7 +607,7 @@ export default function Home() {
       {/* FAQ */}
       <section className="section-padding">
         <div className="container-custom max-w-3xl">
-          <SectionTitle title={t('home.faq.title', "Ko'p beriladigan savollar")} subtitle={t('home.faq.subtitle', "Eng ko'p so'raladigan savollarga javoblar")} />
+          <SectionTitle title={t('home.faq.title', "Frequently asked questions")} subtitle={t('home.faq.subtitle', "Answers to the most common questions")} />
           <div className="space-y-3">
             {faqData.map((item, i) => (
               <motion.div

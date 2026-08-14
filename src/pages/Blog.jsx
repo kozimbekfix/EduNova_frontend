@@ -22,7 +22,7 @@ export default function Blog() {
           <Breadcrumb items={[{ label: 'Blog' }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Blog</h1>
-            <p className="text-lg text-gray-300">Eng so'nggi yangiliklar va maqolalar</p>
+            <p className="text-lg text-gray-300">Latest news and articles</p>
           </motion.div>
         </div>
       </section>
@@ -31,7 +31,7 @@ export default function Blog() {
         <div className="container-custom px-4 sm:px-6 lg:px-8">
           <div className="relative max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
-            <input type="text" placeholder="Maqolalarni qidirish..." value={search} onChange={(e) => setSearch(e.target.value)} className="input-field pl-10" />
+            <input type="text" placeholder="Search articles..." value={search} onChange={(e) => setSearch(e.target.value)} className="input-field pl-10" />
           </div>
         </div>
       </section>
@@ -45,7 +45,7 @@ export default function Blog() {
           ) : filtered.length === 0 ? (
             <div className="text-center py-12">
               <FileText className="h-12 w-12 mx-auto text-text-muted mb-4" />
-              <p className="text-text-muted">Maqolalar topilmadi</p>
+              <p className="text-text-muted">No articles found</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -70,7 +70,7 @@ export default function Blog() {
                   <h3 className="text-lg font-semibold text-secondary mb-2 group-hover:text-primary transition-colors">{post.title}</h3>
                   <p className="text-sm text-text-muted line-clamp-3 mb-4">{post.excerpt || post.content?.slice(0, 150) || ''}</p>
                   <Link to={`/blog/${post.id}`} className="text-sm font-medium text-primary hover:text-primary-dark transition-colors flex items-center gap-1">
-                    O'qish <ArrowRight className="h-4 w-4" />
+                    Read <ArrowRight className="h-4 w-4" />
                   </Link>
                 </motion.div>
               ))}

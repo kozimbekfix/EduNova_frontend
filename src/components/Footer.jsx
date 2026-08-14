@@ -40,7 +40,7 @@ export default function Footer() {
               <span className="text-lg font-bold">{settings?.siteName || 'EduNova'}</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6" key={`desc-${locale}`}>
-              {settings?.description || t('footer.desc', 'Biz bilan bilim oling...')}
+              {settings?.description || t('footer.desc', 'Learn with us, change your future.')}
             </p>
             <div className="space-y-3">
               {settings?.phone && (
@@ -67,7 +67,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300 mb-4">
-              {t('footer.services', 'Xizmatlar')}
+              {t('footer.services', 'Services')}
             </h3>
             <ul className="space-y-3">
               {footerLinkKeys.services.map((link) => (
@@ -86,7 +86,7 @@ export default function Footer() {
 
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300 mb-4">
-              {t('footer.company', 'Kompaniya')}
+              {t('footer.company', 'Company')}
             </h3>
             <ul className="space-y-3">
               {footerLinkKeys.company.map((link) => (
@@ -105,7 +105,7 @@ export default function Footer() {
 
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300 mb-4">
-              {t('footer.support', 'Yordam')}
+              {t('footer.support', 'Support')}
             </h3>
             <ul className="space-y-3">
               {footerLinkKeys.support.map((link) => (
@@ -126,7 +126,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} {settings?.siteName || 'EduNova'}. {t('footer.rights', 'Barcha huquqlar himoyalangan.')}
+            &copy; {new Date().getFullYear()} {settings?.siteName || 'EduNova'}. {t('footer.rights', 'All rights reserved.')}
           </p>
           <div className="flex items-center gap-4">
             {settings?.telegram && (

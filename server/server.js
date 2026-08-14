@@ -12,12 +12,12 @@ const settingsRoutes = require("./routes/settings");
 const chatRoutes = require("./routes/chat");
 const telegramBot = require("./services/telegramBot");
 
-// JWT_SECRET bo'lmasa tokenlar imzosiz/yaroqsiz bo'lib qoladi — buni hech qachon
-// o'tkazib yubormaymiz, chunki bu butun admin panelning xavfsizligini buzadi.
+// Without JWT_SECRET, tokens would be unsigned/invalid — we never skip this
+// check, since it would break the security of the whole admin panel.
 if (!process.env.JWT_SECRET) {
   console.error(
-    "\n🚨 XATOLIK: JWT_SECRET .env faylida ko'rsatilmagan. Server to'xtatildi.\n" +
-    "Iltimos .env.example faylidan nusxa olib, JWT_SECRET uchun uzun, tasodifiy qiymat qo'ying.\n"
+    "\n🚨 ERROR: JWT_SECRET is not set in the .env file. Server stopped.\n" +
+    "Please copy .env.example and set a long, random value for JWT_SECRET.\n"
   );
   process.exit(1);
 }
@@ -26,14 +26,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ---------- Middleware ----------
-// Xavfsizlik headerlari (XSS, clickjacking va h.k.dan asosiy himoya)
+// Security headers (basic protection against XSS, clickjacking, etc.)
 app.use(helmet());
 
-// MUHIM: CLIENT_URL har doim .env da to'ldirilishi kerak (production'da "*" xavfli).
-// Bir nechta manzilni vergul bilan ajratib yozish mumkin, masalan:
+// IMPORTANT: CLIENT_URL must always be set in .env ("*" is unsafe in production).
+// Multiple URLs can be listed separated by commas, e.g.:
 // CLIENT_URL=http://localhost:5173,https://edunova.vercel.app
 if (!process.env.CLIENT_URL) {
-  console.warn("⚠️  OGOHLANTIRISH: CLIENT_URL .env faylida sozlanmagan. Faqat localhost uchun CORS ochilyapti.");
+  console.warn("⚠️  WARNING: CLIENT_URL is not set in the .env file. CORS is only open for localhost.");
 }
 const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
   .split(",")
@@ -42,47 +42,47 @@ const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Postman/cURL kabi origin'siz so'rovlarga ruxsat beramiz
+      // Allow requests with no origin (e.g. Postman/cURL)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error(`CORS: ${origin} manziliga ruxsat berilmagan`));
+        callback(new Error(`CORS: origin ${origin} is not allowed`));
       }
     },
   })
 );
 app.use(express.json());
 
-// ---------- Route'lar ----------
+// ---------- Routes ----------
 app.use("/api/auth", authRoutes);
-app.use("/api/applications", applicationRoutes); // ro'yxatdan o'tish / arizalar
+app.use("/api/applications", applicationRoutes); // sign-up / applications
 app.use("/api/settings", settingsRoutes);
 app.use("/api/chat", chatRoutes); // AI Chatbot (Google Gemini)
 
-// START/BUSINESS/PREMIUM tariflardagi bo'limlar uchun universal CRUD:
-app.use("/api/courses", createCrudRouter("courses")); // Kurslar bo'limi
-app.use("/api/teachers", createCrudRouter("teachers")); // O'qituvchilar bo'limi
-app.use("/api/branches", createCrudRouter("branches")); // Filiallar sahifasi (Premium)
-app.use("/api/blog", createCrudRouter("blogPosts")); // Blog/Yangiliklar (Business+)
-app.use("/api/reviews", createCrudRouter("reviews")); // O'quvchilar fikrlari (Business+)
+// Universal CRUD for the START/BUSINESS/PREMIUM plan sections:
+app.use("/api/courses", createCrudRouter("courses")); // Courses section
+app.use("/api/teachers", createCrudRouter("teachers")); // Teachers section
+app.use("/api/branches", createCrudRouter("branches")); // Branches page (Premium)
+app.use("/api/blog", createCrudRouter("blogPosts")); // Blog/News (Business+)
+app.use("/api/reviews", createCrudRouter("reviews")); // Student reviews (Business+)
 
-// Health check - server ishlab turganini tekshirish uchun
+// Health check - to verify the server is running
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", message: "Server ishlamoqda 🚀" });
+  res.json({ status: "ok", message: "Server is running 🚀" });
 });
 
-// 404 - noma'lum endpoint
+// 404 - unknown endpoint
 app.use((req, res) => {
-  res.status(404).json({ message: "Endpoint topilmadi." });
+  res.status(404).json({ message: "Endpoint not found." });
 });
 
-// ---------- Serverni ishga tushirish ----------
+// ---------- Start the server ----------
 ensureDefaultAdmin();
 
 app.listen(PORT, () => {
-  console.log(`\n🚀 Server http://localhost:${PORT} manzilida ishga tushdi`);
+  console.log(`\n🚀 Server started at http://localhost:${PORT}`);
   console.log(`📋 Admin login: http://localhost:${PORT}/api/auth/login\n`);
 
-  // Telegram bot pollingni boshlash
+  // Start Telegram bot polling
   telegramBot.startPolling();
 });

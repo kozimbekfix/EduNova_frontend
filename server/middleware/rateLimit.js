@@ -1,31 +1,31 @@
 const rateLimit = require("express-rate-limit");
 
-// Login uchun: brute-force (parolni taxmin qilishga urinish) hujumlarini to'xtatadi.
-// Bitta IP 15 daqiqada faqat 8 marta login urinishi mumkin.
+// For login: stops brute-force (password-guessing) attacks.
+// A single IP can only attempt to log in 8 times within 15 minutes.
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 daqiqa
+  windowMs: 15 * 60 * 1000, // 15 minutes
   max: 8,
-  message: { message: "Juda ko'p urinish. Iltimos, 15 daqiqadan so'ng qayta urinib ko'ring." },
+  message: { message: "Too many attempts. Please try again in 15 minutes." },
   standardHeaders: true,
   legacyHeaders: false,
 });
 
-// AI chat uchun: cheksiz so'rov yuborib, API balansini tugatishning oldini oladi.
-// Bitta IP 1 daqiqada 15 ta xabar yubora oladi.
+// For AI chat: prevents unlimited requests from draining the API balance.
+// A single IP can send 15 messages per minute.
 const chatLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 daqiqa
+  windowMs: 60 * 1000, // 1 minute
   max: 15,
-  message: { message: "Juda tez-tez xabar yubordingiz. Birozdan keyin qayta urinib ko'ring." },
+  message: { message: "You're sending messages too quickly. Please try again shortly." },
   standardHeaders: true,
   legacyHeaders: false,
 });
 
-// Ariza yuborish uchun: forma spam qilinishining oldini oladi.
-// Bitta IP 10 daqiqada 5 marta ariza yubora oladi.
+// For application submissions: prevents form spam.
+// A single IP can submit 5 applications within 10 minutes.
 const applicationLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 daqiqa
+  windowMs: 10 * 60 * 1000, // 10 minutes
   max: 5,
-  message: { message: "Juda ko'p ariza yuborildi. Birozdan keyin qayta urinib ko'ring." },
+  message: { message: "Too many applications submitted. Please try again shortly." },
   standardHeaders: true,
   legacyHeaders: false,
 });

@@ -11,10 +11,10 @@ export default function Teachers() {
     <div>
       <section className="bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-primary/20 py-20 md:py-28">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
-          <Breadcrumb items={[{ label: "O'qituvchilar" }]} />
+          <Breadcrumb items={[{ label: "Teachers" }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">O'qituvchilar</h1>
-            <p className="text-lg text-gray-300">Tajribali va professional o'qituvchilar jamoasi</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Teachers</h1>
+            <p className="text-lg text-gray-300">A team of experienced and professional teachers</p>
           </motion.div>
         </div>
       </section>
@@ -29,7 +29,7 @@ export default function Teachers() {
             </div>
           ) : teachers?.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-text-muted">Hozircha o'qituvchilar qo'shilmagan</p>
+              <p className="text-text-muted">No teachers added yet</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

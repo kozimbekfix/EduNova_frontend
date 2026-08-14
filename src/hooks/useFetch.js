@@ -18,7 +18,7 @@ export function useFetch(fetchFn, deps = []) {
       const result = await fetchFnRef.current();
       setData(result);
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Xatolik yuz berdi');
+      setError(err.response?.data?.message || err.message || 'An error occurred');
     } finally {
       setLoading(false);
     }
