@@ -35,7 +35,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-alt">
+    <div className="min-h-screen bg-[#f0f2f5]">
       {/* Mobile overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -138,8 +138,8 @@ export default function AdminLayout() {
         toastOptions={{
           duration: 3000,
           style: {
-            background: '#121212',
-            color: '#f5f5f5',
+            background: '#1e293b',
+            color: '#f8fafc',
             borderRadius: '12px',
             fontSize: '14px',
           },
