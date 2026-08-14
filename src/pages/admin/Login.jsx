@@ -17,24 +17,24 @@ export default function AdminLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) {
-      toast.error('Login va parolni kiriting');
+      toast.error('Please enter your login and password');
       return;
     }
     setLoading(true);
     try {
       const data = await loginAdmin(username, password);
       login(data.token, data.admin);
-      toast.success('Muvaffaqiyatli kirdingiz');
+      toast.success('Signed in successfully');
       navigate('/admin');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Login yoki parol noto\'g\'ri');
+      toast.error(err.response?.data?.message || 'Incorrect login or password');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-primary/20 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-black to-primary/20 p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -44,7 +44,7 @@ export default function AdminLogin() {
         <button
           onClick={() => navigate('/')}
           className="absolute -top-3 -right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-surface border border-border shadow-md text-text-muted hover:text-text hover:bg-surface-alt transition-all duration-200 hover:scale-105"
-          aria-label="Yopish"
+          aria-label="Close"
         >
           <X className="h-4 w-4" />
         </button>
@@ -55,7 +55,7 @@ export default function AdminLogin() {
               <GraduationCap className="h-8 w-8" />
             </div>
             <h1 className="text-2xl font-bold text-secondary">Admin Panel</h1>
-            <p className="text-sm text-text-muted mt-1">Tizimga kirish</p>
+            <p className="text-sm text-text-muted mt-1">Sign in to the system</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,14 +71,14 @@ export default function AdminLogin() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-secondary mb-1">Parol</label>
+              <label className="block text-sm font-medium text-secondary mb-1">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="input-field pr-10"
-                  placeholder="Parol"
+                  placeholder="Password"
                 />
                 <button
                   type="button"
@@ -90,7 +90,7 @@ export default function AdminLogin() {
               </div>
             </div>
             <button type="submit" disabled={loading} className="btn-primary w-full justify-center py-3">
-              {loading ? 'Kirilmoqda...' : <><LogIn className="h-4 w-4" /> Kirish</>}
+              {loading ? 'Signing in...' : <><LogIn className="h-4 w-4" /> Sign in</>}
             </button>
           </form>
         </div>

@@ -28,7 +28,7 @@ export default function BlogDetails() {
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">{post.title}</h1>
             <div className="flex items-center gap-2 text-sm text-gray-300">
               <Calendar className="h-4 w-4" />
-              {post.createdAt ? new Date(post.createdAt).toLocaleDateString('uz-UZ') : ''}
+              {post.createdAt ? new Date(post.createdAt).toLocaleDateString('en-US') : ''}
             </div>
           </motion.div>
         </div>

@@ -3,9 +3,9 @@ import translations from '../utils/translations';
 
 const getInitialLocale = () => {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('edunova-locale') || 'uz';
+    return localStorage.getItem('edunova-locale') || 'en';
   }
-  return 'uz';
+  return 'en';
 };
 
 const translate = (locale, key, fallback = '') => {

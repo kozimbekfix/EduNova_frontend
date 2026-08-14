@@ -9,12 +9,12 @@ import { getBlogPosts } from '../../api/blog';
 import { getApplications } from '../../api/applications';
 
 const statCards = [
-  { key: 'courses', label: 'Kurslar', icon: BookOpen, color: 'bg-blue-500', api: getCourses },
-  { key: 'teachers', label: "O'qituvchilar", icon: Users, color: 'bg-emerald-500', api: getTeachers },
-  { key: 'branches', label: 'Filiallar', icon: MapPin, color: 'bg-violet-500', api: getBranches },
-  { key: 'reviews', label: 'Fikrlar', icon: Star, color: 'bg-amber-500', api: getReviews },
+  { key: 'courses', label: 'Courses', icon: BookOpen, color: 'bg-blue-500', api: getCourses },
+  { key: 'teachers', label: 'Teachers', icon: Users, color: 'bg-emerald-500', api: getTeachers },
+  { key: 'branches', label: 'Branches', icon: MapPin, color: 'bg-violet-500', api: getBranches },
+  { key: 'reviews', label: 'Reviews', icon: Star, color: 'bg-amber-500', api: getReviews },
   { key: 'blog', label: 'Blog', icon: FileText, color: 'bg-rose-500', api: getBlogPosts },
-  { key: 'applications', label: 'Arizalar', icon: MessageSquare, color: 'bg-cyan-500', api: getApplications },
+  { key: 'applications', label: 'Applications', icon: MessageSquare, color: 'bg-cyan-500', api: getApplications },
 ];
 
 export default function AdminDashboard() {
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-secondary">Dashboard</h1>
-        <p className="text-sm text-text-muted mt-1">Admin panelga xush kelibsiz</p>
+        <p className="text-sm text-text-muted mt-1">Welcome to the admin panel</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">

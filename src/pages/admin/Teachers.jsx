@@ -6,24 +6,24 @@ import { getTeachers, createTeacher, updateTeacher, deleteTeacher } from '../../
 const columns = [
   {
     key: 'image',
-    label: 'Rasm',
+    label: 'Photo',
     render: (item) => (
       item.image
         ? <img src={item.image} alt={item.name} className="w-10 h-10 rounded-full object-cover" />
         : <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">{item.name?.[0] || '?'}</div>
     ),
   },
-  { key: 'name', label: 'Ism' },
-  { key: 'subject', label: 'Fan' },
-  { key: 'position', label: 'Lavozim' },
+  { key: 'name', label: 'Name' },
+  { key: 'subject', label: 'Subject' },
+  { key: 'position', label: 'Position' },
 ];
 
 const fields = [
-  { key: 'name', label: 'Ism', required: true },
-  { key: 'subject', label: 'Fan' },
-  { key: 'position', label: 'Lavozim' },
+  { key: 'name', label: 'Name', required: true },
+  { key: 'subject', label: 'Subject' },
+  { key: 'position', label: 'Position' },
   { key: 'bio', label: 'Bio', type: 'textarea' },
-  { key: 'image', label: 'Rasm URL' },
+  { key: 'image', label: 'Image URL' },
 ];
 
 export default function AdminTeachers() {
@@ -31,7 +31,7 @@ export default function AdminTeachers() {
 
   return (
     <DataTable
-      title="O'qituvchilar"
+      title="Teachers"
       data={data || []}
       loading={loading}
       error={error}

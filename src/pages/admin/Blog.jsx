@@ -4,23 +4,23 @@ import { useFetch } from '../../hooks/useFetch';
 import { getBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost } from '../../api/blog';
 
 const columns = [
-  { key: 'title', label: 'Sarlavha' },
+  { key: 'title', label: 'Title' },
   {
     key: 'createdAt',
-    label: 'Sana',
-    render: (item) => item.createdAt ? new Date(item.createdAt).toLocaleDateString('uz-UZ') : '-',
+    label: 'Date',
+    render: (item) => item.createdAt ? new Date(item.createdAt).toLocaleDateString('en-US') : '-',
   },
   {
     key: 'content',
-    label: 'Matn',
+    label: 'Content',
     render: (item) => <span className="line-clamp-1">{item.content?.slice(0, 50) || ''}</span>,
   },
 ];
 
 const fields = [
-  { key: 'title', label: 'Sarlavha', required: true },
-  { key: 'content', label: 'Matn', type: 'textarea', required: true },
-  { key: 'image', label: 'Rasm URL' },
+  { key: 'title', label: 'Title', required: true },
+  { key: 'content', label: 'Content', type: 'textarea', required: true },
+  { key: 'image', label: 'Image URL' },
 ];
 
 export default function AdminBlog() {

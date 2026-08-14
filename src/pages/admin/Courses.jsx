@@ -4,22 +4,22 @@ import { useFetch } from '../../hooks/useFetch';
 import { getCourses, createCourse, updateCourse, deleteCourse } from '../../api/courses';
 
 const columns = [
-  { key: 'title', label: 'Nomi' },
-  { key: 'price', label: 'Narxi' },
-  { key: 'duration', label: 'Davomiylik' },
+  { key: 'title', label: 'Title' },
+  { key: 'price', label: 'Price' },
+  { key: 'duration', label: 'Duration' },
   {
     key: 'createdAt',
-    label: 'Qo\'shilgan',
-    render: (item) => item.createdAt ? new Date(item.createdAt).toLocaleDateString('uz-UZ') : '-',
+    label: 'Added',
+    render: (item) => item.createdAt ? new Date(item.createdAt).toLocaleDateString('en-US') : '-',
   },
 ];
 
 const fields = [
-  { key: 'title', label: 'Kurs nomi', required: true },
-  { key: 'price', label: 'Narxi' },
-  { key: 'duration', label: 'Davomiylik' },
+  { key: 'title', label: 'Course name', required: true },
+  { key: 'price', label: 'Price' },
+  { key: 'duration', label: 'Duration' },
   { key: 'description', label: 'Tavsif', type: 'textarea' },
-  { key: 'image', label: 'Rasm URL' },
+  { key: 'image', label: 'Image URL' },
 ];
 
 export default function AdminCourses() {
@@ -27,7 +27,7 @@ export default function AdminCourses() {
 
   return (
     <DataTable
-      title="Kurslar"
+      title="Courses"
       data={data || []}
       loading={loading}
       error={error}

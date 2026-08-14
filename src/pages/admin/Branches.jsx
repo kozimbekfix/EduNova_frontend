@@ -4,13 +4,13 @@ import { useFetch } from '../../hooks/useFetch';
 import { getBranches, createBranch, updateBranch, deleteBranch } from '../../api/branches';
 
 const columns = [
-  { key: 'name', label: 'Nomi' },
-  { key: 'location', label: 'Lokatsiya' },
+  { key: 'name', label: 'Name' },
+  { key: 'location', label: 'Location' },
 ];
 
 const fields = [
-  { key: 'name', label: 'Filial nomi', required: true },
-  { key: 'location', label: 'Manzil (Google Maps uchun)', required: true, placeholder: 'Masalan: Toshkent, Chilonzor, Bunyodkor ko\'chasi 1' },
+  { key: 'name', label: 'Branch name', required: true },
+  { key: 'location', label: 'Address (for Google Maps)', required: true, placeholder: 'E.g.: Tashkent, Chilanzar, Bunyodkor street 1' },
 ];
 
 export default function AdminBranches() {
@@ -18,7 +18,7 @@ export default function AdminBranches() {
 
   return (
     <DataTable
-      title="Filiallar"
+      title="Branches"
       data={data || []}
       loading={loading}
       error={error}

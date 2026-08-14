@@ -5,10 +5,10 @@ import { useFetch } from '../../hooks/useFetch';
 import { getReviews, createReview, updateReview, deleteReview } from '../../api/reviews';
 
 const columns = [
-  { key: 'name', label: 'Ism' },
+  { key: 'name', label: 'Name' },
   {
     key: 'rating',
-    label: 'Baho',
+    label: 'Rating',
     render: (item) => (
       <div className="flex gap-0.5">
         {[1, 2, 3, 4, 5].map((s) => (
@@ -17,19 +17,19 @@ const columns = [
       </div>
     ),
   },
-  { key: 'position', label: 'Lavozim' },
+  { key: 'position', label: 'Position' },
   {
     key: 'comment',
-    label: 'Fikr',
+    label: 'Review',
     render: (item) => <span className="line-clamp-1">{item.comment || item.text || ''}</span>,
   },
 ];
 
 const fields = [
-  { key: 'name', label: 'Ism', required: true },
-  { key: 'position', label: 'Lavozim' },
-  { key: 'rating', label: 'Baho (1-5)', type: 'number' },
-  { key: 'comment', label: 'Fikr', type: 'textarea', required: true },
+  { key: 'name', label: 'Name', required: true },
+  { key: 'position', label: 'Position' },
+  { key: 'rating', label: 'Rating (1-5)', type: 'number' },
+  { key: 'comment', label: 'Review', type: 'textarea', required: true },
 ];
 
 export default function AdminReviews() {
@@ -37,7 +37,7 @@ export default function AdminReviews() {
 
   return (
     <DataTable
-      title="Fikrlar"
+      title="Reviews"
       data={data || []}
       loading={loading}
       error={error}

@@ -61,7 +61,7 @@ export default function DataTable({
         <div>
           <h2 className="text-xl font-bold text-secondary">{title}</h2>
           <p className="text-sm text-text-muted mt-0.5">
-            Jami: {data.length} ta
+            Total: {data.length}
           </p>
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -69,14 +69,14 @@ export default function DataTable({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
             <input
               type="text"
-              placeholder="Qidirish..."
+              placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="input-field pl-9 w-full sm:w-56"
             />
           </div>
           <button onClick={handleAdd} className="btn-primary whitespace-nowrap">
-            <Plus className="h-4 w-4" /> Qo'shish
+            <Plus className="h-4 w-4" /> Add
           </button>
         </div>
       </div>
@@ -93,7 +93,7 @@ export default function DataTable({
             </div>
           ) : filtered.length === 0 ? (
             <div className="p-6 text-center text-sm text-text-muted">
-              Ma'lumot topilmadi
+              No data found
             </div>
           ) : (
             <table className="w-full">
@@ -105,7 +105,7 @@ export default function DataTable({
                     </th>
                   ))}
                   <th className="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider">
-                    Amallar
+                    Actions
                   </th>
                 </tr>
               </thead>
@@ -122,7 +122,7 @@ export default function DataTable({
                         <button
                           onClick={() => handleEdit(item)}
                           className="p-2 rounded-lg text-text-muted hover:text-primary hover:bg-primary/5 transition-all"
-                          title="Tahrirlash"
+                          title="Edit"
                         >
                           <Edit2 className="h-4 w-4" />
                         </button>
@@ -133,7 +133,7 @@ export default function DataTable({
                               ? 'text-white bg-error hover:bg-red-600'
                               : 'text-text-muted hover:text-error hover:bg-error/5'
                           }`}
-                          title={deleting === item.id ? "Tasdiqlash" : "O'chirish"}
+                          title={deleting === item.id ? "Confirm" : "Delete"}
                         >
                           {deleting === item.id ? (
                             <X className="h-4 w-4" />
@@ -165,12 +165,12 @@ export default function DataTable({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
+              className="bg-surface rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto border border-border"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between p-5 border-b border-border">
                 <h3 className="text-lg font-semibold text-secondary">
-                  {editing ? 'Tahrirlash' : "Yangi qo'shish"}
+                  {editing ? 'Edit' : 'Add new'}
                 </h3>
                 <button onClick={handleClose} className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-surface-alt transition-colors">
                   <X className="h-5 w-5" />

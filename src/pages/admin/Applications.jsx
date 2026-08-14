@@ -17,10 +17,10 @@ const statusColors = {
 };
 
 const statusLabels = {
-  'yangi': '🆕 Yangi',
-  "o'qildi": '👁️ O\'qildi',
-  'qabul qilindi': '✅ Qabul qilindi',
-  "rad etildi": '❌ Rad etildi',
+  'yangi': '🆕 New',
+  "o'qildi": '👁️ Read',
+  'qabul qilindi': '✅ Accepted',
+  "rad etildi": '❌ Rejected',
 };
 
 export default function AdminApplications() {
@@ -44,7 +44,7 @@ export default function AdminApplications() {
       toast.success(`Status: ${statusLabels[status] || status}`);
       refetch();
     } catch {
-      toast.error('Xatolik yuz berdi');
+      toast.error('An error occurred');
     }
   };
 
@@ -52,10 +52,10 @@ export default function AdminApplications() {
     if (deleting === id) {
       try {
         await deleteApplication(id);
-        toast.success("O'chirildi");
+        toast.success('Deleted');
         refetch();
       } catch {
-        toast.error('Xatolik yuz berdi');
+        toast.error('An error occurred');
       }
       setDeleting(null);
     } else {
@@ -68,15 +68,15 @@ export default function AdminApplications() {
     try {
       const result = await notifyApplication(id, notifyForm);
       if (result.telegramSent) {
-        toast.success('✅ Xabar Telegram orqali yuborildi!');
+        toast.success('✅ Message sent via Telegram!');
       } else {
-        toast.success('Xabar yuborildi! Foydalanuvchi saytda ko\'radi');
+        toast.success('Message sent! The user will see it on the site');
       }
       setNotifying(null);
       setNotifyForm({ notificationMessage: '', room: '' });
       refetch();
     } catch {
-      toast.error('Xatolik yuz berdi');
+      toast.error('An error occurred');
     } finally {
       setSendingNotify(false);
     }
@@ -90,7 +90,7 @@ export default function AdminApplications() {
     setNotifying(app);
   };
 
-  // Ko'rish tugmasi bosilganda avtomatik "o'qildi" statusiga o'tkazish
+  // Automatically switch to "read" status when the view button is clicked
   const handleView = (app) => {
     setViewing(viewing?.id === app.id ? null : app);
     if (app.status === 'yangi') {
@@ -100,10 +100,10 @@ export default function AdminApplications() {
 
   const getDirectionLabel = (val) => {
     const map = {
-      'ingliz': '🇬🇧 Ingliz tili',
-      'koreys': '🇰🇷 Koreys tili',
-      'nemis': '🇩🇪 Nemis tili',
-      'rus': '🇷🇺 Rus tili',
+      'ingliz': '🇬🇧 English',
+      'koreys': '🇰🇷 Korean',
+      'nemis': '🇩🇪 German',
+      'rus': '🇷🇺 Russian',
       'python': '🐍 Python',
       'frontend': '💻 Frontend',
     };
@@ -114,12 +114,12 @@ export default function AdminApplications() {
     <div>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-xl font-bold text-secondary">Arizalar</h2>
+          <h2 className="text-xl font-bold text-secondary">Applications</h2>
           <p className="text-sm text-text-muted mt-0.5">
-            Jami: {(data || []).length} ta
+            Total: {(data || []).length}
             {' | '}
             <span className="text-primary font-medium">
-              {(data || []).filter((a) => a.status === 'yangi').length} ta yangi
+              {(data || []).filter((a) => a.status === 'yangi').length} new
             </span>
           </p>
         </div>
@@ -127,7 +127,7 @@ export default function AdminApplications() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
           <input
             type="text"
-            placeholder="Qidirish..."
+            placeholder="Search..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="input-field pl-9 w-full"
@@ -141,18 +141,18 @@ export default function AdminApplications() {
         ) : error ? (
           <div className="p-6 text-center text-sm text-error">{error}</div>
         ) : filtered.length === 0 ? (
-          <div className="p-6 text-center text-sm text-text-muted">Arizalar mavjud emas</div>
+          <div className="p-6 text-center text-sm text-text-muted">No applications found</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border bg-surface-alt">
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-text-muted uppercase">Ism / Telefon</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-text-muted uppercase">Yo'nalish</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-text-muted uppercase">Vaqt</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-text-muted uppercase">Name / Phone</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-text-muted uppercase">Direction</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-text-muted uppercase">Time</th>
                   <th className="text-left px-4 py-3 text-xs font-semibold text-text-muted uppercase">Status</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-text-muted uppercase">Sana</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase">Amallar</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-text-muted uppercase">Date</th>
+                  <th className="text-right px-4 py-3 text-xs font-semibold text-text-muted uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -171,7 +171,7 @@ export default function AdminApplications() {
                         )}
                       </div>
                       <p className="text-xs text-text-muted">{app.phone}</p>
-                      {app.courseName && app.courseName !== "Ko'rsatilmagan" && (
+                      {app.courseName && app.courseName !== "Not specified" && (
                         <p className="text-xs text-primary mt-0.5">{app.courseName}</p>
                       )}
                     </td>
@@ -190,23 +190,23 @@ export default function AdminApplications() {
                         {app.notificationMessage && (
                           <span className="text-[10px] text-emerald-500 flex items-center gap-1">
                             <Bell className="h-3 w-3" />
-                            Xabar yuborilgan
+                            Message sent
                           </span>
                         )}
                         {app.room && (
                           <span className="text-[10px] text-primary flex items-center gap-1">
                             <DoorOpen className="h-3 w-3" />
-                            Xona: {app.room}
+                            Room: {app.room}
                           </span>
                         )}
                       </div>
                     </td>
                     <td className="px-4 py-3 text-sm text-text-muted">
-                      {app.createdAt ? new Date(app.createdAt).toLocaleDateString('uz-UZ') : '-'}
+                      {app.createdAt ? new Date(app.createdAt).toLocaleDateString('en-US') : '-'}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
-                        {/* Ko'rish tugmasi - birinchi bosishda o'qildi statusiga o'tadi */}
+                        {/* View button - marks as read on first click */}
                         <button
                           onClick={() => handleView(app)}
                           className={`p-2 rounded-lg transition-all ${
@@ -214,7 +214,7 @@ export default function AdminApplications() {
                               ? 'text-primary bg-primary/10 hover:bg-primary/20'
                               : 'text-text-muted hover:text-primary hover:bg-primary/5'
                           }`}
-                          title={app.status === 'yangi' ? "O'qildi deb belgilash" : "Ko'rish"}
+                          title={app.status === 'yangi' ? "Mark as read" : "View"}
                         >
                           {app.status === 'yangi' ? (
                             <CheckCheck className="h-4 w-4" />
@@ -223,40 +223,40 @@ export default function AdminApplications() {
                           )}
                         </button>
 
-                        {/* Xabar yuborish (faqat o'qildi yoki qabul qilingan bo'lsa) */}
+                        {/* Send message (only if read or accepted) */}
                         {['yangi', "o'qildi", "ko'rib chiqildi"].includes(app.status) && (
                           <button
                             onClick={() => openNotify(app)}
                             className="p-2 rounded-lg text-text-muted hover:text-emerald-500 hover:bg-emerald-500/5 transition-all"
-                            title="Xabar yuborish"
+                            title="Send message"
                           >
                             <Bell className="h-4 w-4" />
                           </button>
                         )}
 
-                        {/* Qabul qilish - to'g'ridan-to'g'ri notify orqali */}
+                        {/* Mark as read - directly via notify */}
                         {['yangi'].includes(app.status) && (
                           <button
                             onClick={() => handleStatus(app.id, "o'qildi")}
                             className="p-2 rounded-lg text-text-muted hover:text-warning hover:bg-warning/5 transition-all"
-                            title="O'qildi"
+                            title="Mark as read"
                           >
                             <CheckCheck className="h-4 w-4" />
                           </button>
                         )}
 
-                        {/* Rad etish */}
+                        {/* Reject */}
                         {['yangi', "o'qildi"].includes(app.status) && (
                           <button
                             onClick={() => handleStatus(app.id, "rad etildi")}
                             className="p-2 rounded-lg text-text-muted hover:text-error hover:bg-error/5 transition-all"
-                            title="Rad etish"
+                            title="Reject"
                           >
                             <XCircle className="h-4 w-4" />
                           </button>
                         )}
 
-                        {/* O'chirish */}
+                        {/* Delete */}
                         <button
                           onClick={() => handleDelete(app.id)}
                           className={`p-2 rounded-lg transition-all ${
@@ -264,7 +264,7 @@ export default function AdminApplications() {
                               ? 'text-white bg-error'
                               : 'text-text-muted hover:text-error hover:bg-error/5'
                           }`}
-                          title={deleting === app.id ? "Tasdiqlash" : "O'chirish"}
+                          title={deleting === app.id ? "Confirm" : "Delete"}
                         >
                           {deleting === app.id ? <X className="h-4 w-4" /> : <Trash2 className="h-4 w-4" />}
                         </button>
@@ -296,7 +296,7 @@ export default function AdminApplications() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-secondary">Ariza tafsilotlari</h3>
+                <h3 className="text-lg font-semibold text-secondary">Application details</h3>
                 <button
                   onClick={() => setViewing(null)}
                   className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-surface-alt"
@@ -307,12 +307,12 @@ export default function AdminApplications() {
               <div className="space-y-3 text-sm">
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4 text-text-muted" />
-                  <span className="text-text-muted">Ism:</span>
+                  <span className="text-text-muted">Name:</span>
                   <span className="font-medium">{viewing.fullName}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-text-muted" />
-                  <span className="text-text-muted">Telefon:</span>
+                  <span className="text-text-muted">Phone:</span>
                   <span className="font-medium">{viewing.phone}</span>
                 </div>
                 {viewing.telegramUsername && (
@@ -331,17 +331,17 @@ export default function AdminApplications() {
                 )}
                 <div className="flex items-center gap-2">
                   <BookOpen className="h-4 w-4 text-text-muted" />
-                  <span className="text-text-muted">Kurs:</span>
+                  <span className="text-text-muted">Course:</span>
                   <span>{viewing.courseName || '-'}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <MessageSquare className="h-4 w-4 text-text-muted" />
-                  <span className="text-text-muted">Yo'nalish:</span>
+                  <span className="text-text-muted">Direction:</span>
                   <span>{getDirectionLabel(viewing.direction)}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4 text-text-muted" />
-                  <span className="text-text-muted">Vaqt:</span>
+                  <span className="text-text-muted">Time:</span>
                   <span>{viewing.preferredTime || '-'}</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -354,27 +354,27 @@ export default function AdminApplications() {
                 {viewing.room && (
                   <div className="flex items-center gap-2">
                     <DoorOpen className="h-4 w-4 text-text-muted" />
-                    <span className="text-text-muted">Xona:</span>
+                    <span className="text-text-muted">Room:</span>
                     <span>{viewing.room}</span>
                   </div>
                 )}
                 {viewing.notificationMessage && (
                   <div className="flex items-center gap-2">
                     <Bell className="h-4 w-4 text-text-muted" />
-                    <span className="text-text-muted">Xabar:</span>
+                    <span className="text-text-muted">Message:</span>
                     <span className="text-emerald-500">{viewing.notificationMessage}</span>
                   </div>
                 )}
                 {viewing.createdAt && (
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-text-muted" />
-                    <span className="text-text-muted">Yaratilgan:</span>
-                    <span>{new Date(viewing.createdAt).toLocaleString('uz-UZ')}</span>
+                    <span className="text-text-muted">Created:</span>
+                    <span>{new Date(viewing.createdAt).toLocaleString('en-US')}</span>
                   </div>
                 )}
                 <div>
-                  <span className="text-text-muted">Xabar:</span>
-                  <p className="mt-1 text-text bg-surface-alt rounded-lg p-2">{viewing.message || "Yo'q"}</p>
+                  <span className="text-text-muted">Message:</span>
+                  <p className="mt-1 text-text bg-surface-alt rounded-lg p-2">{viewing.message || "None"}</p>
                 </div>
               </div>
 
@@ -386,7 +386,7 @@ export default function AdminApplications() {
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-warning/10 text-warning text-sm font-medium hover:bg-warning/20 transition-all"
                   >
                     <CheckCheck className="h-4 w-4" />
-                    O'qildi
+                    Mark as read
                   </button>
                 )}
                 {['yangi', "o'qildi"].includes(viewing.status) && (
@@ -395,7 +395,7 @@ export default function AdminApplications() {
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-all"
                   >
                     <Bell className="h-4 w-4" />
-                    Xabar yuborish
+                    Send message
                   </button>
                 )}
                 {['yangi', "o'qildi"].includes(viewing.status) && (
@@ -404,7 +404,7 @@ export default function AdminApplications() {
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-error/10 text-error text-sm font-medium hover:bg-error/20 transition-all"
                   >
                     <XCircle className="h-4 w-4" />
-                    Rad etish
+                    Reject
                   </button>
                 )}
               </div>
@@ -431,7 +431,7 @@ export default function AdminApplications() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-secondary">Xabar yuborish</h3>
+                <h3 className="text-lg font-semibold text-secondary">Send message</h3>
                 <button
                   onClick={() => setNotifying(null)}
                   className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-surface-alt"
@@ -440,7 +440,7 @@ export default function AdminApplications() {
                 </button>
               </div>
 
-              {/* Foydalanuvchi ma'lumoti */}
+              {/* User info */}
               <div className="mb-4 p-3 rounded-xl bg-surface-alt border border-border">
                 <div className="flex items-center justify-between">
                   <div>
@@ -454,36 +454,36 @@ export default function AdminApplications() {
               </div>
 
               <div className="space-y-4">
-                {/* Xabar matni */}
+                {/* Message text */}
                 <div>
                   <label className="block text-sm font-medium text-secondary mb-1">
                     <Bell className="h-4 w-4 inline mr-1" />
-                    Xabar matni
+                    Message text
                   </label>
                   <textarea
                     value={notifyForm.notificationMessage}
                     onChange={(e) => setNotifyForm({ ...notifyForm, notificationMessage: e.target.value })}
                     className="input-field min-h-[80px]"
-                    placeholder="Masalan: Ertaga soat 9:00 ga keling"
+                    placeholder="E.g.: Please come tomorrow at 9:00 AM"
                   />
                 </div>
 
-                {/* Xona raqami */}
+                {/* Room number */}
                 <div>
                   <label className="block text-sm font-medium text-secondary mb-1">
                     <DoorOpen className="h-4 w-4 inline mr-1" />
-                    Xona raqami
+                    Room number
                   </label>
                   <input
                     type="text"
                     value={notifyForm.room}
                     onChange={(e) => setNotifyForm({ ...notifyForm, room: e.target.value })}
                     className="input-field"
-                    placeholder="Masalan: 201-xona"
+                    placeholder="E.g.: Room 201"
                   />
                 </div>
 
-                {/* Yuborish tugmasi */}
+                {/* Send button */}
                 <button
                   onClick={() => handleNotify(notifying.id)}
                   disabled={sendingNotify}
@@ -496,19 +496,19 @@ export default function AdminApplications() {
                         transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                         className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full"
                       />
-                      Yuborilmoqda...
+                      Sending...
                     </>
                   ) : (
                     <>
                       <Send className="h-4 w-4" />
-                      Xabarni yuborish
+                      Send message
                     </>
                   )}
                 </button>
 
                 <p className="text-xs text-text-muted/60 text-center">
                   <Bell className="h-3 w-3 inline mr-1" />
-                  Foydalanuvchi saytda va Telegram bot orqali xabarni ko'radi
+                  The user will see the message on the site and via the Telegram bot
                 </p>
               </div>
             </motion.div>

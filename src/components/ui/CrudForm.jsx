@@ -35,10 +35,10 @@ export default function CrudForm({
     setLoading(true);
     try {
       await onSubmit(initialData?.id, form);
-      toast.success(initialData ? 'Yangilandi' : "Qo'shildi");
+      toast.success(initialData ? 'Updated' : 'Added');
       onClose();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Xatolik yuz berdi');
+      toast.error(err.response?.data?.message || 'An error occurred');
     } finally {
       setLoading(false);
     }
@@ -66,7 +66,7 @@ export default function CrudForm({
               className="input-field"
               required={field.required}
             >
-              <option value="">{field.placeholder || 'Tanlang'}</option>
+              <option value="">{field.placeholder || 'Select'}</option>
               {(field.options || []).map((opt) => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
@@ -84,9 +84,9 @@ export default function CrudForm({
         </div>
       ))}
       <div className="flex items-center justify-end gap-3 pt-2">
-        <button type="button" onClick={onClose} className="btn-ghost">Bekor qilish</button>
+        <button type="button" onClick={onClose} className="btn-ghost">Cancel</button>
         <button type="submit" disabled={loading} className="btn-primary">
-          {loading ? 'Saqlanmoqda...' : initialData ? 'Yangilash' : 'Qo\'shish'}
+          {loading ? 'Saving...' : initialData ? 'Update' : 'Add'}
         </button>
       </div>
     </form>

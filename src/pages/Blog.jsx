@@ -65,7 +65,7 @@ export default function Blog() {
                   )}
                   <div className="flex items-center gap-2 text-xs text-text-muted mb-2">
                     <Calendar className="h-3.5 w-3.5" />
-                    {post.createdAt ? new Date(post.createdAt).toLocaleDateString('uz-UZ') : ''}
+                    {post.createdAt ? new Date(post.createdAt).toLocaleDateString('en-US') : ''}
                   </div>
                   <h3 className="text-lg font-semibold text-secondary mb-2 group-hover:text-primary transition-colors">{post.title}</h3>
                   <p className="text-sm text-text-muted line-clamp-3 mb-4">{post.excerpt || post.content?.slice(0, 150) || ''}</p>

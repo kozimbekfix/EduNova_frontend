@@ -26,7 +26,7 @@ export default function AdminSettings() {
         const data = await getSettings();
         if (data) setForm((prev) => ({ ...prev, ...data }));
       } catch {
-        toast.error('Sozlamalarni yuklashda xatolik');
+        toast.error('Error loading settings');
       } finally {
         setLoading(false);
       }
@@ -39,9 +39,9 @@ export default function AdminSettings() {
     setSaving(true);
     try {
       await updateSettings(form);
-      toast.success('Sozlamalar saqlandi');
+      toast.success('Settings saved');
     } catch {
-      toast.error('Xatolik yuz berdi');
+      toast.error('An error occurred');
     } finally {
       setSaving(false);
     }
@@ -50,27 +50,27 @@ export default function AdminSettings() {
   if (loading) return <LoadingSpinner size="lg" />;
 
   const sections = [
-    { title: 'Asosiy ma\'lumotlar', keys: ['siteName', 'description'] },
+    { title: 'Basic information', keys: ['siteName', 'description'] },
     { title: 'Aloqa ma\'lumotlari', keys: ['phone', 'email', 'telegram', 'instagram', 'address', 'googleMapsUrl', 'workHours'] },
   ];
 
   const fieldLabels = {
-    siteName: 'Sayt nomi',
-    description: 'Sayt tavsifi',
-    phone: 'Telefon',
+    siteName: 'Site name',
+    description: 'Site description',
+    phone: 'Phone',
     email: 'Email',
     telegram: 'Telegram link',
     instagram: 'Instagram link',
-    address: 'Manzil',
-    googleMapsUrl: "Google Maps 'Embed a map' havolasi (Xarita > Ulashish > Xaritani joylashtirish > havolani nusxalang)",
-    workHours: 'Ish vaqti',
+    address: 'Address',
+    googleMapsUrl: "Google Maps 'Embed a map' link (Map > Share > Embed a map > copy the link)",
+    workHours: 'Working hours',
   };
 
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-xl font-bold text-secondary">Sozlamalar</h2>
-        <p className="text-sm text-text-muted mt-0.5">Sayt ma'lumotlarini tahrirlash</p>
+        <h2 className="text-xl font-bold text-secondary">Settings</h2>
+        <p className="text-sm text-text-muted mt-0.5">Edit site information</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -112,7 +112,7 @@ export default function AdminSettings() {
 
         <div className="flex justify-end">
           <button type="submit" disabled={saving} className="btn-primary">
-            {saving ? 'Saqlanmoqda...' : <><Save className="h-4 w-4" /> Saqlash</>}
+            {saving ? 'Saving...' : <><Save className="h-4 w-4" /> Save</>}
           </button>
         </div>
       </form>

@@ -9,13 +9,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import useAuthStore from '../store/authStore';
 
 const sidebarLinks = [
-  { path: '/admin/applications', label: 'Arizalar', icon: MessageSquare },
-  { path: '/admin/courses', label: 'Kurslar', icon: BookOpen },
-  { path: '/admin/teachers', label: "O'qituvchilar", icon: Users },
-  { path: '/admin/branches', label: 'Filiallar', icon: MapPin },
+  { path: '/admin/applications', label: 'Applications', icon: MessageSquare },
+  { path: '/admin/courses', label: 'Courses', icon: BookOpen },
+  { path: '/admin/teachers', label: 'Teachers', icon: Users },
+  { path: '/admin/branches', label: 'Branches', icon: MapPin },
   { path: '/admin/blog', label: 'Blog', icon: Newspaper },
-  { path: '/admin/reviews', label: 'Fikrlar', icon: Star },
-  { path: '/admin/settings', label: 'Sozlamalar', icon: Settings },
+  { path: '/admin/reviews', label: 'Reviews', icon: Star },
+  { path: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
 export default function AdminLayout() {
@@ -35,7 +35,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5]">
+    <div className="min-h-screen bg-surface-alt">
       {/* Mobile overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -99,7 +99,7 @@ export default function AdminLayout() {
               className="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-text-muted hover:text-error hover:bg-error/5 transition-all duration-200"
             >
               <LogOut className="h-[18px] w-[18px]" />
-              <span>Chiqish</span>
+              <span>Log out</span>
             </button>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function AdminLayout() {
                 to="/"
                 className="text-xs text-text-muted hover:text-primary transition-colors flex items-center gap-1"
               >
-                Saytga o'tish
+                Go to site
               </Link>
             </div>
           </div>
@@ -138,8 +138,8 @@ export default function AdminLayout() {
         toastOptions={{
           duration: 3000,
           style: {
-            background: '#1e293b',
-            color: '#f8fafc',
+            background: '#121212',
+            color: '#f5f5f5',
             borderRadius: '12px',
             fontSize: '14px',
           },
